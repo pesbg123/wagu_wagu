@@ -30,7 +30,6 @@ module.exports = {
         onUpdate: 'CASCADE',
       },
       reply_id: {
-        allowNull: false,
         defaultValue: null,
         type: Sequelize.INTEGER,
       },
@@ -44,7 +43,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       deleted_at: {
-        allowNull: false,
         defaultValue: false,
         type: Sequelize.DATE,
       },

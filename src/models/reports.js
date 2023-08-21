@@ -54,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
       },
       comment_id: {
-        allowNull: false,
         defaultValue: null,
         type: DataTypes.INTEGER,
         references: {

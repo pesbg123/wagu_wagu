@@ -44,7 +44,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       deleted_at: {
-        allowNull: false,
         defaultValue: null,
         type: Sequelize.DATE,
       },

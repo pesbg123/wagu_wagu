@@ -30,7 +30,6 @@ module.exports = {
         onUpdate: 'CASCADE',
       },
       comment_id: {
-        allowNull: false,
         defaultValue: null,
         type: Sequelize.INTEGER,
         references: {
