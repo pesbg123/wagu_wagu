@@ -23,6 +23,16 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         foreignKey: 'post_id',
       });
+      // Reports 모델과 1:N
+      this.hasMany(models.Reports, {
+        sourceKey: 'id',
+        foreignKey: 'post_id',
+      });
+      // PostLikes 모델과 1:N
+      this.hasMany(models.PostLikes, {
+        sourceKey: 'id',
+        foreignKey: 'post_id',
+      });
     }
   }
   Posts.init(
