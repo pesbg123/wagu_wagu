@@ -1,15 +1,25 @@
 const { AdminNotices } = require('../models');
 
 class AdminNoticesRepository {
-  constructor() {}
+  // POST admin-notice
+  async createAdminNotice(user_id, content) {
+    return await AdminNotices.create({ user_id, content });
+  }
 
-  // admin 공지 생성
+  // GET findAll admin-notices
+  async getAdminNotices() {
+    return await AdminNotices.findAll({ order: [['created_at', 'DESC']] });
+  }
 
-  // admin 공지 조회
+  // GET findOne admin-notices
+  async getAdminNotice(id) {
+    return await AdminNotices.findOne({ raw: true, where: { id }, order: [['created_at', 'DESC']] });
+  }
 
-  // admin 공지 삭제
-
-  // admin 공지 수정
+  // PATCH admin-notice
+  async updateAdminNotice(id, content) {
+    return await AdminNotices.update({ content }, { where: { id } });
+  }
 }
 
 module.exports = AdminNoticesRepository;
