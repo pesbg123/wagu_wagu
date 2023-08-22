@@ -53,7 +53,7 @@ class AdminNoticesService {
     }
   }
 
-  // DELETE admin-notice
+  // DELETE admin-notice - soft delete
   async deleteAdminNotice(id) {
     const existAdminNotice = await this.adminNoticesRepository.getAdminNotice(id);
     if (!existAdminNotice) {
