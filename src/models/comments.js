@@ -84,6 +84,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Comments',
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   );
   return Comments;

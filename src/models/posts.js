@@ -95,6 +95,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Posts',
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   );
   return Posts;
