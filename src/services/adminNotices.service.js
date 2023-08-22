@@ -47,7 +47,7 @@ class AdminNoticesService {
     const newUpdateAdminNotice = await this.adminNoticesRepository.updateAdminNotice(id, content);
 
     if (newUpdateAdminNotice) {
-      return newUpdateAdminNotice;
+      return;
     } else {
       throw new Error('공지 수정에 실패했습니다.');
     }
@@ -61,7 +61,12 @@ class AdminNoticesService {
     }
 
     const res = await this.adminNoticesRepository.deleteAdminNotice(id);
-    return console.log(res);
+
+    if (res) {
+      return;
+    } else {
+      throw new Error('공지 삭제에 실패했습니다.');
+    }
   }
 }
 

@@ -90,8 +90,7 @@ class AdminNoticesController {
       return res.status(200).json({ message: '공지 삭제에 성공했습니다.' });
     } catch (error) {
       console.log(error);
-      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
-      res.status(500).json({ errorMessage: '공지 삭제에 실패했습니다.' });
+      return res.status(500).json({ errorMessage: error.message });
     }
   }
 }
