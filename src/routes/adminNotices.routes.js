@@ -5,6 +5,6 @@ const adminNotices = new AdminNotices();
 // auth-middleware incomplete stage
 // admin-middleware incomplete stage
 
-router.post('/adminNotices', adminNotices);
+router.post('/adminNotices', adminNotices.createAdminNotice);
 
 module.exports = router;

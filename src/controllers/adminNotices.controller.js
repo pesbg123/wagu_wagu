@@ -6,6 +6,18 @@ class AdminNoticesController {
   }
 
   // admin 공지 생성
+  async createAdminNotice(req, res) {
+    console.log(req);
+
+    const user_id = 1; // temporary hardcoding
+    const { content } = req.body;
+
+    if (!content) {
+      return res.status(400).json({ errorMessage: '공지 내용을 입력해주세요.' });
+    }
+
+    const response = await this.adminNoticesService.createAdminNotice(user_id, content);
+  }
 
   // admin 공지 조회
 
