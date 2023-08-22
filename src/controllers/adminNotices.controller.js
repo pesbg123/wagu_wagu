@@ -24,7 +24,7 @@ class AdminNoticesController {
     }
   }
 
-  // GET admin-notice
+  // GET admin-notices ALL - not deleted
   async getAdminNotices(req, res) {
     try {
       const adminNoticeList = await this.adminNoticesService.getAdminNotices();
@@ -37,13 +37,25 @@ class AdminNoticesController {
     }
   }
 
-  // GET admin-notices
+  // GET admin-notices ALL - deleted
+  async getDeletedAdminNotices(req, res) {
+    try {
+      const deletedAdminNoticeList = await this.adminNoticesService.getDeletedAdminNotices();
+      return res.status(200).json(deletedAdminNoticeList);
+    } catch (error) {
+      console.log(error);
+      // 삭제된 공지가 없을 경우
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message, data: [] });
+    }
+  }
+
+  // GET admin-notice One - not deleted
   async getAdminNotice(req, res) {
     try {
       const { id } = req.params;
 
-      const getAdminNotice = await this.adminNoticesService.getAdminNotice(id);
-      return res.status(200).json(getAdminNotice);
+      const adminNotice = await this.adminNoticesService.getAdminNotice(id);
+      return res.status(200).json(adminNotice);
     } catch (error) {
       console.log(error);
       // 공지가 존재하지 않는 경우
@@ -67,6 +79,18 @@ class AdminNoticesController {
       console.log(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
       res.status(500).json({ errorMessage: '공지 수정에 실패했습니다.' });
+    }
+  }
+
+  // DELETE admin-notice
+  async deleteAdminNotice(req, res) {
+    try {
+      const { id } = req.params;
+      await this.adminNoticesService.deleteAdminNotice(id);
+      return res.status(200).json({ message: '공지 삭제에 성공했습니다.' });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ errorMessage: error.message });
     }
   }
 }
