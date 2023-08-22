@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         foreignKey: 'user_id',
       });
-      // Likes 모델과 1:N
-      this.hasMany(models.Likes, {
+      // PostLikes 모델과 1:N
+      this.hasMany(models.PostLikes, {
         sourceKey: 'id',
         foreignKey: 'user_id',
       });
@@ -40,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
       });
       // AdminNotices 모델과 1:N
       this.hasMany(models.AdminNotices, {
+        sourceKey: 'id',
+        foreignKey: 'user_id',
+      });
+      // PostLikes 모델과 1:N
+      this.hasMany(models.PostLikes, {
         sourceKey: 'id',
         foreignKey: 'user_id',
       });
