@@ -1,4 +1,4 @@
-const AdminNoticesService = require('../services/adminNotices.service');
+const AdminNoticesService = require('../services/admin.notices.service');
 
 const user_id = 1; // temporary hardcoding
 
