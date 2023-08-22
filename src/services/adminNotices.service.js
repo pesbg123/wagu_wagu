@@ -9,7 +9,7 @@ class AdminNoticesService {
   // POST admin-notice
   async createAdminNotice(user_id, content) {
     const newAdminNotice = await this.adminNoticesRepository.createAdminNotice(user_id, content);
-    if (!newAdminNotice) {
+    if (newAdminNotice) {
       return newAdminNotice;
     } else {
       throw new Error('공지 작성에 실패했습니다.');
