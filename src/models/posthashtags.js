@@ -61,6 +61,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'PostHashtags',
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
     },
   );
   return PostHashtags;
