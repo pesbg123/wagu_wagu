@@ -13,10 +13,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      deleted_at: {
-        defaultValue: null,
-        type: Sequelize.DATE,
-      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE,
