@@ -37,7 +37,7 @@ class AdminNoticesController {
     }
   }
 
-  // GET admin-notice
+  // GET admin-notices
   async getAdminNotice(req, res) {
     try {
       const { id } = req.params;

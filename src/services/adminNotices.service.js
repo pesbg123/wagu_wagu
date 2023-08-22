@@ -19,7 +19,7 @@ class AdminNoticesService {
   // GET admin-notice
   async getAdminNotices() {
     const adminNoticeList = await this.adminNoticesRepository.getAdminNotices();
-    if (adminNoticeList.length) throw new CustomError('작성된 공지를 찾을 수 없습니다.', 404);
+    if (!adminNoticeList.length) throw new CustomError('작성된 공지를 찾을 수 없습니다.', 404);
     return adminNoticeList;
   }
 
