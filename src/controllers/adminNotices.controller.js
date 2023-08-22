@@ -5,25 +5,22 @@ class AdminNoticesController {
     this.adminNoticesService = new AdminNoticesService();
   }
 
-  // admin 공지 생성
+  // create admin-notice
   async createAdminNotice(req, res) {
-    console.log(req);
+    try {
+      const user_id = 1; // temporary hardcoding
+      const { content } = req.body;
 
-    const user_id = 1; // temporary hardcoding
-    const { content } = req.body;
+      if (!content) {
+        return res.status(400).json({ errorMessage: '공지 내용을 입력해주세요.' });
+      }
 
-    if (!content) {
-      return res.status(400).json({ errorMessage: '공지 내용을 입력해주세요.' });
+      const response = await this.adminNoticesService.createAdminNotice(user_id, content);
+      return res.status(200).json({ message: '공지 작성에 성공했습니다.', response });
+    } catch (error) {
+      console.log(error.message);
     }
-
-    const response = await this.adminNoticesService.createAdminNotice(user_id, content);
   }
-
-  // admin 공지 조회
-
-  // admin 공지 삭제
-
-  // admin 공지 수정
 }
 
 module.exports = AdminNoticesController;

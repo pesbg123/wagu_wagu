@@ -2,16 +2,17 @@ const AdminNoticesRepository = require('../repositories/adminNotices.repository'
 
 class AdminNoticesService {
   constructor() {
-    this.aminNoticesRepository = new AdminNoticesRepository();
+    this.adminNoticesRepository = new AdminNoticesRepository();
   }
 
-  // admin 공지 생성
-
-  // admin 공지 조회
-
-  // admin 공지 삭제
-
-  // admin 공지 수정
+  // create admin-notice
+  async createAdminNotice(user_id, content) {
+    const response = await this.adminNoticesRepository.createAdminNotice(user_id, content);
+    if (response) {
+      return response;
+    }
+    throw '공지 작성에 오류가 발생했습니다.';
+  }
 }
 
 module.exports = AdminNoticesService;
