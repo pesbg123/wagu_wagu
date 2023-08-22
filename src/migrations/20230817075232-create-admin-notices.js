@@ -21,7 +21,7 @@ module.exports = {
       },
       content: {
         allowNull: false,
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       deleted_at: {
         defaultValue: null,

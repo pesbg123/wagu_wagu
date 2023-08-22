@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       content: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
       },
       deleted_at: {
         defaultValue: null,
