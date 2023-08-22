@@ -9,7 +9,7 @@ class AdminNoticesService {
   // POST admin-notice
   async createAdminNotice(user_id, content) {
     const response = await this.adminNoticesRepository.createAdminNotice(user_id, content);
-    if (!response) {
+    if (response) {
       return response;
     } else {
       throw new Error('공지 작성에 실패했습니다.');
@@ -17,8 +17,8 @@ class AdminNoticesService {
   }
 
   // GET admin-notice
-  async getAdminNotices(user_id) {
-    const noticeList = await this.adminNoticesRepository.getAdminNotices(user_id);
+  async getAdminNotices() {
+    const noticeList = await this.adminNoticesRepository.getAdminNotices();
     if (!noticeList.length) throw new CustomError('작성된 공지가 없습니다.', 404);
     return noticeList;
   }

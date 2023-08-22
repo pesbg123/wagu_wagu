@@ -27,7 +27,7 @@ class AdminNoticesController {
   // GET admin-notice
   async getAdminNotices(req, res) {
     try {
-      const noticeList = await this.adminNoticesService.getAdminNotices(user_id);
+      const noticeList = await this.adminNoticesService.getAdminNotices();
       return res.status(200).json(noticeList);
     } catch (error) {
       console.log(error);

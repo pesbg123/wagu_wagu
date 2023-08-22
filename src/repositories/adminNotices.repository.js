@@ -7,8 +7,8 @@ class AdminNoticesRepository {
   }
 
   // GET findAll admin-notices
-  async getAdminNotices(user_id) {
-    return await AdminNotices.findAll({ where: { user_id } });
+  async getAdminNotices() {
+    return await AdminNotices.findAll({ order: [['created_at', 'DESC']] });
   }
 }
 
