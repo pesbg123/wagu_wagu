@@ -1,14 +1,15 @@
 const AdminNoticesService = require('../services/adminNotices.service');
 
+const user_id = 1; // temporary hardcoding
+
 class AdminNoticesController {
   constructor() {
     this.adminNoticesService = new AdminNoticesService();
   }
 
-  // create admin-notice
+  // POST admin-notice
   async createAdminNotice(req, res) {
     try {
-      const user_id = 1; // temporary hardcoding
       const { content } = req.body;
 
       if (!content) {
@@ -18,7 +19,21 @@ class AdminNoticesController {
       const response = await this.adminNoticesService.createAdminNotice(user_id, content);
       return res.status(200).json({ message: '공지 작성에 성공했습니다.', response });
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  }
+
+  // GET admin-notice
+  async getAdminNotices(req, res) {
+    try {
+      const noticeList = await this.adminNoticesService.getAdminNotices(user_id);
+      return res.status(200).json(noticeList);
+    } catch (error) {
+      console.log(error);
+      // 작성된 공지가 없을 경우
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message, data: [] });
+      res.status(500).json({ errorMessage: '공지 목록 조회에 실패했습니다.' });
     }
   }
 }

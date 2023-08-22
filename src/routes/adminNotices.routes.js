@@ -7,4 +7,6 @@ const adminNotices = new AdminNotices();
 
 router.post('/adminNotices', adminNotices.createAdminNotice.bind(adminNotices));
 
+router.get('/adminNotices', adminNotices.getAdminNotices.bind(adminNotices));
+
 module.exports = router;
