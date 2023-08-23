@@ -6,7 +6,7 @@ const PORT = process.env.PORT;
 
 const adminNoticeRouter = require('./routes/adminNotices.routes');
 const postLikeRouter = require('./routes/postLike.routes');
-const userFollowRouter = require('./routes/user.follow.router');
+const userFollowRouter = require('./routes/userFollow.routes');
 
 app.use(express.json());
 
