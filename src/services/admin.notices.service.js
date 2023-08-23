@@ -1,4 +1,4 @@
-const AdminNoticesRepository = require('../repositories/adminNotices.repository');
+const AdminNoticesRepository = require('../repositories/admin.notices.repository');
 const CustomError = require('../errors/customError');
 
 class AdminNoticesService {
