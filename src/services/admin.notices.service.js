@@ -9,11 +9,8 @@ class AdminNoticesService {
   // POST admin-notice
   async createAdminNotice(user_id, content) {
     const newAdminNotice = await this.adminNoticesRepository.createAdminNotice(user_id, content);
-    if (newAdminNotice) {
-      return newAdminNotice;
-    } else {
-      throw new Error('공지 작성에 실패했습니다.');
-    }
+    if (!newAdminNotice) throw new Error('공지 작성에 실패했습니다.');
+    return newAdminNotice;
   }
 
   // GET admin-notices ALL - not deleted
@@ -46,14 +43,13 @@ class AdminNoticesService {
 
     const newUpdateAdminNotice = await this.adminNoticesRepository.updateAdminNotice(id, content);
 
-    if (newUpdateAdminNotice) {
-      return;
-    } else {
+    if (!newUpdateAdminNotice) {
       throw new Error('공지 수정에 실패했습니다.');
     }
+    return newUpdateAdminNotice;
   }
 
-  // DELETE admin-notice
+  // DELETE admin-notice - soft delete
   async deleteAdminNotice(id) {
     const existAdminNotice = await this.adminNoticesRepository.getAdminNotice(id);
     if (!existAdminNotice) {
@@ -62,11 +58,10 @@ class AdminNoticesService {
 
     const res = await this.adminNoticesRepository.deleteAdminNotice(id);
 
-    if (res) {
-      return;
-    } else {
+    if (!res) {
       throw new Error('공지 삭제에 실패했습니다.');
     }
+    return res;
   }
 }
 

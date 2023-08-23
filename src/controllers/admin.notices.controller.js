@@ -82,7 +82,7 @@ class AdminNoticesController {
     }
   }
 
-  // DELETE admin-notice
+  // DELETE admin-notice - soft delete
   async deleteAdminNotice(req, res) {
     try {
       const { id } = req.params;
