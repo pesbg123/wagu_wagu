@@ -37,31 +37,24 @@ class AdminNoticesService {
   // PATCH admin-notice
   async updateAdminNotice(id, content) {
     const existAdminNotice = await this.adminNoticesRepository.getAdminNotice(id);
-    if (!existAdminNotice) {
-      throw new CustomError('해당 공지를 찾을 수 없습니다.', 404);
-    }
+    if (!existAdminNotice) throw new CustomError('해당 공지를 찾을 수 없습니다.', 404);
 
     const newUpdateAdminNotice = await this.adminNoticesRepository.updateAdminNotice(id, content);
 
-    if (!newUpdateAdminNotice) {
-      throw new Error('공지 수정에 실패했습니다.');
-    }
-    return newUpdateAdminNotice;
+    if (!newUpdateAdminNotice) throw new Error('공지 수정에 실패했습니다.');
+
+    return;
   }
 
   // DELETE admin-notice - soft delete
   async deleteAdminNotice(id) {
     const existAdminNotice = await this.adminNoticesRepository.getAdminNotice(id);
-    if (!existAdminNotice) {
-      throw new CustomError('해당 공지를 찾을 수 없습니다.', 404);
-    }
+    if (!existAdminNotice) throw new CustomError('해당 공지를 찾을 수 없습니다.', 404);
 
     const res = await this.adminNoticesRepository.deleteAdminNotice(id);
 
-    if (!res) {
-      throw new Error('공지 삭제에 실패했습니다.');
-    }
-    return res;
+    if (!res) throw new Error('공지 삭제에 실패했습니다.');
+    return;
   }
 }
 
