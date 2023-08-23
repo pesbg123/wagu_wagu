@@ -5,10 +5,11 @@ const app = express();
 const PORT = process.env.PORT;
 
 const adminNoticeRouter = require('./routes/adminNotices.routes');
+const postRouter = require('./routes/posts.routes');
 
 app.use(express.json());
 
-app.use('/api', [adminNoticeRouter]);
+app.use('/api', [adminNoticeRouter, postRouter]);
 
 app.use(express.static(path.join(__dirname, './public')));
 
