@@ -17,7 +17,7 @@ class AdminNoticesController {
       }
 
       const newAdminNotice = await this.adminNoticesService.createAdminNotice(user_id, content);
-      return res.status(200).json({ message: '공지 작성에 성공했습니다.', newAdminNotice });
+      return res.status(200).json({ message: '공지 등록에 성공했습니다.', newAdminNotice });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ errorMessage: error.message });
@@ -33,7 +33,7 @@ class AdminNoticesController {
       console.log(error);
       // 작성된 공지가 없을 경우
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message, data: [] });
-      res.status(500).json({ errorMessage: '공지 목록 조회에 실패했습니다.' });
+      return res.status(500).json({ errorMessage: '공지 목록 조회에 실패했습니다.' });
     }
   }
 
@@ -46,6 +46,7 @@ class AdminNoticesController {
       console.log(error);
       // 삭제된 공지가 없을 경우
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message, data: [] });
+      return res.status(500).json({ errorMessage: '삭제된 공지 목록 조회에 실패 했습니다.' });
     }
   }
 
@@ -60,7 +61,7 @@ class AdminNoticesController {
       console.log(error);
       // 공지가 존재하지 않는 경우
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message, data: [] });
-      res.status(500).json({ errorMessage: '공지 조회에 실패했습니다.' });
+      return res.status(500).json({ errorMessage: '삭제된 공지 조회에 실패했습니다.' });
     }
   }
 
@@ -78,7 +79,7 @@ class AdminNoticesController {
     } catch (error) {
       console.log(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
-      res.status(500).json({ errorMessage: '공지 수정에 실패했습니다.' });
+      return res.status(500).json({ errorMessage: error.message });
     }
   }
 
