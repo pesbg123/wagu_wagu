@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
+      deleted_at: {
+        type: DataTypes.DATE,
+        defaultValue: null,
+      },
       created_at: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -50,6 +54,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      paranoid: true,
+      deletedAt: 'deleted_at',
       modelName: 'BannedUsers',
       createdAt: 'created_at',
       updatedAt: 'updated_at',
