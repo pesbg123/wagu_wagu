@@ -14,6 +14,12 @@ class PostsRespository {
     return findPostsData;
   };
 
+  findOnePost = async (id) => {
+    const findOnePostData = await Posts.findOne({ where: { id } });
+
+    return findOnePostData;
+  };
+
   updatePost = async (id, user_id, title, ingredient, recipe, food_img) => {
     const updatePostData = await Posts.update({ title, ingredient, recipe, food_img }, { where: { id, user_id } });
 

@@ -27,7 +27,7 @@ class AdminNoticesRepository {
     return await AdminNotices.update({ content }, { where: { id } });
   }
 
-  // DELETE admin-notice
+  // DELETE admin-notice - soft delete
   async deleteAdminNotice(id) {
     return await AdminNotices.destroy({ where: { id } });
   }
