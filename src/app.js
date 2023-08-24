@@ -7,15 +7,11 @@ const PORT = process.env.PORT;
 const adminNoticeRouter = require('./routes/adminNotices.routes');
 const postLikeRouter = require('./routes/postLike.routes');
 const userFollowRouter = require('./routes/userFollow.routes');
-
-app.use(express.json());
-
-app.use('/api', [adminNoticeRouter, postLikeRouter, userFollowRouter]);
 const hashTagRouter = require('./routes/hashtag.routes');
 
 app.use(express.json());
 
-app.use('/api', [adminNoticeRouter, hashTagRouter]);
+app.use('/api', [adminNoticeRouter, hashTagRouter, postLikeRouter, userFollowRouter]);
 
 app.use(express.static(path.join(__dirname, './public')));
 

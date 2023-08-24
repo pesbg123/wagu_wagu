@@ -14,13 +14,15 @@ class UserFollowService {
         throw new CustomError('대상 사용자를 찾을 수 없습니다.', 404);
       }
 
-      const isAlreadyFollowing = await this.userFollowRepository.isUserFollowing(user_id, target_id);
+      const isAlreadyFollowing = await this.userFollowRepository.findFollower(user_id, target_id);
 
-      if (!isAlreadyFollowing) {
-        await this.userFollowRepository.addFollower(user_id, target_id);
+      if (isAlreadyFollowing) {
+        throw new CustomError('이미 팔로우한 사용자입니다.', 400);
       }
+      const res = await this.userFollowRepository.addFollower(user_id, target_id);
 
-      return isAlreadyFollowing ? '이미 팔로우한 사용자입니다.' : '팔로우되었습니다.';
+      if (!res) throw new Error('팔로워 등록에 실패했습니다.');
+      return;
     } catch (error) {
       throw error;
     }
@@ -35,10 +37,10 @@ class UserFollowService {
         throw new Error('대상 사용자를 찾을 수 없습니다.');
       }
 
-      const isAlreadyFollowing = await this.userFollowRepository.isUserFollowing(user.id, targetUser.id);
-
+      // const isAlreadyFollowing = await this.userFollowRepository.isUserFollowing(user_id, target_id);
+      const isAlreadyFollowing = await this.userFollowRepository.removeFollower(user_id, target_id);
       if (isAlreadyFollowing) {
-        await this.userFollowRepository.removeFollower(user.id, targetUser.id);
+        await this.userFollowRepository.removeFollower(user_id, target_id);
         return '팔로우가 취소되었습니다.';
       } else {
         return '이미 팔로우하지 않은 사용자입니다.';

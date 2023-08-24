@@ -23,6 +23,7 @@ class PostLikesController {
       const { post_id } = req.params;
 
       const message = await this.postLikesService.removePostLike(post_id, user_id);
+
       return res.status(200).json({ message });
     } catch (error) {
       console.log(error);
