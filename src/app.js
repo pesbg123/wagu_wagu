@@ -4,13 +4,14 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT;
 
-const adminNoticeRouter = require('./routes/adminNotices.routes');
+const adminNoticeRouter = require('./routes/admin.notices.routes');
+const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const hashTagRouter = require('./routes/hashtag.routes');
 const postRouter = require('./routes/posts.routes');
 
 app.use(express.json());
 
-app.use('/api', [adminNoticeRouter, hashTagRouter, postRouter]);
+app.use('/api', [adminNoticeRouter, hashTagRouter, adminUserBanRouter, postRouter]);
 
 app.use(express.static(path.join(__dirname, './public')));
 
