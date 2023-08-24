@@ -52,7 +52,7 @@ class PostsController {
       // const { user_id } = req.user;
       const { title, ingredient, recipe, food_img } = req.body;
 
-      const updatePostData = await this.postsService.updatePost(id, user_id, title, ingredient, recipe, food_img);
+      await this.postsService.updatePost(id, user_id, title, ingredient, recipe, food_img);
 
       return res.status(200).json({ message: '게시글을 수정하였습니다.' });
     } catch (error) {
@@ -67,7 +67,7 @@ class PostsController {
       const { id } = req.params;
       // const { user_id } = req.user;
 
-      const deletePostData = await this.postsService.deletePost(id, user_id);
+      await this.postsService.deletePost(id, user_id);
 
       return res.status(200).json({ message: '게시글을 삭제하였습니다.' });
     } catch (error) {

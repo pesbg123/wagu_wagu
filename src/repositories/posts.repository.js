@@ -15,7 +15,7 @@ class PostsRespository {
   };
 
   findOnePost = async (id) => {
-    const findOnePostData = await Posts.findOne({ where: { id } });
+    const findOnePostData = await Posts.findOne({ paranoid: false }, { where: { id } });
 
     return findOnePostData;
   };
