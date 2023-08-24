@@ -11,6 +11,11 @@ const userFollowRouter = require('./routes/userFollow.routes');
 app.use(express.json());
 
 app.use('/api', [adminNoticeRouter, postLikeRouter, userFollowRouter]);
+const hashTagRouter = require('./routes/hashtag.routes');
+
+app.use(express.json());
+
+app.use('/api', [adminNoticeRouter, hashTagRouter]);
 
 app.use(express.static(path.join(__dirname, './public')));
 
