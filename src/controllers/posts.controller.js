@@ -94,10 +94,10 @@ class PostsController {
   // 게시글 블락 메서드입니다. JH
   blockPost = async (req, res) => {
     try {
-      const { post_id } = req.params;
+      const { id } = req.params;
 
-      const blockPost = await this.blockPost(post_id);
-      return res.status(200).json({ message: '게시물 블락에 성공했습니다.', data: blockPost });
+      await this.postsService.blockPost(id);
+      return res.status(200).json({ message: '게시물 블락에 성공했습니다.' });
     } catch (error) {
       console.log(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
@@ -105,7 +105,18 @@ class PostsController {
     }
   };
   // 게시글 블락 취소 메서드입니다. JH
-  unblockPost = async (req, res) => {};
+  unblockPost = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      await this.postsService.unblockPost(id);
+      return res.status(200).json({ message: '게시물 블락 취소에 성공했습니다.' });
+    } catch (error) {
+      console.log(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  };
 }
 
 module.exports = PostsController;
