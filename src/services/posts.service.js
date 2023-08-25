@@ -65,6 +65,11 @@ class PostsService {
 
     return deletePostData;
   };
+
+  blockPost = async(post_id) => {
+    const existPost = await this.postsRespository.
+  }
+
 }
 
 module.exports = PostsService;
