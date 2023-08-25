@@ -37,6 +37,14 @@ class PostsRespository {
 
     return deletePostData;
   };
+
+  blockPost = async (id) => {
+    return Posts.update({ is_blocked: true }, { where: { id } });
+  };
+
+  unblockPost = async (id) => {
+    return Posts.update({ is_blocked: false }, { where: { id } });
+  };
 }
 
 module.exports = PostsRespository;

@@ -90,6 +90,33 @@ class PostsController {
       return res.status(500).json({ errorMessage: '게시글 삭제에 실패하였습니다.' });
     }
   };
+
+  // 게시글 블락 메서드입니다. JH
+  blockPost = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      await this.postsService.blockPost(id);
+      return res.status(200).json({ message: '게시물 블락에 성공했습니다.' });
+    } catch (error) {
+      console.log(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  };
+  // 게시글 블락 취소 메서드입니다. JH
+  unblockPost = async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      await this.postsService.unblockPost(id);
+      return res.status(200).json({ message: '게시물 블락 취소에 성공했습니다.' });
+    } catch (error) {
+      console.log(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  };
 }
 
 module.exports = PostsController;

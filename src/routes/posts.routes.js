@@ -17,4 +17,8 @@ router.patch('/posts/:id', posts.updatePost);
 
 router.delete('/posts/:id', posts.deletePost);
 
+router.patch('/posts/:id/block', posts.blockPost);
+
+router.patch('/posts/:id/unblock', posts.unblockPost);
+
 module.exports = router;
