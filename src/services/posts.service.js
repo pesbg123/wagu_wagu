@@ -35,32 +35,26 @@ class PostsService {
   findOnePost = async (id) => {
     const findOnePostData = await this.postsRespository.findOnePost(id);
 
-    if (findOnePostData.deleted_at !== null) {
-      throw new CustomError('삭제된 게시물 입니다.', 404);
-    }
-
     return findOnePostData;
   };
 
-  updatePost = async (id, user_id, title, ingredient, recipe, food_img) => {
-    const findOnePostData = await this.postsRespository.findOnePost(id);
+  findUserPosts = async (user_id) => {
+    const findUserPostsData = await this.postsRespository.findUserPosts(user_id);
 
-    if (findOnePostData.deleted_at !== null) {
-      throw new CustomError('삭제된 게시물 입니다.', 404);
+    if (!findUserPostsData) {
+      throw new CustomError('해당 사용자가 작성한 게시물이 존재하지 않습니다.', 404);
     }
 
+    return findUserPostsData;
+  };
+
+  updatePost = async (id, user_id, title, ingredient, recipe, food_img) => {
     const updatePostData = await this.postsRespository.updatePost(id, user_id, title, ingredient, recipe, food_img);
 
     return updatePostData;
   };
 
   deletePost = async (id, user_id) => {
-    const findOnePostData = await this.postsRespository.findOnePost(id);
-
-    if (findOnePostData.deleted_at !== null) {
-      throw new CustomError('이미 삭제된 게시물 입니다.', 404);
-    }
-
     const deletePostData = await this.postsRespository.deletePost(id, user_id);
 
     return deletePostData;

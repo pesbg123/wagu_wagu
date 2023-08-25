@@ -42,7 +42,21 @@ class PostsController {
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
-      return res.status(500).json({ errorMessage: ' 게시글 상세조회의 실패하였습니다.' });
+      return res.status(500).json({ errorMessage: ' 게시글 상세조회에 실패하였습니다.' });
+    }
+  };
+
+  findUserPosts = async (req, res) => {
+    try {
+      const { user_id } = req.query;
+
+      const findUserPostsData = await this.postsService.findUserPosts(user_id);
+
+      return res.status(200).json({ data: findUserPostsData });
+    } catch (error) {
+      console.error(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: '사용자 게시글 조회에 실패하였습니다.' });
     }
   };
 

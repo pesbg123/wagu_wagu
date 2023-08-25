@@ -9,6 +9,8 @@ router.post('/posts', posts.createPost);
 
 router.get('/posts', posts.findPosts);
 
+router.get('/posts/user', posts.findUserPosts);
+
 router.get('/posts/:id', posts.findOnePost);
 
 router.patch('/posts/:id', posts.updatePost);
