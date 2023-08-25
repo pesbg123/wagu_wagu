@@ -9,7 +9,6 @@ const postLikeRouter = require('./routes/postLike.routes');
 const userFollowRouter = require('./routes/userFollow.routes');
 const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
-const hashTagRouter = require('./routes/hashtag.routes');
 const postRouter = require('./routes/posts.routes');
 
 app.use(express.json());

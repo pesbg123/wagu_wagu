@@ -34,7 +34,7 @@ class PostLikesService {
         await this.postLikesRepository.removePostLike(post_id, user_id);
         return '좋아요 취소에 성공했습니다.';
       } else {
-        return '좋아요 취소에 실패했습니다.';
+        return '이미 좋아요 취소한 게시글 입니다.';
       }
     } catch (error) {
       throw new Error('좋아요 취소 중 오류가 발생했습니다.');

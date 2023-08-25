@@ -7,15 +7,16 @@ class PostLikesRepository {
     return post;
   };
   // 이미 좋아요를 눌렀는지 조회
-  getPostLike = async (user_id) => {
-    return await PostLikes.findOne({ where: { user_id } });
+  getPostLike = async (post_id, user_id) => {
+    return await PostLikes.findOne({ where: { post_id, user_id } });
   };
 
   async addPostLike(post_id, user_id) {
     return await PostLikes.create({ post_id, user_id });
   }
+
   async removePostLike(post_id, user_id) {
-    return await PostLikes.destory({ where: { post_id, user_id } });
+    return await PostLikes.destroy({ where: { post_id, user_id } });
   }
 }
 
