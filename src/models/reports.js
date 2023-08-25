@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
       },
       post_id: {
-        allowNull: false,
+        defaultValue: null,
         type: DataTypes.INTEGER,
         references: {
           model: 'Posts',
