@@ -72,6 +72,10 @@ module.exports = (sequelize, DataTypes) => {
       like: {
         defaultValue: 0,
         type: DataTypes.BIGINT,
+      }, // 신고 횟수 컬럼 추가
+      report_count: {
+        defaultValue: 0,
+        type: DataTypes.INTEGER,
       },
       is_blocked: {
         defaultValue: false,

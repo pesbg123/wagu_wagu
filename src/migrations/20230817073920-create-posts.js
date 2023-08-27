@@ -38,6 +38,10 @@ module.exports = {
       like: {
         defaultValue: 0,
         type: Sequelize.BIGINT,
+      }, // 신고 횟수 컬럼 추가
+      report_count: {
+        defaultValue: 0,
+        type: Sequelize.INTEGER,
       },
       is_blocked: {
         defaultValue: false,
