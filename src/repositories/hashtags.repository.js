@@ -8,12 +8,12 @@ class AdminHashtagsRepository {
 
   // GET hashtags - all
   async getHashtags() {
-    return await Hashtags.findAll({});
+    return await Hashtags.findAll({ raw: true });
   }
 
   // GET hashtags - One
   async getHashtag(id) {
-    return await Hashtags.findOne({ where: { id } });
+    return await Hashtags.findOne({ raw: true, where: { id } });
   }
 
   // PUT admin-hashtag

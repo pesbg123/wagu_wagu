@@ -43,10 +43,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      reported_count: {
+      report_type: {
         allowNull: false,
-        defaultValue: 0,
-        type: Sequelize.INTEGER,
+        type: Sequelize.ENUM('음란물', '광고', '욕설', '기타'),
       },
       created_at: {
         allowNull: false,

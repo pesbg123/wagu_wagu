@@ -10,10 +10,11 @@ const userFollowRouter = require('./routes/userFollow.routes');
 const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
+const reportRouter = require('./routes/reports.routes');
 
 app.use(express.json());
 
-app.use('/api', [adminNoticeRouter, hashTagRouter, postLikeRouter, userFollowRouter, hashTagRouter, adminUserBanRouter, postRouter]);
+app.use('/api', [adminNoticeRouter, hashTagRouter, postLikeRouter, userFollowRouter, hashTagRouter, adminUserBanRouter, postRouter, reportRouter]);
 
 app.use(express.static(path.join(__dirname, './public')));
 
