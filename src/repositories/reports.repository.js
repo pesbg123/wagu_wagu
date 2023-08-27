@@ -1,4 +1,4 @@
-const { Reports, Users, Posts } = require('../models');
+const { Reports, Users, Posts, Comments } = require('../models');
 const { Op } = require('sequelize');
 
 class ReportRepository {
@@ -19,7 +19,7 @@ class ReportRepository {
     return await Reports.findOne({
       raw: true,
       where: {
-        [Op.and]: [{ user_id }, { post_id }],
+        [Op.and]: [{ user_id }, { post_id }, { comment_id: null }],
       },
     });
   }
@@ -45,12 +45,16 @@ class ReportRepository {
         },
         {
           model: Posts,
-          attributes: ['title'],
         },
+        { model: Comments },
       ],
     });
   }
+
+  // GET TEST 때문애 임시로 댓글 조회 코드 작성
+  async findOneComment(id) {
+    return await Comments.findOne({ raw: true, where: { id } });
+  }
 }
 
-// GET report-list (신고횟수를 가져오기 위해 조회)
 module.exports = ReportRepository;
