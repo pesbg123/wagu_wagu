@@ -8,7 +8,8 @@ class AdminUserBanController {
   // POST admin-user-ban
   async createUserBan(req, res) {
     try {
-      const { user_id, banned_reason } = req.body;
+      const { user_id } = req.params;
+      const { banned_reason } = req.body;
 
       if (!banned_reason) return res.status(400).json({ errorMessage: '밴 사유를 입력해주세요.' });
       const bannedUserInfo = await this.adminUserBanService.createUserBan(user_id, banned_reason);
