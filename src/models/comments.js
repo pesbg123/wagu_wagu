@@ -60,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
       content: {
         allowNull: false,
         type: DataTypes.STRING,
+      }, // 신고 횟수 컬럼 추가
+      report_count: {
+        defaultValue: 0,
+        type: DataTypes.INTEGER,
       },
       is_blocked: {
         allowNull: false,

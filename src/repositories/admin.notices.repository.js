@@ -1,4 +1,5 @@
 const { AdminNotices } = require('../models');
+const { Op } = require('sequelize');
 
 class AdminNoticesRepository {
   // POST admin-notice
@@ -6,12 +7,17 @@ class AdminNoticesRepository {
     return await AdminNotices.create({ user_id, content });
   }
 
-  // GET findAll admin-notices
+  // GET admin-notices ALL - not deleted
   async getAdminNotices() {
-    return await AdminNotices.findAll({ order: [['created_at', 'DESC']] });
+    return await AdminNotices.findAll({ raw: true, order: [['created_at', 'DESC']] });
   }
 
-  // GET findOne admin-notices
+  // GET admin-notices ALL - deleted
+  async getDeletedAdminNotices() {
+    return await AdminNotices.findAll({ raw: true, paranoid: false, where: { deleted_at: { [Op.not]: null } }, order: [['created_at', 'DESC']] });
+  }
+
+  // GET admin-notice One - not deleted
   async getAdminNotice(id) {
     return await AdminNotices.findOne({ raw: true, where: { id }, order: [['created_at', 'DESC']] });
   }
@@ -19,6 +25,11 @@ class AdminNoticesRepository {
   // PATCH admin-notice
   async updateAdminNotice(id, content) {
     return await AdminNotices.update({ content }, { where: { id } });
+  }
+
+  // DELETE admin-notice - soft delete
+  async deleteAdminNotice(id) {
+    return await AdminNotices.destroy({ where: { id } });
   }
 }
 
