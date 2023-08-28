@@ -1,0 +1,15 @@
+.admin-btn-container {
+  margin-left: auto;
+  margin-right: auto;
+
+  min-width: 200px;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+}
+.admin-btn-container button {
+  margin: 1rem;
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+}

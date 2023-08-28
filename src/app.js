@@ -23,6 +23,26 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
+// 어드민 페이지
+app.get('/admin_page', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.index.html'));
+});
+
+// 어드민 notices 페이지
+app.get('/admin_notices', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.notices.html'));
+});
+
+// 어드민 hashtags 페이지
+app.get('/admin_hashtags', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.hashtags.html'));
+});
+
+// 어드민 reports 페이지
+app.get('/admin_reports', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.reports.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });
