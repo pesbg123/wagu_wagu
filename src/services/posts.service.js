@@ -59,6 +59,25 @@ class PostsService {
 
     return deletePostData;
   };
+
+  blockPost = async (id) => {
+    const existPost = await this.postsRespository.findOnePost(id);
+    if (!existPost) throw new CustomError('해당 게시글이 존재하지 않습니다.', 404);
+
+    if (existPost.is_blocked === true) throw new CustomError('이미 블락된 게시글입니다.', 400);
+    const res = await this.postsRespository.blockPost(id);
+    if (!res) throw new Error('게시글 블락에 실패했습니다.');
+    return;
+  };
+
+  unblockPost = async (id) => {
+    const existPost = await this.postsRespository.findOnePost(id);
+    if (!existPost) throw new CustomError('해당 게시글이 존재하지 않습니다.', 404);
+
+    if (existPost.is_blocked === false) throw new CustomError('블락되지 않은 게시물입니다.', 400);
+    const res = await this.postsRespository.unblockPost(id);
+    if (!res) throw new Error('게시글 블락 취소에 실패했습니다.');
+  };
 }
 
 module.exports = PostsService;

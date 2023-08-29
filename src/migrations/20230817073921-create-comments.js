@@ -36,6 +36,10 @@ module.exports = {
       content: {
         allowNull: false,
         type: Sequelize.STRING,
+      }, // 신고 횟수 컬럼 추가
+      report_count: {
+        defaultValue: 0,
+        type: Sequelize.INTEGER,
       },
       is_blocked: {
         allowNull: false,
@@ -43,7 +47,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       deleted_at: {
-        defaultValue: false,
+        defaultValue: null,
         type: Sequelize.DATE,
       },
       created_at: {

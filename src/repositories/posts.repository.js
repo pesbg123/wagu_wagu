@@ -1,5 +1,4 @@
 const { Posts } = require('../models');
-const { Op } = require('sequelize');
 
 class PostsRespository {
   createPost = async (user_id, title, ingredient, recipe, food_img) => {
@@ -15,7 +14,7 @@ class PostsRespository {
   };
 
   findOnePost = async (id) => {
-    const findOnePostData = await Posts.findOne({ where: { id } });
+    const findOnePostData = await Posts.findOne({ raw: true, where: { id } }); // 데이터를 json형식으로 간결히 나오게 하기 위해  raw: true, 추가했습니다. JH
 
     return findOnePostData;
   };
@@ -36,6 +35,18 @@ class PostsRespository {
     const deletePostData = await Posts.destroy({ where: { id, user_id } });
 
     return deletePostData;
+  };
+
+  blockPost = async (id) => {
+    return Posts.update({ is_blocked: true }, { where: { id } });
+  };
+
+  unblockPost = async (id) => {
+    return Posts.update({ is_blocked: false }, { where: { id } });
+  };
+
+  postReportCountIncrease = async (id, report_count) => {
+    return Posts.update({ report_count }, { where: { id } });
   };
 }
 
