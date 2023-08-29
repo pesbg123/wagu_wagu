@@ -54,6 +54,11 @@ app.get('/admin_reports', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.reports.html'));
 });
 
+// 어드민 block list 페이지
+app.get('/admin_block_list', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.block.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });

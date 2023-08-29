@@ -21,7 +21,7 @@ input:hover {
   background-color: rgb(241, 241, 241);
 }
 
-.notices_box {
+.hashtags_box {
   background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWdJ6O7yWZ-1JDa4aN4fsTy1jeCkBAoXxILg&usqp=CAU');
   color: white;
   text-align: center;
@@ -34,18 +34,18 @@ input:hover {
   align-items: center;
   justify-content: center;
   border-radius: 20px;
-  max-width: 1000px;
+  max-width: 700px;
   min-width: 300px;
 }
 
-.notices_input {
+.hashtags_input {
   border-radius: 20px;
   margin-bottom: 30px;
 }
 
 .write_btn,
-.cancel_btn,
-.save-btn {
+.save-btn,
+.cancel_btn {
   display: inline-block;
   padding: 7px 12px;
   margin: 7px 7px 7px 7px;
@@ -62,34 +62,34 @@ input:hover {
   color: white;
 }
 
-.notices_list {
+.hashtags_list {
   background-color: #ff778d;
   margin: 40px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 10px;
-  height: 500px;
   border-radius: 20px;
+  height: 500px;
   overflow: auto;
-  max-width: 1000px;
+  max-width: 700px;
   min-width: 300px;
 }
 
-.notices_list::-webkit-scrollbar {
+.hashtags_list::-webkit-scrollbar {
   width: 12px;
 }
 
-.notices_list::-webkit-scrollbar-thumb {
+.hashtags_list::-webkit-scrollbar-thumb {
   background-color: #ff778d;
   border-radius: 10px;
 }
 
-.notices_list::-webkit-scrollbar-track {
+.hashtags_list::-webkit-scrollbar-track {
   background-color: #ffa7b5;
   border-radius: 5px;
 }
 
-.notices_one {
+.hashtags_one {
   background-color: #ffa7b5;
   border-radius: 15px;
   margin: 30px;
