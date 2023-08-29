@@ -1,5 +1,4 @@
 const { Posts } = require('../models');
-const { Op } = require('sequelize');
 
 class PostsRespository {
   createPost = async (user_id, title, ingredient, recipe, food_img) => {

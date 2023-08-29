@@ -119,5 +119,32 @@ class CommentsController {
 
     res.status(code).json(json);
   };*/
+
+  // 댓글 블락 메서드입니다.
+  blockComment = async (req, res) => {
+    try {
+      const { post_id, comment_id } = req.params;
+
+      await this.commentsService.blockComment(post_id, comment_id);
+      return res.status(200).json({ message: '댓글 블락에 성공했습니다.' });
+    } catch (error) {
+      console.log(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  };
+  // 댓글 블락 취소 메서드입니다. JH
+  unblockComment = async (req, res) => {
+    try {
+      const { post_id, comment_id } = req.params;
+
+      await this.commentsService.unblockComment(post_id, comment_id);
+      return res.status(200).json({ message: '댓글 블락 취소에 성공했습니다.' });
+    } catch (error) {
+      console.log(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  };
 }
 module.exports = CommentsController;
