@@ -1,4 +1,2 @@
-const gobackBtn = document.getElementById('go-back-reports');
-gobackBtn.addEventListener('click', () => {
-  location.href = '/admin_reports';
-});
+// eslint-disable-next-line no-undef
+$('#go-back-reports').click(() => (location.href = '/admin/reports'));

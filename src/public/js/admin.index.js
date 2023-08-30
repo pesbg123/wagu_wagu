@@ -1,15 +1,5 @@
-const noticeBtn = document.getElementById('notice-btn');
-const hashtagBtn = document.getElementById('hashtag-btn');
-const reportBtn = document.getElementById('report-btn');
-
-noticeBtn.addEventListener('click', () => {
-  location.href = '/admin_notices';
-});
-
-hashtagBtn.addEventListener('click', () => {
-  location.href = '/admin_hashtags';
-});
-
-reportBtn.addEventListener('click', () => {
-  location.href = '/admin_reports';
-});
+/* eslint-disable no-undef */
+$('#notice-btn').click(() => (location.href = '/admin/notices'));
+$('#hashtag-btn').click(() => (location.href = '/admin/hashtags'));
+$('#report-btn').click(() => (location.href = '/admin/reports'));
+$('#user-ban-btn').click(() => (location.href = '/admin/user_ban'));

@@ -1,11 +1,3 @@
-const blockListBtn = document.getElementById('block-list-btn');
-
-blockListBtn.addEventListener('click', () => {
-  location.href = '/admin_block_list';
-});
-
-const goBackIndexBtn = document.getElementById('go-back-index');
-
-goBackIndexBtn.addEventListener('click', () => {
-  location.href = '/admin_page';
-});
+/* eslint-disable no-undef */
+$('#block-list-btn').click(() => (location.href = '/admin/block_list'));
+$('#go-back-index').click(() => (location.href = '/admin'));

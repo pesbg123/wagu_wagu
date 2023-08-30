@@ -13,41 +13,46 @@
         crossorigin="anonymous"></script>
     <!-- 제이쿼리 -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- css -->
-    <link rel="stylesheet" href="./css/admin.notices.css" type="text/css" />
+    <link rel="stylesheet" href="/css/admin.notices.css" type="text/css" />
     <!-- js -->
-    <script src="./js/admin.notice.js" defer></script>
+    <script src="/js/admin.notice.js" defer></script>
     <title>admin_notices</title>
 </head>
 
 <body>
 
+    <div class="btn-header">
+        <button class="cancel_btn">뒤로가기</button>
+    </div>
+
     <div class="notices_box">
-        <p>공지 등록</p>
-        <input type="text" class="notices_input" placeholder="공지 내용을 입력해주세요"></input>
-        <div>
-            <button class="write_btn">등록</button>
-            <button class="cancel_btn">취소</button>
+        <div class="input-container">
+            <div class="background-img"></div>
+            <textarea type="text" class="notices_input" placeholder="공지 내용을 입력해주세요"></textarea>
+            <button class="write_btn">등록하기</button>
         </div>
     </div>
 
     <!-- 공지 리스트 -->
     <div class="notices_list">
 
-        <div class="notices_one">
+        <!-- <div class="notices_one">
             <h5>응애 공지다</h5>
             <div class="button-container">
                 <button class="edit-btn">수정</button>
                 <button>삭제</button>
             </div>
-        </div>
+        </div> -->
 
     </div>
 
     <!-- 수정 모달 -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content modal-extended">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel">공지 수정</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -56,7 +61,8 @@
                     <form>
                         <div class="mb-3">
                             <label for="editedNotice" class="form-label">수정할 내용</label>
-                            <input type="text" class="form-control" id="editedNotice">
+                            <textarea class="form-control input-height" id="editedNotice"
+                                placeholder="수정할 내용을 입력하세요"></textarea>
                         </div>
                     </form>
                 </div>

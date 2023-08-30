@@ -21,6 +21,12 @@ input:hover {
   background-color: rgb(241, 241, 241);
 }
 
+.btn-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
 .hashtags_box {
   background-image: url('../img/wagu_cat.png');
 
@@ -98,6 +104,11 @@ input:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.hashtags_one h5 {
+  text-align: center;
+  margin-top: 8px;
 }
 
 .button-container {

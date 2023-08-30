@@ -13,6 +13,13 @@ class AdminNoticesService {
     return newAdminNotice;
   }
 
+  // ADMIN GET admin-page All notices
+  async getAdminNoticeList() {
+    const adminNoticeList = await this.adminNoticesRepository.getAdminNoticeList();
+    if (!adminNoticeList.length) throw new CustomError('작성된 공지를 찾을 수 없습니다.', 404);
+    return adminNoticeList;
+  }
+
   // GET admin-notices ALL - not deleted
   async getAdminNotices() {
     const adminNoticeList = await this.adminNoticesRepository.getAdminNotices();
@@ -54,6 +61,17 @@ class AdminNoticesService {
     const res = await this.adminNoticesRepository.deleteAdminNotice(id);
 
     if (!res) throw new Error('공지 삭제에 실패했습니다.');
+    return;
+  }
+
+  // ADMIN DELETE admin-notice - hard delete
+  async hardDeleteAdminNotice(id) {
+    const existAdminNotice = await this.adminNoticesRepository.getDeletedAdminNotice(id);
+    if (!existAdminNotice) throw new CustomError('해당 공지를 찾을 수 없습니다.', 404);
+
+    const res = await this.adminNoticesRepository.hardDeleteAdminNotice(id);
+
+    if (!res) throw new Error('공지 영구삭제에 실패했습니다.');
     return;
   }
 }

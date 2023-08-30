@@ -35,28 +35,33 @@ app.get('/', (req, res) => {
 });
 
 // 어드민 페이지
-app.get('/admin_page', (req, res) => {
+app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.index.html'));
 });
 
 // 어드민 notices 페이지
-app.get('/admin_notices', (req, res) => {
+app.get('/admin/notices', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.notices.html'));
 });
 
 // 어드민 hashtags 페이지
-app.get('/admin_hashtags', (req, res) => {
+app.get('/admin/hashtags', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.hashtags.html'));
 });
 
 // 어드민 reports 페이지
-app.get('/admin_reports', (req, res) => {
+app.get('/admin/reports', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.reports.html'));
 });
 
 // 어드민 block list 페이지
-app.get('/admin_block_list', (req, res) => {
+app.get('/admin/block_list', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.block.html'));
+});
+
+// 어드민 user ban 페이지
+app.get('/admin/user_ban', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.user.ban.html'));
 });
 
 app.listen(PORT, () => {
