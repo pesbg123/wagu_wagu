@@ -22,7 +22,7 @@ input:hover {
 }
 
 .notices_box {
-  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWdJ6O7yWZ-1JDa4aN4fsTy1jeCkBAoXxILg&usqp=CAU');
+  background-image: url('../img/wagu_cat.png');
   color: white;
   text-align: center;
   height: 300px;
@@ -49,7 +49,7 @@ input:hover {
   display: inline-block;
   padding: 7px 12px;
   margin: 7px 7px 7px 7px;
-  background-color: #ff778d;
+  background-color: #404452;
   color: white;
   border: none;
   border-radius: 7px;
@@ -58,12 +58,12 @@ input:hover {
 
 .write_btn:hover,
 .cancel_btn:hover {
-  background-color: #ffa7b5;
+  background-color: #5b86ec;
   color: white;
 }
 
 .notices_list {
-  background-color: #ff778d;
+  background-color: #000000;
   margin: 40px;
   margin-left: auto;
   margin-right: auto;
@@ -80,17 +80,17 @@ input:hover {
 }
 
 .notices_list::-webkit-scrollbar-thumb {
-  background-color: #ff778d;
+  background-color: #bcbaba;
   border-radius: 10px;
 }
 
 .notices_list::-webkit-scrollbar-track {
-  background-color: #ffa7b5;
+  background-color: #000000;
   border-radius: 5px;
 }
 
 .notices_one {
-  background-color: #ffa7b5;
+  background-color: #eae9e9;
   border-radius: 15px;
   margin: 30px;
   padding: 15px;
@@ -104,7 +104,7 @@ input:hover {
 }
 
 .button-container button {
-  background-color: #ff778d;
+  background-color: #404452;
   color: white;
   border: none;
   border-radius: 7px;
@@ -118,6 +118,6 @@ input:hover {
 }
 
 .button-container button:hover {
-  background-color: rgb(255, 97, 123);
+  background-color: #5b86ec;
   color: white;
 }
