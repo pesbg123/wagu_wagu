@@ -3,3 +3,4 @@ $('#notice-btn').click(() => (location.href = '/admin/notices'));
 $('#hashtag-btn').click(() => (location.href = '/admin/hashtags'));
 $('#report-btn').click(() => (location.href = '/admin/reports'));
 $('#user-ban-btn').click(() => (location.href = '/admin/user_ban'));
+$('#block-list-btn').click(() => (location.href = '/admin/block_list'));

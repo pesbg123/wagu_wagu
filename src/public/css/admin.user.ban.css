@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
 * {
-  margin: none;
+  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Jua', sans-serif;
 }

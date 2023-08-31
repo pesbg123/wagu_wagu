@@ -41,7 +41,6 @@ class ReportRepository {
       include: [
         {
           model: Users,
-          attributes: ['nickname'],
         },
         {
           model: Posts,

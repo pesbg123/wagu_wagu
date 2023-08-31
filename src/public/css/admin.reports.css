@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+* {
+  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Jua', sans-serif;
+}
+
 .button-contaier {
   margin-top: 1rem;
   width: 100%;
@@ -9,154 +16,180 @@
   min-width: 100px;
 }
 
-/* .posts-table {
-  margin-top: 2rem;
-  border-collapse: collapse;
+p {
+  font: bold 11px arial;
+  font-size: 2rem;
+  text-align: center;
+}
 
+/* 게시물 테이블 */
+.posttable-container {
+  overflow: auto;
+  max-height: 350px; /* 원하는 높이로 조정 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  min-width: 200px;
+  max-width: 900px;
+  border-radius: 10px;
+  overflow-x: hidden;
+}
+
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 트랙 배경색 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바 색상 */
+  border-radius: 5px; /* 스크롤바 둥글기 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 스크롤바에 마우스 호버 시 색상 */
+}
+
+.posttable-container table {
+  border: 1px #a39485 solid;
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+}
+
+.posttable-container th {
+  text-align: left;
+}
+
+.posttable-container th:first-child {
+  width: 200px;
+}
+
+.posttable-container th:nth-child(2) {
+  width: 230px;
+}
+
+.posttable-container th:nth-child(3) {
+  width: 80px;
+}
+
+.posttable-container td:first-child {
+  word-break: break-all; /* 줄바꿈 처리 */
+}
+
+.posttable-container thead {
+  font-weight: bold;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.posttable-container td,
+.posttable-container th {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.posttable-container td {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition:
+    transform 0.15s,
+    background-color 0.2s; /* 호버 효과 시간 설정 */
+}
+
+.posttable-container td:hover {
+  transform: scale(1.02); /* 호버 시 약간 크기를 늘림 */
+  background-color: #f0f0f0;
+}
+
+.posttable-container a {
+  color: #000000;
+}
+
+/* 댓글 테이블 */
+.commentTable-container {
+  overflow: auto;
+  max-height: 350px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   margin-left: auto;
   margin-right: auto;
   min-width: 200px;
   max-width: 900px;
+  border-radius: 10px;
+  overflow-x: hidden;
+  margin-bottom: 3rem;
 }
 
-.posts-table thead {
-  background-color: rgb(207, 207, 207);
-}
-
-.posts-table th,
-.posts-table td {
-  width: 300px;
-  border: 1px solid black;
-  padding: 8px;
-  text-align: center;
-} */
-
-h1 {
-  font-size: 3em;
-  font-weight: 300;
-  line-height: 1em;
-  text-align: center;
-  color: #4dc3fa;
-}
-
-h2 {
-  font-size: 1em;
-  font-weight: 300;
-  text-align: center;
-  display: block;
-  line-height: 1em;
-  padding-bottom: 2em;
-  color: #fb667a;
-}
-
-h2 a {
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #fb667a;
-  text-decoration: none;
-}
-
-.blue {
-  color: #185875;
-}
-.yellow {
-  color: #fff842;
-}
-
-.container th h1 {
-  font-weight: bold;
-  font-size: 1em;
-  text-align: left;
-  color: #185875;
-}
-
-.container td {
-  font-weight: normal;
-  font-size: 1em;
-  -webkit-box-shadow: 0 2px 2px -2px #0e1119;
-  -moz-box-shadow: 0 2px 2px -2px #0e1119;
-  box-shadow: 0 2px 2px -2px #0e1119;
-}
-
-.container {
-  text-align: left;
-  overflow: hidden;
-  width: 80%;
-  margin: 0 auto;
-  display: table;
-  padding: 0 0 8em 0;
-}
-
-.container td,
-.container th {
-  padding-bottom: 2%;
-  padding-top: 2%;
-  padding-left: 2%;
-}
-
-/* Background-color of the odd rows */
-.container tr:nth-child(odd) {
-  background-color: #323c50;
-}
-
-/* Background-color of the even rows */
-.container tr:nth-child(even) {
-  background-color: #2c3446;
-}
-
-.container th {
-  background-color: #1f2739;
-}
-
-.container td:first-child {
-  color: #fb667a;
-}
-
-.container tr:hover {
-  background-color: #464a52;
-  /* -webkit-box-shadow: 0 6px 6px -6px #0e1119;
-  -moz-box-shadow: 0 6px 6px -6px #0e1119; */
-  /* box-shadow: 0 6px 6px -6px #0e1119; */
-}
-
-.container td:hover {
-  background-color: #fff842;
-  color: #403e10;
-  font-weight: bold;
-
-  /* box-shadow:
-    #7f7c21 -1px 1px,
-    #7f7c21 -2px 2px,
-    #7f7c21 -3px 3px,
-    #7f7c21 -4px 4px,
-    #7f7c21 -5px 5px,
-    #7f7c21 -6px 6px; */
-  transform: translate3d(6px, -6px, 0);
-
-  transition-delay: 0s;
-  transition-duration: 0.4s;
-  transition-property: all;
-  transition-timing-function: line;
-}
-
-.comments-table {
-  margin-top: 2rem;
+.commentTable-container table {
+  border: 1px #a39485 solid;
+  font-size: 0.9em;
+  width: 100%;
   border-collapse: collapse;
-
-  margin-left: auto;
-  margin-right: auto;
-  min-width: 200px;
-  max-width: 900px;
+  border-radius: 5px;
 }
 
-.comments-table thead {
-  background-color: rgb(207, 207, 207);
+.commentTable-container th {
+  text-align: left;
 }
 
-.comments-table th,
-.comments-table td {
-  width: 300px;
-  border: 1px solid black;
-  padding: 8px;
-  text-align: center;
+.commentTable-container th:first-child {
+  width: 200px;
+}
+
+.commentTable-container th:nth-child(2) {
+  width: 230px;
+}
+
+.commentTable-container th:nth-child(3) {
+  width: 200px;
+}
+
+.commentTable-container td:first-child {
+  word-break: break-all;
+}
+
+.commentTable-container thead {
+  font-weight: bold;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.commentTable-container td,
+.commentTable-container th {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.commentTable-container td {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition:
+    transform 0.15s,
+    background-color 0.2s;
+}
+
+.commentTable-container td:hover {
+  transform: scale(1.02);
+  background-color: #f0f0f0;
+}
+
+.commentTable-container a {
+  color: #73685d;
 }

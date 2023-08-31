@@ -19,9 +19,9 @@ const getAdminNotices = async () => {
       let temphtml = `<div class="notices_one">
                         <h5 class="text ${textColorClass}">${item.content}</h5>
                         <div class="button-container">
-                          <button class="edit-btn ${btnHiddenClass}" data-original="${item.content}" notice-id="${item.id}">수정</button>
-                            <button class="del-btn ${btnHiddenClass}" notice-id="${item.id}">삭제</button>
-                              <button class="hard-del-btn ${btnShowClass}" notice-id="${item.id}">영구삭제</button>
+                          <button type="button" class="btn btn-secondary edit-btn ${btnHiddenClass}" notice-id="${item.id}" data-original="${item.content}">수정</button>
+                            <button type="submit" class="btn btn-dark del-btn ${btnHiddenClass}" notice-id="${item.id}">삭제</button>
+                              <button type="submit" class="btn btn-dark hard-del-btn ${btnShowClass}" notice-id="${item.id}">영구삭제</button>
                           </div>
                       </div>`;
       allHtml += temphtml;
@@ -34,12 +34,13 @@ const getAdminNotices = async () => {
 // 수정 버튼 클릭시 모달
 $(document).on('click', '.edit-btn', function () {
   const noticeId = $(this).attr('notice-id');
+
   const originalContent = $(this).data('original'); // 원본 내용 가져오기
 
   $('#editedNotice').val(originalContent); // 인풋창 값 변경
   $('#editModal').modal('show');
   $('#editModal .modal-footer').html(
-    ` <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button class="save-btn" notice-id="${noticeId}">저장</button>`,
+    ` <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button type="submit" notice-id="${noticeId}" class="btn btn-dark save-btn">수정</button>`,
   );
 });
 

@@ -32,6 +32,7 @@ input:hover {
   text-align: center;
   height: 400px;
   margin-left: auto;
+  margin-top: 2rem;
   margin-right: auto;
   display: flex;
   flex-direction: column;
@@ -92,25 +93,6 @@ textarea::-webkit-scrollbar-thumb {
 
 textarea::-webkit-scrollbar-thumb:hover {
   background-color: #888888;
-}
-
-.write_btn,
-.cancel_btn,
-.save-btn {
-  display: inline-block;
-  padding: 7px 12px;
-  margin: 7px 7px 7px 7px;
-  background-color: #3959b9;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-}
-
-.write_btn:hover,
-.cancel_btn:hover {
-  background-color: #5b86ec;
-  color: white;
 }
 
 .notices_list {
@@ -190,28 +172,13 @@ textarea::-webkit-scrollbar-thumb:hover {
   }
 }
 
-.button-container button {
-  background-color: #404452;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  padding: 7px 12px;
-  cursor: pointer;
-  margin-left: 5px;
+.button-contaier {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
-
-.button-container button:first-child {
-  margin-left: 0;
-}
-
-.button-container button:hover {
-  background-color: #5b86ec;
-  color: white;
-}
-
-.modal-extended {
-  min-height: 500px;
-}
-.input-height {
-  height: 300px;
+.button-contaier button {
+  margin-right: 1rem;
+  min-width: 100px;
 }

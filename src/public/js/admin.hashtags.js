@@ -22,8 +22,8 @@ const getHashtags = async () => {
       let temphtml = `<div class="hashtags_one">
                         <h5>${item.hashtag}</h5>
                         <div class="button-container">
-                            <button class="edit-btn" data-original="${item.hashtag}" hashtag-id="${item.id}">수정</button>
-                            <button class="delete-btn" hashtag-id="${item.id}">삭제</button>
+                            <button type="button" class="btn btn-secondary edit-btn" data-original="${item.hashtag}" hashtag-id="${item.id}">수정</button>
+                            <button type="sumbit" class="btn btn-dark delete-btn" hashtag-id="${item.id}">삭제</button>
                         </div>
                     </div>`;
       allHtml += temphtml; // DOM 조작을 최소화하기 위해 문자열로 합친뒤 html() 메소드 사용
@@ -41,7 +41,7 @@ $(document).on('click', '.edit-btn', function () {
   $('#editedHashtag').val(originalContent); // 인풋창 값 변경
   $('#editModal').modal('show');
   $('#editModal .modal-footer').html(
-    `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button class="save-btn" hashtag-id="${hashtagId}">저장</button>`,
+    `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button type="sumbit" class="btn btn-dark save-btn" hashtag-id="${hashtagId}">저장</button>`,
   );
 });
 $('#editedHashtag').focus(function () {

@@ -1,3 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+* {
+  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Jua', sans-serif;
+}
+
 .button-contaier {
   margin-top: 1rem;
   width: 100%;
@@ -9,26 +16,108 @@
   min-width: 100px;
 }
 
-.posts-table {
-  margin-top: 2rem;
-  border-collapse: collapse;
+p {
+  font: bold 11px arial;
+  font-size: 2rem;
+  text-align: center;
+}
 
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 트랙 배경색 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바 색상 */
+  border-radius: 5px; /* 스크롤바 둥글기 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 스크롤바에 마우스 호버 시 색상 */
+}
+
+/* 게시물 블락 테이블 */
+.blockPost-container {
+  overflow: auto;
+  max-height: 350px; /* 원하는 높이로 조정 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 3rem;
   min-width: 200px;
   max-width: 900px;
+  border-radius: 10px;
+  overflow-x: hidden;
 }
 
-.posts-table thead {
-  background-color: rgb(207, 207, 207);
+.blockPost-container table {
+  border: 1px #a39485 solid;
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
 }
 
-.posts-table th,
-.posts-table td {
-  width: 300px;
-  border: 1px solid black;
-  padding: 8px;
-  text-align: center;
+.blockPost-container th {
+  text-align: left;
+}
+
+.blockPost-container th:first-child {
+  width: 200px;
+}
+
+.blockPost-container th:nth-child(2) {
+  width: 200px;
+}
+
+.blockPost-container td:first-child {
+  word-break: break-all; /* 줄바꿈 처리 */
+}
+
+.blockPost-container thead {
+  font-weight: bold;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.blockPost-container td,
+.blockPost-container th {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.blockPost-container button {
+  min-width: 60px;
+  min-height: 50px;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.blockPost-container td {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition:
+    transform 0.15s,
+    background-color 0.2s; /* 호버 효과 시간 설정 */
+}
+
+.blockPost-container td:hover {
+  transform: scale(1.02); /* 호버 시 약간 크기를 늘림 */
+  background-color: #f0f0f0;
+}
+
+.blockPost-container a {
+  color: #000000;
 }
 
 .comments-table {
@@ -51,4 +140,81 @@
   border: 1px solid black;
   padding: 8px;
   text-align: center;
+}
+
+/* 댓글 블락 테이블 */
+.blockComment-container {
+  overflow: auto;
+  max-height: 350px; /* 원하는 높이로 조정 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  min-width: 200px;
+  max-width: 900px;
+  border-radius: 10px;
+  overflow-x: hidden;
+}
+
+.blockComment-container table {
+  border: 1px #a39485 solid;
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+}
+
+.blockComment-container th {
+  text-align: left;
+}
+
+.blockComment-container th:first-child {
+  width: 200px;
+}
+
+.blockComment-container th:nth-child(2) {
+  width: 200px;
+}
+
+.blockComment-container th:nth-child(3) {
+  width: 240px;
+}
+
+.blockComment-container td:first-child {
+  word-break: break-all; /* 줄바꿈 처리 */
+}
+
+.blockComment-container thead {
+  font-weight: bold;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.blockComment-container td,
+.blockComment-container th {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.blockComment-container td {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition:
+    transform 0.15s,
+    background-color 0.2s; /* 호버 효과 시간 설정 */
+}
+
+.blockComment-container td:hover {
+  transform: scale(1.02); /* 호버 시 약간 크기를 늘림 */
+  background-color: #f0f0f0;
+}
+
+.blockComment-container a {
+  color: #000000;
 }

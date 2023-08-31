@@ -10,6 +10,17 @@ p {
   font-size: 25px;
 }
 
+.button-contaier {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.button-contaier button {
+  margin-right: 1rem;
+  min-width: 100px;
+}
+
 input {
   width: 250px;
   height: 35px;
@@ -33,7 +44,8 @@ input:hover {
   color: white;
   text-align: center;
   height: 300px;
-  margin: 40px;
+
+  margin-top: 2rem;
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -48,25 +60,6 @@ input:hover {
 .hashtags_input {
   border-radius: 20px;
   margin-bottom: 30px;
-}
-
-.write_btn,
-.save-btn,
-.cancel_btn {
-  display: inline-block;
-  padding: 7px 12px;
-  margin: 7px 7px 7px 7px;
-  background-color: #404452;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-}
-
-.write_btn:hover,
-.cancel_btn:hover {
-  background-color: #5b86ec;
-  color: white;
 }
 
 .hashtags_list {
@@ -109,27 +102,4 @@ input:hover {
 .hashtags_one h5 {
   text-align: center;
   margin-top: 8px;
-}
-
-.button-container {
-  display: inline-block;
-}
-
-.button-container button {
-  background-color: #404452;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  padding: 7px 12px;
-  cursor: pointer;
-  margin-left: 5px;
-}
-
-.button-container button:first-child {
-  margin-left: 0;
-}
-
-.button-container button:hover {
-  background-color: #5b86ec;
-  color: white;
 }
