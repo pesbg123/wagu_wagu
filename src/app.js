@@ -11,6 +11,8 @@ const userFollowRouter = require('./routes/userFollow.routes');
 const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
+
+require('./routes/test');
 const reportRouter = require('./routes/reports.routes');
 
 app.use(express.json());
