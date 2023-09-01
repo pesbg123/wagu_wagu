@@ -48,6 +48,14 @@ class PostsService {
     return findUserPostsData;
   };
 
+  findNicknamePosts = async (nickname) => {
+    const findNicknamePostsData = await this.usersRepository.findNicknamePosts(nickname);
+
+    const findUserPostsData = await this.postsRespository.findUserPosts(findNicknamePostsData.user_id);
+
+    return findUserPostsData;
+  };
+
   updatePost = async (id, user_id, title, ingredient, recipe, food_img) => {
     const updatePostData = await this.postsRespository.updatePost(id, user_id, title, ingredient, recipe, food_img);
 

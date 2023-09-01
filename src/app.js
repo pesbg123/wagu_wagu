@@ -34,6 +34,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
+app.post('/posts', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/createPost.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });

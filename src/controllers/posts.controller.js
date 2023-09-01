@@ -60,6 +60,20 @@ class PostsController {
     }
   };
 
+  findNicknamePosts = async (req, res) => {
+    try {
+      const { nickname } = req.query;
+
+      const findNicknamePostsData = await this.postsService.findNicknamePosts(nickname);
+
+      return res.status(200).json({ data: findNicknamePostsData });
+    } catch (error) {
+      console.error(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: '닉네임 게시글 조회에 실패하였습니다.' });
+    }
+  };
+
   updatePost = async (req, res, next) => {
     try {
       const { id } = req.params;
