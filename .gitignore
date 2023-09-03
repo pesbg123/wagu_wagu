@@ -13,3 +13,4 @@ config
 
 # ETC
 .env
+.eslintrc.js
