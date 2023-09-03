@@ -4,6 +4,9 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const IndexMiddleware = require('./middlewares/index.middleware');
+const indexMiddleware = new IndexMiddleware();
+
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
 const adminNoticeRouter = require('./routes/admin.notices.routes');
@@ -32,6 +35,10 @@ app.use('/api', [
 ]);
 
 app.use(express.static(path.join(__dirname, './public')));
+
+app.use((req, res, next) => {
+  indexMiddleware.indexToken(req, res, next);
+});
 
 // 메인
 app.get('/', (req, res) => {

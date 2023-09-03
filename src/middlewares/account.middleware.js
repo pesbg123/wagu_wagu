@@ -22,7 +22,7 @@ class AuthenticationMiddleware {
     });
 
     this.redisClient.on('connect', () => {
-      console.log('=== 레디스 연결 성공 ===');
+      console.log('=== account 레디스 연결 성공 ===');
     });
 
     this.redisClient.on('error', (error) => {
@@ -39,9 +39,9 @@ class AuthenticationMiddleware {
     return accessToken;
   };
 
-  isAdmin(req, res, next) {
+  isAdmin = async (req, res, next) => {
     try {
-      const authHeader = req.headers['authorization'];
+      const authHeader = req.headers.cookies['authorization'];
       let accessToken;
 
       if (authHeader) {
@@ -70,7 +70,7 @@ class AuthenticationMiddleware {
       }
       res.status(401).json({ message: '액세스 토큰 오류' });
     }
-  }
+  };
 
   authenticateAccessToken = async (req, res, next) => {
     try {
@@ -94,7 +94,7 @@ class AuthenticationMiddleware {
 
       const refreshToken = await redisCli.get(`userId:${req.user.id}`);
 
-      console.log('=== 레디스 연결 종료 ===');
+      console.log('=== account access 레디스 연결 종료 ===');
 
       // 레디스 클라이언트 해제
       this.redisClient.quit();
@@ -122,7 +122,7 @@ class AuthenticationMiddleware {
 
       const refreshToken = await redisCli.get(`userId:${req.user.id}`);
 
-      console.log('=== 레디스 연결 종료 ===');
+      console.log('=== account refresh 레디스 연결 종료 ===');
 
       // 레디스 클라이언트 해제
       this.redisClient.quit();

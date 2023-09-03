@@ -18,6 +18,8 @@
 //     window.location.href = '/';
 //   }
 // }
+// 이었는데 로그인 로직 변경으로 위 로직 필요없음.
+//
 
 const wrapper = document.querySelector('.wrapper');
 const loginLink = document.querySelector('.login-link');
@@ -48,7 +50,7 @@ registerForm.addEventListener('submit', async (event) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        loginId: id,
+        email: id,
         password: password,
       }),
     });
@@ -82,14 +84,37 @@ loginForm.addEventListener('submit', async (event) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        loginId: id,
+        email: id,
         password: password,
       }),
     });
 
     if (response.ok) {
       // 로그인 성공시 페이지 이동
-      window.location.href = './index.js';
+      // 서버 응답에서 Authorization 헤더를 가져옴
+      const authHeader = response.headers.get('Authorization');
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        const now = new Date();
+        const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
+        const cookieExpirationDate = oneHourLater.toUTCString();
+        document.cookie = `Authorization=${authHeader}; path=/; expires=${cookieExpirationDate}; Secure; SameSite=Strict`;
+        console.log(document.cookie);
+        // 쿠키에서 액세스 토큰을 가져올 때는 다음과 같이 사용
+        // const storedAccessToken = getCookie('accessToken');
+        // 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+        // function getCookie(name) {
+        //   const cookies = document.cookie.split(';');
+        //   for (const cookie of cookies) {
+        //     const [cookieName, cookieValue] = cookie.split('=');
+        //     if (cookieName.trim() === name) {
+        //       return cookieValue;
+        //     }
+        //   }
+        //   return null;
+        // }
+      }
+
+      window.location.href = '/';
     } else {
       const data = await response.json();
       alert(`로그인 실패: ${data.message}`);
