@@ -23,6 +23,18 @@ class AccountRepository {
     return user;
   };
 
+  isAdmin = async (userId) => {
+    const user = await Users.findOne({
+      where: { id: userId },
+    });
+
+    if (user.is_admin === true) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   // updateUserLoginId = async (userId, newLoginId) => {
   //   await Users.update({ email: newLoginId }, { where: { id: userId } });
   // };
