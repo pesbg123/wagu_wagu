@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const axios = require('axios'); // Axios 패키지를 가져옵니다.
 
+const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
 const adminNoticeRouter = require('./routes/admin.notices.routes');
 const postLikeRouter = require('./routes/postLike.routes');
@@ -17,7 +18,18 @@ require('./routes/test');
 
 app.use(express.json());
 
-app.use('/api', [adminNoticeRouter, hashTagRouter, postLikeRouter, userFollowRouter, adminUserBanRouter, postRouter, reportRouter, commentsRouter]);
+app.use('/api', [
+  accountRouter,
+  adminNoticeRouter,
+  hashTagRouter,
+  postLikeRouter,
+  userFollowRouter,
+  hashTagRouter,
+  adminUserBanRouter,
+  postRouter,
+  reportRouter,
+  commentsRouter,
+]);
 
 app.use(express.static(path.join(__dirname, './public')));
 
