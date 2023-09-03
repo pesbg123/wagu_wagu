@@ -10,6 +10,7 @@ module.exports = {
     ecmaVersion: 13,
   },
   rules: {
-    'prettier/prettier': ['error', { printWidth: 150 }], // 줄바꿈 150 적용을 위해 해당 부분 추가
+    'prettier/prettier': ['error', { printWidth: 150, endOfLine: 'auto' }], // 줄바꿈 150 적용을 위해 해당 부분 추가
+    
   },
 };
