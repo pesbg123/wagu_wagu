@@ -1,3 +1,24 @@
+// 처음 페이지 로드될 때 쓰는 함수를 사용하거나 ex)document.addEventListener 에 아래 로직을 적용시켜야 함
+// 사용하지 않는다면 해당 페이지의 모든 API통신에 아래 로직을 적용 시켜야 함
+// if (response.ok) {
+// } else {
+//   const data = await response.json();
+//   if (data.message === '관리자 권한이 필요합니다.') {
+//     alert('로그인이 필요한 기능입니다.');
+//     window.location.href = '/';
+//   }
+//   if (data.message === '액세스 토큰 오류') {
+//     alert('로그인이 필요한 기능입니다.');
+//     window.location.href = '/';
+//   } else if (data.message === '리프레시 토큰 만료') {
+//     alert('로그인이 필요한 기능입니다.');
+//     window.location.href = '/';
+//   } else if (data.message === '리프레시 토큰 오류') {
+//     alert('로그인이 필요한 기능입니다.');
+//     window.location.href = '/';
+//   }
+// }
+
 const wrapper = document.querySelector('.wrapper');
 const loginLink = document.querySelector('.login-link');
 const registerLink = document.querySelector('.register-link');
