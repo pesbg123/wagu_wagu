@@ -23,6 +23,67 @@
 </head>
 
 <body>
+    <div class="button-contaier">
+        <button type="submit" id="go-back-index" class="btn btn-dark">뒤로 가기</button>
+    </div>
+
+    <p>유저 목록</p>
+    <div class="userTable-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>닉네임</th>
+                    <th>이메일</th>
+                    <th>계정 상태</th>
+                    <th>가입일자</th>
+                    <th>탈퇴일자</th>
+                    <th>
+                        <div class="table-btn-container"><input placeholder=" 닉네임 입력" /><button type="submit"
+                                class="search-btn">검색</button>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="user-list-body">
+
+                <!-- <tr>
+                    <td>이름이당</td>
+                    <td>test@test.com</td>
+                    <td>2023-09-01</td>
+                    <td><button type="submit" id="user-ban-btn" class="btn btn-dark">유저 밴</button></td>
+                </tr> -->
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+    <!-- 수정 모달 -->
+    <div class="modal fade" id="ban-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal-extended">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">밴 유저 등록</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="banned-reason" class="form-label">밴 사유</label>
+                            <textarea class="form-control input-height" id="banned-reason"
+                                placeholder="밴 사유를 입력하세요"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-dark save-btn">유저 밴</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 

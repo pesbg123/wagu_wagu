@@ -182,3 +182,11 @@ textarea::-webkit-scrollbar-thumb:hover {
   margin-right: 1rem;
   min-width: 100px;
 }
+
+.modal-body {
+  height: 500px;
+}
+
+#editedNotice {
+  height: 400px;
+}
