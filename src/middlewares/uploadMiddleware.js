@@ -1,20 +1,22 @@
-const AWS = require('aws-sdk');
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 require('dotenv').config();
 const path = require('path');
 
-const s3 = new AWS.S3({
+const s3Client = new S3Client({
   region: process.env.S3_BUCKET_REGION,
-  accessKeyId: process.env.S3_ACCESS_KEY,
-  secretAccessKey: process.env.S3_SECRET_KEY,
+  credentials: {
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    secretAccessKey: process.env.S3_SECRET_KEY,
+  },
 });
 
 const allowedExtensions = ['.png', '.jpg', '.jpeg', '.bmp'];
 
 const upload = multer({
   storage: multerS3({
-    s3: s3,
+    s3: s3Client,
     bucket: process.env.BUCKET_NAME,
     acl: 'public-read-write',
     key: (req, file, cb) => {
@@ -23,7 +25,7 @@ const upload = multer({
       if (!allowedExtensions.includes(extension)) {
         return cb(new Error('wrong extension'));
       }
-      cb(null, `menuimage/${Date.now()}_${file.originalname}`);
+      cb(null, `food_img/${Date.now()}_${file.originalname}`);
     },
   }),
 });

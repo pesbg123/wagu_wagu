@@ -15,7 +15,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <header></header>
+    <header>
+      <div id="header"></div>
+    </header>
     <main>
       <div class="container mt-5">
         <h2 class="mb-4">레시피 작성하기</h2>
@@ -34,13 +36,15 @@
           </div>
           <div class="mb-3">
             <label for="recipeImage" class="form-label">요리 사진 첨부</label>
-            <input type="file" class="form-control" id="recipeImage" />
+            <input type="file" class="form-control" id="food_img" />
           </div>
           <button type="submit" class="btn btn-primary">작성 완료</button>
         </form>
       </div>
     </main>
-    <footer></footer>
+    <footer>
+      <div id="footer"></div>
+    </footer>
     <script src="./js/createPost.js"></script>
   </body>
 </html>
