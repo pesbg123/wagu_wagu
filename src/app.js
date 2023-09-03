@@ -5,6 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const axios = require('axios'); // Axios 패키지를 가져옵니다.
 
+const IndexMiddleware = require('./middlewares/index.middleware');
+const indexMiddleware = new IndexMiddleware();
+
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
 const adminNoticeRouter = require('./routes/admin.notices.routes');
@@ -48,6 +51,14 @@ app.post('/chatGPT', async (req, res) => {
   } else {
     res.status(500).json({ error: 'Failed to get response from ChatGPT API' });
   }
+  app.use((req, res, next) => {
+    indexMiddleware.indexToken(req, res, next);
+  });
+});
+
+// 메인
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.listen(PORT, () => {

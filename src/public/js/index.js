@@ -79,5 +79,5 @@ const io = new IntersectionObserver(async (entries, observer) => {
   });
 });
 
-const form = document.querySelector('#postForm');
-form.addEventListener('submit', post);
+// const form = document.querySelector('#postForm');
+// form.addEventListener('submit', post);
