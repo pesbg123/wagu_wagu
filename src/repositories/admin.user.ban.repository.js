@@ -21,21 +21,6 @@ class AdminUserBanRepository {
     });
   }
 
-  // GET all-banned-users
-  // async getAllBannedUsers() {
-  //   return await BannedUsers.findAll({
-  //     raw: true,
-  //     attributes: ['id', 'user_id', 'banned_reason', 'created_at'],
-  //     include: [
-  //       {
-  //         model: Users,
-  //         where: { id: Sequelize.col('BannedUsers.user_id') },
-  //         attributes: ['id', 'nickname', 'email'],
-  //       },
-  //     ],
-  //   });
-  // }
-
   // GET admin-user-ban-info - One
   async getBannedUser(id) {
     return await BannedUsers.findOne({ raw: true, where: { id } });

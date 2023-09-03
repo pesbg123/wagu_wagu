@@ -76,31 +76,6 @@ const convertToKST = (dateUTCString) => {
   return dateUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 };
 
-// 밴 유저 조회
-// const getBannedUsers = async () => {
-//   try {
-//     const response = await axios.get('/api/bannedUsers');
-//     console.log(response);
-
-//     let allHtml = '';
-//     response.data.forEach((item) => {
-//       const bannedDateUTC = new Date(item.created_at);
-//       const bannedDateKST = bannedDateUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
-//       let temphtml = `<tr>
-//                           <td>${item['User.nickname']}</td>
-//                           <td>${item['User.email']}</td>
-//                           <td>${item.banned_reason}</td>
-//                           <td>${bannedDateKST}</td>
-//                           <td><button type="submit" id="delete-userBan-btn" class="btn  btn-dark" banned-id="${item.id}">밴 취소</button></td>
-//                       </tr>`;
-//       allHtml += temphtml;
-//     });
-//     $('.banUser-list-body').html(allHtml);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
 // 유저 밴
 const createBanUser = async (user_id) => {
   try {

@@ -38,20 +38,6 @@ class AdminUserBanController {
     }
   }
 
-  // GET all-banned-users
-  // async getAllBannedUsers(req, res) {
-  //   try {
-  //     const allBannedUsers = await this.adminUserBanService.getAllBannedUsers();
-  //     return res.status(200).json(allBannedUsers);
-  //   } catch (error) {
-  //     console.log(error);
-  //     // 커스텀 에러
-  //     if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
-  //     // 서버에러
-  //     return res.status(500).json({ errorMessage: error.message });
-  //   }
-  // }
-
   // GET user-ban-history - All
   async getBanHistoryByUser(req, res) {
     try {

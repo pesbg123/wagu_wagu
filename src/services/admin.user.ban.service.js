@@ -23,12 +23,6 @@ class AdminUserBanService {
     return allUsers.length ? allUsers : [];
   }
 
-  // GET all-banned-users
-  // async getAllBannedUsers() {
-  //   const allBannedUsers = await this.adminUserBanRepository.getAllBannedUsers();
-  //   return allBannedUsers.length ? allBannedUsers : [];
-  // }
-
   // GET user-ban-history - All
   async getBanHistoryByUser(user_id) {
     const res = await this.adminUserBanRepository.getBanHistoryByUser(user_id);
