@@ -29,7 +29,7 @@ class AdminUserBanRepository {
 
   // GET admin-user-ban-info - All
   async getBanHistoryByUser(user_id) {
-    return await BannedUsers.findAll({ raw: true, paranoid: false, where: { user_id } });
+    return await BannedUsers.findOne({ raw: true, where: { user_id } });
   }
 
   // DELETE admin-user-ban

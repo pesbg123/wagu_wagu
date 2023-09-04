@@ -1,0 +1,49 @@
+.button-contaier {
+  display: flex;
+  justify-content: flex-end;
+}
+.button-contaier button {
+  margin-right: 1rem;
+  min-width: 80px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(65, 65, 65);
+  border-radius: 5px;
+}
+.button-contaier button:hover {
+  margin-right: 1rem;
+  min-width: 80px;
+  background-color: rgb(226, 226, 226);
+}
+
+h3 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+p {
+  text-align: center;
+}
+
+.notice-box {
+  margin-top: 50px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 800px;
+  min-width: 500px;
+  border-radius: 5px;
+  border: 1px solid #000;
+  border-color: rgb(0, 0, 0);
+  height: 550px;
+}
+
+.notice-card {
+  padding: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: rgb(223, 223, 223);
+  max-width: 650px;
+  min-width: 350px;
+  margin-bottom: 20px;
+  height: 400px;
+  border-radius: 5px;
+}

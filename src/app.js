@@ -70,6 +70,12 @@ app.get('/admin/user_ban', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.user.ban.html'));
 });
 
+// 공지 상세 페이지
+app.get('/notice/:notice_id', (req, res) => {
+  const { notice_id } = req.params;
+  res.sendFile(path.join(__dirname, './public/notice.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });

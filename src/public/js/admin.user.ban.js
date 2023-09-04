@@ -15,8 +15,6 @@ const getAllUsers = async () => {
     let allHtml = '';
 
     response.data.forEach((item) => {
-      console.log(item);
-
       allHtml += createUserRow(item);
     });
     $('.user-list-body').html(allHtml);
@@ -40,7 +38,7 @@ const createUserRow = (item) => {
   return `<tr>
             <td>${item.nickname}</td>
             <td>${item.email}</td>
-            <td><pre>${accountStatus}  ${statusSymbol}</pre></td>
+            <td id="account-status" user-id="${item.id}" is-banned="${item['BannedUsers.id']}"><pre>${accountStatus}  ${statusSymbol}</pre></td>
             <td>${createdDateKST}</td>
             <td>${deletedDateKST}</td>
             <td><button type="submit" id="user-ban-btn" user-id="${item.id}" class="btn btn-dark create-btn ${createBanClass}">유저 밴</button>
@@ -48,6 +46,21 @@ const createUserRow = (item) => {
             </td>
           </tr>`;
 };
+
+// 밴 사유 붙여주기
+$(document).on('click', '#account-status', async function () {
+  const userId = $(this).attr('user-id');
+  const isBanned = $(this).attr('is-banned');
+  if (isBanned === 'null') return;
+
+  const response = await axios.get(`/api/bannedUsers/${userId}`);
+  const tempHtml = ` <p id="banned-reason-content" class="form-control input-height">
+                      ${response.data.getBanHistoryByUser.banned_reason}
+                     </p>`;
+  $('.ban-reason-modal-body').html(tempHtml);
+
+  $('#ban-reason-modal').modal('show');
+});
 
 // 계정 상태 나눠주는 함수
 const getUserStatus = (item) => {
@@ -123,20 +136,26 @@ $(document).on('click', '.restore-btn', function () {
 // 유저 검색
 const searchUser = async () => {
   try {
-    const nickname = $('#search-input').val();
+    let nickname = $('#search-input').val();
     const response = await axios.get(`/api/users/search?nickname=${nickname}`);
-    console.log($('#search-input').val());
-    console.log(response);
 
-    // let allHtml = '';
+    let allHtml = '';
 
-    // response.data.forEach((item) => {
-    //   allHtml += createUserRow(item);
-    // });
-    // $('.user-list-body').html(allHtml);
+    response.data.forEach((item) => {
+      allHtml += createUserRow(item);
+    });
+
+    $('.user-list-body').html(allHtml);
   } catch (error) {
     console.log(error);
     alert(error.response.data.errorMessage);
   }
 };
 $('.search-btn').click(searchUser);
+// 엔터 쳐도 버튼 이벤트 동작
+$('#search-input').keypress(function (e) {
+  if (e.which == 13) {
+    e.preventDefault();
+    searchUser();
+  }
+});

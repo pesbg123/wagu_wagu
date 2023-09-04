@@ -27,8 +27,6 @@ router.get(
   adminUserBanController.getAllUsers.bind(adminUserBanController),
 );
 
-// router.get('/bannedUsers', adminUserBanController.getAllBannedUsers.bind(adminUserBanController));
-
 router.get(
   '/bannedUsers/:user_id',
   acountMiddleware.isAdmin,
