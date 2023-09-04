@@ -1,7 +1,5 @@
 const AdminNoticesService = require('../services/admin.notices.service');
 
-const user_id = 1; // temporary hardcoding
-
 class AdminNoticesController {
   constructor() {
     this.adminNoticesService = new AdminNoticesService();
@@ -11,7 +9,7 @@ class AdminNoticesController {
   async createAdminNotice(req, res) {
     try {
       const { content } = req.body;
-      // const { user_id } = req.user;
+      const { id: user_id } = req.user;
 
       if (!content) {
         return res.status(400).json({ errorMessage: '공지 내용을 입력해주세요.' });
