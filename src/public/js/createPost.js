@@ -18,18 +18,18 @@ $(document).ready(function () {
   $('form').submit(async function (event) {
     event.preventDefault();
 
-    const title = $('#recipeTitle').val();
+    const title = $('#title').val();
     const ingredient = $('#ingredient').val();
     const recipe = $('#recipe').val();
-    const imageFile = $('#food_img')[0].files[0];
-
-    console.log(imageFile);
+    const food_img = $('#food_img')[0].files[0];
 
     const formData = new FormData();
     formData.append('title', title);
     formData.append('ingredient', ingredient);
     formData.append('recipe', recipe);
-    formData.append('food_img', imageFile);
+    formData.append('food_img', food_img);
+
+    console.log(formData);
 
     try {
       const response = await axios.post('/api/posts', formData, {

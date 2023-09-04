@@ -9,7 +9,6 @@ class PostsController {
   createPost = async (req, res, next) => {
     try {
       // const { user_id } = req.user;
-      const { title, ingredient, recipe } = req.body;
 
       upload.single('food_img')(req, res, async (err) => {
         if (err) {
@@ -17,6 +16,8 @@ class PostsController {
           console.error(err);
           return res.status(500).json({ errorMessage: '이미지 업로드에 실패하였습니다.' });
         }
+
+        const { title, ingredient, recipe } = req.body;
 
         const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, req.file);
 
