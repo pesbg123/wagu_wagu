@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+* {
+  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Jua', sans-serif;
+}
+
+p {
+  color: black;
+  font-size: 25px;
+}
+
+input {
+  width: 250px;
+  height: 35px;
+  font-size: 15px;
+  border: 1px solid white;
+}
+
+input:hover {
+  background-color: rgb(241, 241, 241);
+}
+
+.btn-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
+.notices_box {
+  color: white;
+  text-align: center;
+  height: 400px;
+  margin-left: auto;
+  margin-top: 2rem;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  max-width: 1000px;
+  min-width: 300px;
+}
+
+.input-container {
+  position: relative; /* 상대 위치 지정 */
+  width: 100%;
+  height: 100%;
+}
+
+.background-img {
+  position: absolute; /* 절대 위치 지정 */
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-image: url('../img/wagu_cat.png');
+  filter: brightness(30%);
+
+  border-radius: 20px;
+  z-index: -1; /* 배경이 textarea 태그 아래에 위치하도록 함 */
+}
+
+.notices_input {
+  position: relative;
+  background-color: transparent !important; /* textarea 태그의 배경색을 강제로 투명하게 함 */
+  color: white;
+
+  padding: 1.5rem;
+  font-size: 1.5rem;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 20px;
+}
+.notices_input::placeholder {
+  color: rgb(232, 231, 231); /* 변경하고자 하는 색상 설정 */
+}
+
+textarea::-webkit-scrollbar {
+  width: 10px;
+  background-color: #000000;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #b3b3b3;
+  border-radius: 5px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background-color: #888888;
+}
+
+.notices_list {
+  background-color: #000000;
+  margin-top: 5rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4rem;
+  padding-top: 10px;
+  height: 600px;
+  border-radius: 20px;
+  overflow: auto;
+  max-width: 1000px;
+  min-width: 300px;
+}
+
+.notices_list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.notices_list::-webkit-scrollbar-thumb {
+  background-color: #bcbaba;
+  border-radius: 10px;
+}
+
+.notices_list::-webkit-scrollbar-track {
+  background-color: #000000;
+  border-radius: 5px;
+}
+
+.notices_one {
+  background-color: #eae9e9;
+  border-radius: 15px;
+  margin: 30px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.notices_one h5 {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  text-align: center;
+  margin-top: 8px;
+  white-space: pre-line; /* or pre-wrap */
+}
+.notice-content {
+  color: gray;
+}
+.btn-hidden {
+  display: none;
+}
+.hard-del-btn {
+  display: none;
+}
+.btn-show {
+  display: block;
+}
+@media (min-width: 486px) {
+  .notices_one {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.button-container {
+  width: 100%;
+}
+
+@media (min-width: 486px) {
+  .button-container {
+    width: auto;
+  }
+}
+
+.button-contaier {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.button-contaier button {
+  margin-right: 1rem;
+  min-width: 100px;
+}
+
+.modal-body {
+  height: 500px;
+}
+
+#editedNotice {
+  height: 400px;
+}

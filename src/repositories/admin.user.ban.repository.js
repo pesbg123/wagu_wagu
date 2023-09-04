@@ -1,4 +1,4 @@
-const { BannedUsers } = require('../models');
+const { BannedUsers, Users } = require('../models');
 
 class AdminUserBanRepository {
   // POST admin-user-ban
@@ -6,9 +6,24 @@ class AdminUserBanRepository {
     return await BannedUsers.create({ user_id, banned_reason });
   }
 
+  // GET all-users
+  async getAllUsers() {
+    return await Users.findAll({
+      paranoid: false,
+      raw: true,
+      attributes: ['id', 'nickname', 'email', 'deleted_at', 'created_at'],
+      include: [
+        {
+          model: BannedUsers,
+          attributes: ['banned_reason', 'id', 'created_at', 'deleted_at'],
+        },
+      ],
+    });
+  }
+
   // GET admin-user-ban-info - One
-  async getBannedUser(user_id) {
-    return await BannedUsers.findOne({ raw: true, where: { user_id } });
+  async getBannedUser(id) {
+    return await BannedUsers.findOne({ raw: true, where: { id } });
   }
 
   // GET admin-user-ban-info - All
@@ -17,8 +32,8 @@ class AdminUserBanRepository {
   }
 
   // DELETE admin-user-ban
-  async deleteBanUser(user_id) {
-    return await BannedUsers.destroy({ where: { user_id } });
+  async deleteBanUser(id) {
+    return await BannedUsers.destroy({ where: { id } });
   }
 }
 

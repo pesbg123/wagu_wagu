@@ -1,7 +1,10 @@
 const CommentsRepository = require('../repositories/comment.repository');
+const PostsRespository = require('../repositories/posts.repository');
+const CustomError = require('../errors/customError');
 
 class CommentsService {
   commentsRepository = new CommentsRepository();
+  postsRepository = new PostsRespository();
 
   // 전체 댓글 조회
   findComments = async (/*admin_id*/) => {
@@ -198,6 +201,29 @@ class CommentsService {
       return { code: 500, json: error.message };
     }
   };*/
+
+  blockComment = async (post_id, comment_id) => {
+    const existPost = await this.postsRepository.findOnePost(post_id);
+    const existComment = await this.commentsRepository.findComment(comment_id);
+    if (!existPost) throw new CustomError('해당 게시물이 존재하지 않습니다.', 404);
+    if (!existComment) throw new CustomError('해당 댓글이 존재하지 않습니다.', 404);
+
+    if (existComment.is_blocked === true) throw new CustomError('이미 블락된 댓글입니다.', 400);
+    const res = await this.commentsRepository.blockComment(comment_id);
+    if (!res) throw new Error('댓글 블락에 실패했습니다.');
+    return;
+  };
+
+  unblockComment = async (post_id, comment_id) => {
+    const existPost = await this.postsRepository.findOnePost(post_id);
+    const existComment = await this.commentsRepository.findComment(comment_id);
+    if (!existPost) throw new CustomError('해당 게시물이 존재하지 않습니다.', 404);
+    if (!existComment) throw new CustomError('해당 댓글이 존재하지 않습니다.', 404);
+
+    if (existComment.is_blocked === false) throw new CustomError('블락되지 않은 댓글입니다.', 400);
+    const res = await this.commentsRepository.unblockComment(comment_id);
+    if (!res) throw new Error('댓글 블락 취소에 실패했습니다.');
+  };
 }
 
 module.exports = CommentsService;

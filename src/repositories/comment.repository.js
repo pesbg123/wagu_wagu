@@ -1,10 +1,21 @@
-const { Comments, Users /*,AdminNotices*/ } = require('../models');
+const { Comments, Users, Posts /*,AdminNotices*/ } = require('../models');
 const { Op } = require('sequelize');
 
 class CommentsRepository {
   // 전체 댓글 조회
   findAll = async (/*admin_id*/) => {
-    return await Comments.findAll(/*{ where: { admin_id } }*/);
+    return await Comments.findAll({
+      include: [
+        {
+          model: Users,
+          attributes: ['nickname'],
+        },
+        {
+          model: Posts,
+          attributes: ['title', 'id'],
+        },
+      ],
+    });
   };
 
   // 댓글 게시물 조회
@@ -28,12 +39,10 @@ class CommentsRepository {
     });
   };
 
-  /* 댓글 조회
-  findComment = async ({ id }) => {
-    return await Comments.findOne({
-      where: { id },
-    });
-  };*/
+  // 댓글 조회
+  findComment = async (id) => {
+    return await Comments.findOne({ raw: true, where: { id } });
+  };
 
   // 댓글 생성
   createComment = async ({ user_id, post_id, content }) => {
@@ -115,5 +124,17 @@ class CommentsRepository {
     }
     throw new Error('삭제할 권한이 없습니다.');
   };*/
+
+  blockComment = async (id) => {
+    return Comments.update({ is_blocked: true }, { where: { id } });
+  };
+
+  unblockComment = async (id) => {
+    return Comments.update({ is_blocked: false }, { where: { id } });
+  };
+
+  commentReportCountIncrease = async (id, report_count) => {
+    return Comments.update({ report_count }, { where: { id } });
+  };
 }
 module.exports = CommentsRepository;

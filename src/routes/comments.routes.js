@@ -46,4 +46,8 @@ commentsRouter.delete(
 )
 commentsRouter.delete('/reply/:comment_id', /*auth.verifyAccessToken, commentsController.deleteReply)*/
 
+commentsRouter.patch('/posts/:post_id/comments/:comment_id/block', commentsController.blockComment);
+
+commentsRouter.patch('/posts/:post_id/comments/:comment_id/unblock', commentsController.unblockComment);
+
 module.exports = commentsRouter;

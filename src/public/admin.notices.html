@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 부트스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <!-- 모달 부트스트랩 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <!-- 제이쿼리 -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="/css/admin.notices.css" type="text/css" />
+    <!-- js -->
+    <script src="/js/admin.notice.js" defer></script>
+    <title>admin_notices</title>
+</head>
+
+<body>
+
+    <div class="button-contaier">
+        <button type="submit" id="go-back-reports" class="btn btn-dark cancel_btn">뒤로 가기</button>
+    </div>
+
+    <div class="notices_box">
+        <div class="input-container">
+            <div class="background-img"></div>
+            <textarea type="text" class="notices_input" placeholder="공지 내용을 입력해주세요"></textarea>
+            <button type="submit" class="btn btn-dark write_btn">등록 하기</button>
+        </div>
+    </div>
+
+    <!-- 공지 리스트 -->
+    <div class="notices_list">
+
+        <!-- <div class="notices_one">
+            <h5>응애 공지다</h5>
+            <div class="button-container">
+                <button class="edit-btn">수정</button>
+                <button>삭제</button>
+            </div>
+        </div> -->
+
+    </div>
+
+    <!-- 수정 모달 -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal-extended">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">공지 수정</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="editedNotice" class="form-label">수정할 내용</label>
+                            <textarea class="form-control input-height" id="editedNotice"
+                                placeholder="수정할 내용을 입력하세요"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-dark save-btn">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
