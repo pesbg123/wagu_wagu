@@ -294,8 +294,31 @@
               <!-- <div id="footer"></div>
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script> -->
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-<script src="/js/index.js" defer></script>
+<<<<<<< HEAD <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
+  </script>
+  <script src="/js/index.js" defer></script>
+  =======
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="/js/index.js" defer></script>
+  <script>
+    async function fetchHeader() {
+      try {
+        const response = await fetch('header2.html');
+        if (!response.ok) {
+          throw new Error('헤더 로드 실패');
+        }
+        const html = await response.text();
+        document.getElementById('header').innerHTML = html;
+      } catch (error) {
+        console.error('헤더 로드 오류:', error);
+      }
+    }
+
+    fetchHeader();
+  </script>
+  >>>>>>> e4a9843ee57dd775db8def54d56eab9b6f3c4844
 
 </html>
