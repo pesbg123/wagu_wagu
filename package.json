@@ -28,7 +28,8 @@
     "iconv-lite": "^0.6.3",
     "mysql2": "^3.6.0",
     "nodemailer": "^6.9.4",
-    "redis": "^4.6.8",
+    "openai": "^4.4.0",
+    "redis": "^4.6.7",
     "sequelize": "^6.32.1"
   }
 }
