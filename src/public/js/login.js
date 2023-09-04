@@ -113,8 +113,13 @@ loginForm.addEventListener('submit', async (event) => {
         //   return null;
         // }
       }
+      // const data = await response.json();
 
-      window.location.href = '/';
+      if (data.admin === true) {
+        window.location.href = 'admin';
+      } else {
+        window.location.href = '/';
+      }
     } else {
       const data = await response.json();
       alert(`로그인 실패: ${data.message}`);

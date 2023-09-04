@@ -1,6 +1,18 @@
 $(document).ready(() => {
   getPosts();
+  fetchTestAPI();
+  setInterval(fetchTestAPI, 900000);
 });
+
+const fetchTestAPI = async () => {
+  try {
+    const response = await axios.get('/api/test');
+    // 통신 결과 처리
+    console.log('통신 결과:', response.data);
+  } catch (error) {
+    console.error('API 통신 오류:', error);
+  }
+};
 
 const getPosts = async () => {
   try {
