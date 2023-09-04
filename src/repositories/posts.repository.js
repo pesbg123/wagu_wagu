@@ -1,4 +1,4 @@
-const { Posts } = require('../models');
+const { Posts, Users } = require('../models');
 
 class PostsRespository {
   createPost = async (user_id, title, ingredient, recipe, food_img) => {
@@ -8,8 +8,15 @@ class PostsRespository {
   };
 
   findPosts = async () => {
-    const findPostsData = await Posts.findAll();
-
+    const findPostsData = await Posts.findAll({
+      raw: true,
+      include: [
+        {
+          model: Users,
+          attributes: ['nickname'],
+        },
+      ],
+    });
     return findPostsData;
   };
 
