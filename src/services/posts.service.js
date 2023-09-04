@@ -17,9 +17,9 @@ class PostsService {
       throw new CustomError('조리법을 입력해주세요.', 400);
     }
 
-    if (!food_img) {
-      throw new CustomError('요리 사진을 등록해주세요.', 400);
-    }
+    // if (!food_img) {
+    //   throw new CustomError('요리 사진을 등록해주세요.', 400);
+    // }
 
     const createPostData = await this.postsRespository.createPost(user_id, title, ingredient, recipe, food_img);
 
@@ -44,6 +44,14 @@ class PostsService {
     if (!findUserPostsData) {
       throw new CustomError('해당 사용자가 작성한 게시물이 존재하지 않습니다.', 404);
     }
+
+    return findUserPostsData;
+  };
+
+  findNicknamePosts = async (nickname) => {
+    const findNicknamePostsData = await this.usersRepository.findNicknamePosts(nickname);
+
+    const findUserPostsData = await this.postsRespository.findUserPosts(findNicknamePostsData.user_id);
 
     return findUserPostsData;
   };

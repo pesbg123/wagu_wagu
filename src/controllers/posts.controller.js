@@ -1,4 +1,5 @@
 const PostsService = require('../services/posts.service');
+const upload = require('../middlewares/uploadMiddleware');
 
 const user_id = 1;
 
@@ -8,11 +9,20 @@ class PostsController {
   createPost = async (req, res, next) => {
     try {
       // const { user_id } = req.user;
-      const { title, ingredient, recipe, food_img } = req.body;
 
-      const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, food_img);
+      upload.single('food_img')(req, res, async (err) => {
+        if (err) {
+          // 이미지 업로드 중 오류가 발생하면 오류 처리
+          console.error(err);
+          return res.status(500).json({ errorMessage: '이미지 업로드에 실패하였습니다.' });
+        }
 
-      return res.status(201).json({ message: '게시글을 생성하였습니다.', data: createPostData });
+        const { title, ingredient, recipe } = req.body;
+
+        const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, req.file);
+
+        return res.status(201).json({ message: '게시글을 생성하였습니다.', data: createPostData });
+      });
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
@@ -57,6 +67,20 @@ class PostsController {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
       return res.status(500).json({ errorMessage: '사용자 게시글 조회에 실패하였습니다.' });
+    }
+  };
+
+  findNicknamePosts = async (req, res) => {
+    try {
+      const { nickname } = req.query;
+
+      const findNicknamePostsData = await this.postsService.findNicknamePosts(nickname);
+
+      return res.status(200).json({ data: findNicknamePostsData });
+    } catch (error) {
+      console.error(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: '닉네임 게시글 조회에 실패하였습니다.' });
     }
   };
 

@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
 
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
@@ -15,6 +16,8 @@ const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use('/api', [
   accountRouter,
@@ -34,6 +37,10 @@ app.use(express.static(path.join(__dirname, './public')));
 // 메인
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.post('/posts', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/createPost.html'));
 });
 
 // 어드민 페이지
