@@ -97,7 +97,7 @@ loginForm.addEventListener('submit', async (event) => {
         const now = new Date();
         const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
         const cookieExpirationDate = oneHourLater.toUTCString();
-        document.cookie = `Authorization=${authHeader}; path=/; expires=${cookieExpirationDate}; Secure; SameSite=Strict`;
+        document.cookie = `Authorization=${authHeader}; path=/; expires=${cookieExpirationDate};`;
         console.log(document.cookie);
         // 쿠키에서 액세스 토큰을 가져올 때는 다음과 같이 사용
         // const storedAccessToken = getCookie('accessToken');
