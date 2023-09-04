@@ -68,7 +68,7 @@ class AccountController {
     }
   };
 
-  test = async (req, res) => {
+  verify = async (req, res) => {
     try {
       const header = req.headers.cookie;
       let accessToken;
@@ -78,8 +78,10 @@ class AccountController {
           accessToken = tokenParts[1];
         }
       }
+      return res.status(200).json({ message: '검증 성공' });
     } catch (error) {
       console.log(error);
+      res.status(500).json({ message: error.message });
     }
   };
 }

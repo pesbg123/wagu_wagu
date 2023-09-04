@@ -8,7 +8,7 @@ const env = process.env;
 //const AuthenticationMiddleware = require('../middlewares/auth.middleware');
 //const authMiddleware = new AuthenticationMiddleware();
 //router.post('/comments', authMiddleware.authenticateAccessToken, (req, res) => {}
-//어드민 API는 authMiddleware.authenticateAccessToken을 authMiddleware.isAdmin으로 변경
+//어드민 API는 authMiddleware.authenticateAccessToken쓰기 전에 authMiddleware.isAdmin을 추가해서 사용
 //유저아이디는 req.user로 받으면 됨.
 
 class AuthenticationMiddleware {
@@ -105,13 +105,13 @@ class AuthenticationMiddleware {
 
       const refreshToken = await redisCli.get(`userId:${req.user.id}`);
 
-      console.log('=== account access 레디스 연결 종료 ===');
+      // console.log('=== account access 레디스 연결 종료 ===');
 
-      // 레디스 클라이언트 해제
-      this.redisClient.quit();
+      // // 레디스 클라이언트 해제
+      // this.redisClient.quit();
 
       if (refreshToken === null) {
-        return this.authenticateRefreshToken(req, res, next);
+        return res.status(401).json({ message: '토큰이 만료되었습니다.' });
       }
 
       next();
@@ -133,13 +133,13 @@ class AuthenticationMiddleware {
 
       const refreshToken = await redisCli.get(`userId:${req.user.id}`);
 
-      console.log('=== account refresh 레디스 연결 종료 ===');
+      // console.log('=== account refresh 레디스 연결 종료 ===');
 
-      // 레디스 클라이언트 해제
-      this.redisClient.quit();
+      // // 레디스 클라이언트 해제
+      // this.redisClient.quit();
 
       if (!refreshToken) {
-        return res.status(401).json({ message: '리프레시 토큰이 없습니다.' });
+        return res.status(401).json({ message: '토큰이 만료되었습니다.' });
       }
 
       const verifiedToken = jwt.verify(refreshToken, env.REFRESH_KEY);
