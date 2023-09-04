@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+* {
+  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Jua', sans-serif;
+}
+
+.admin-btn-container {
+  margin-left: auto;
+  margin-right: auto;
+
+  min-width: 200px;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+}
+.admin-btn-container button {
+  min-width: 80px;
+  margin: 1rem;
+
+  max-height: 60px;
+  min-height: 30px;
+  border-radius: 10px;
+}

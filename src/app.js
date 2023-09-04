@@ -5,8 +5,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const axios = require('axios'); // Axios 패키지를 가져옵니다.
 
-const IndexMiddleware = require('./middlewares/index.middleware');
-const indexMiddleware = new IndexMiddleware();
+// const IndexMiddleware = require('./middlewares/index.middleware');
+// const indexMiddleware = new IndexMiddleware();
 
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
@@ -59,6 +59,36 @@ app.post('/chatGPT', async (req, res) => {
 // 메인
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// 어드민 페이지
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.index.html'));
+});
+
+// 어드민 notices 페이지
+app.get('/admin/notices', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.notices.html'));
+});
+
+// 어드민 hashtags 페이지
+app.get('/admin/hashtags', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.hashtags.html'));
+});
+
+// 어드민 reports 페이지
+app.get('/admin/reports', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.reports.html'));
+});
+
+// 어드민 block list 페이지
+app.get('/admin/block_list', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.block.html'));
+});
+
+// 어드민 user ban 페이지
+app.get('/admin/user_ban', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/admin.user.ban.html'));
 });
 
 app.listen(PORT, () => {

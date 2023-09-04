@@ -1,6 +1,85 @@
+function loadContent(elementId, url) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      document.getElementById(elementId).innerHTML = xhr.responseText;
+    }
+  };
+  xhr.send();
+}
+
+window.onload = function () {
+  loadContent('header', 'header.html');
+  // loadContent('footer', 'footer.html');
+
+  const loginBtn = document.getElementById('loginBtn');
+
+  console.log('🚀 ~ file: index.js:18 ~ loginBtn:', loginBtn);
+
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // 인증 응답을 처리하고 버튼을 조작하는 함수
+  function handleAuthenticationResponse(success) {
+    if (loginBtn && logoutBtn) {
+      if (success) {
+        // 인증 성공
+        loginBtn.style.display = 'none'; // 로그인 버튼 숨김
+        logoutBtn.style.display = 'block'; // 로그아웃 버튼 표시
+      } else {
+        // 인증 실패
+        loginBtn.style.display = 'block'; // 로그인 버튼 표시
+        logoutBtn.style.display = 'none'; // 로그아웃 버튼 숨김
+      }
+    }
+  }
+};
+
 $(document).ready(() => {
   getPosts();
+  // 쿠키에서 'Authorization' 값을 가져오는 함수
+  const getCookie = (name) => {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.trim().split('=');
+      if (cookieName === name) {
+        return cookieValue;
+      }
+    }
+    return null;
+  };
+
+  // 'Authorization' 쿠키를 가져옴
+  const authToken = getCookie('Authorization');
+
+  // 'Authorization' 쿠키가 존재할 때만 실행
+  if (authToken) {
+    fetchTestAPI(); // 초기 로드 시 한 번 실행
+    setInterval(fetchTestAPI, 900000); // 주기적으로 실행
+  }
 });
+
+// fetchTestAPI 함수 내에서 응답 상태에 따라 호출
+const fetchTestAPI = async () => {
+  try {
+    const response = await fetch('/api/verify', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      handleAuthenticationResponse(true); // 성공 처리
+    } else {
+      handleAuthenticationResponse(false); // 실패 처리
+      // const data = await response.json();
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    handleAuthenticationResponse(false); // 에러 처리
+  }
+};
 
 const getPosts = async () => {
   try {
