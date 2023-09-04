@@ -3,9 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// const IndexMiddleware = require('./middlewares/index.middleware');
-// const indexMiddleware = new IndexMiddleware();
+const bodyParser = require('body-parser');
 
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
@@ -15,11 +13,11 @@ const userFollowRouter = require('./routes/userFollow.routes');
 const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
-
-require('./routes/test');
 const reportRouter = require('./routes/reports.routes');
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use('/api', [
   accountRouter,
@@ -36,8 +34,13 @@ app.use('/api', [
 
 app.use(express.static(path.join(__dirname, './public')));
 
+// 메인
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.post('/posts', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/createPost.html'));
 });
 
 // 어드민 페이지
@@ -78,3 +81,46 @@ app.get('/food_page', (req, res) => {
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });
+
+// ChatGPT를 호출하는 비동기 함수를 정의합니다.
+// async function callChatGPT(prompt) {
+//   try {
+//     const response = await axios.post(
+//       'https://api.openai.com/v1/chat/completions',
+//       {
+//         prompt: prompt,
+//         max_tokens: 100,
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+//         },
+//       },
+//     );
+
+//     return response.data.choices[0].text;
+//   } catch (error) {
+//     console.error('Error calling ChatGPT API:', error);
+//     return null;
+//   }
+// }
+
+// '/ask' 경로의 GET 요청을 처리
+// app.get('/chatGPT', async function (req, res) {
+//   res.sendFile(path.join(__dirname, './public/chatGPT.html')); // askgpt.html 파일을 보내줍니다.
+// });
+
+// // '/ask' 경로의 POST 요청을 처리
+// app.post('/chatGPT', async (req, res) => {
+//   const prompt = req.body.prompt;
+//   const response = await callChatGPT(prompt);
+
+//   if (response) {
+//     res.json({ response: response });
+//   } else {
+//     res.status(500).json({ error: 'Failed to get response from ChatGPT API' });
+//   }
+//   app.use((req, res, next) => {
+//     indexMiddleware.indexToken(req, res, next);
+//   });
+// });
