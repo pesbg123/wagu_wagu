@@ -8,18 +8,20 @@ class PostsController {
 
   createPost = async (req, res, next) => {
     try {
-      // const { user_id } = req.user;
-
+      // 이미지 업로드를 위한 미들웨어로 처리
       upload.single('food_img')(req, res, async (err) => {
         if (err) {
-          // 이미지 업로드 중 오류가 발생하면 오류 처리
           console.error(err);
           return res.status(500).json({ errorMessage: '이미지 업로드에 실패하였습니다.' });
         }
 
         const { title, ingredient, recipe } = req.body;
 
-        const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, req.file);
+        // 이미지 파일의 경로나 URL을 추출하여 문자열로 저장
+        const food_img_path = req.file ? req.file.location : null;
+
+        // 이미지 파일 정보를 PostsService.createPost 메서드로 전달
+        const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, food_img_path);
 
         return res.status(201).json({ message: '게시글을 생성하였습니다.', data: createPostData });
       });
