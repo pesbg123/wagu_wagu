@@ -28,6 +28,10 @@ class AccountController {
 
       const tokens = await this.authService.logIn(email, password);
 
+      const isAdmin = await tokens.isAdmin;
+
+      // console.log('🚀 ~ file: account.controller.js:33 ~ AccountController ~ logIn= ~ isAdmin:', isAdmin);
+
       if (tokens.isAdmin === true) {
         return res.setHeader('Authorization', `Bearer ${tokens.accessToken}`).json({ admin: 'true' });
       } else {
