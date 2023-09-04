@@ -1,9 +1,12 @@
 async function verify() {
   try {
+    const authorization = getCookie('Authorization'); // Authorization 값을 가져옴
+
     const response = await fetch('/api/admin/verify', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: authorization,
       },
     });
 
