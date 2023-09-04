@@ -3,10 +3,9 @@ $(document).ready(() => {
   const noticeId = url.pathname.split('/')[2]; // '/notice/:id' 에서 id 값 추출
 
   getOneNotice(noticeId);
-});
-
-$('.go-back-btn').click(() => {
-  location.href = '/';
+  $('.go-back-btn').click(() => {
+    location.href = '/';
+  });
 });
 
 // 공지 상세

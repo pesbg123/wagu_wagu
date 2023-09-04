@@ -158,5 +158,15 @@ const io = new IntersectionObserver(async (entries, observer) => {
   });
 });
 
+// 공지 1
+$('#site-introduction').click(() => {
+  location.href = '/notice/24';
+});
+
+// 공지 2
+$('#site-rule').click(() => {
+  location.href = '/notice/25';
+});
+
 // const form = document.querySelector('#postForm');
 // form.addEventListener('submit', post);
