@@ -16,18 +16,10 @@
 
 //   const $ = cheerio.load(html);
 //   let $courseList = $('.theme_list.st2');
-//   // $courseList = $courseList.find('a');
-
-//   //  $courseList.each((idx, el) => {
-//   //   console.log($(el).html());
-//   // });
 
 //   $courseList.each(async (idx, node) => {
-//     // console.log($(node).html(), idx);
-
-//     // const recipeLink = $(node).find('.thumbnail').attr('href');
 //     const recipeLink = $(node).find('.thumbnail');
-//     // console.clear();
+
 //     recipeLink.each(async (idx, el) => {
 //       const recipeLink = $(el).attr('href');
 //       if (recipeLink) {

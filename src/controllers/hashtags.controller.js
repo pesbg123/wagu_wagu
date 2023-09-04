@@ -8,7 +8,8 @@ class AdminHashtagsController {
   async createHashtag(req, res) {
     try {
       const { hashtag } = req.body;
-      if (!hashtag) return res.status(400).json({ errorMessage: '해시테그를 입력해주세요.' });
+      if (hashtag === '#' || !hashtag || !hashtag.includes('#'))
+        return res.status(400).json({ errorMessage: '#으로 시작하는 해시테그를 입력해주세요.' });
 
       const newHashtag = await this.adminHashtagsService.createHashtag(hashtag);
       return res.status(200).json({ message: '해시테그 등록에 성공했습니다.', newHashtag });
@@ -48,6 +49,8 @@ class AdminHashtagsController {
     try {
       const { id } = req.params;
       const { hashtag } = req.body;
+      if (hashtag === '#' || !hashtag || !hashtag.includes('#'))
+        return res.status(400).json({ errorMessage: '#으로 시작하는 해시테그를 입력해주세요.' });
 
       await this.adminHashtagsService.updateHashtag(id, hashtag);
       return res.status(200).json({ message: '해시테그 수정에 성공했습니다.' });
