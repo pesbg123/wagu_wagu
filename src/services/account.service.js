@@ -54,6 +54,8 @@ class AccountService {
       throw { errorCode: 401, message: '비밀번호가 일치하지 않습니다.' };
     }
 
+    const isAdmin = this.authRepository.isAdmin(user.id);
+
     const accessToken = this.generateAccessToken(user);
     const refreshToken = this.generateRefreshToken(user);
 
@@ -87,7 +89,7 @@ class AccountService {
 
     await redisClient.v4.quit();
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, isAdmin };
   };
 
   logOut = async (accessToken) => {

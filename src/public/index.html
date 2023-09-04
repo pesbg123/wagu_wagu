@@ -14,7 +14,6 @@
      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
      <!-- axios -->
      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-     <script src="/js/index.js" defer ></script>
   </head>
   <body>
 
@@ -258,23 +257,6 @@
       integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
       crossorigin="anonymous"
     ></script>
-    
-    <script>
-      function loadContent(elementId, url) {
-          var xhr = new XMLHttpRequest();
-          xhr.open('GET', url, true);
-          xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                  document.getElementById(elementId).innerHTML = xhr.responseText;
-              }
-          };
-          xhr.send();
-      }
-  
-      window.onload = function() {
-          loadContent('header', 'header.html');
-          // loadContent('footer', 'footer.html');
-      };
-  </script>
+    <script src="/js/index.js" defer ></script>
 
 </html>
