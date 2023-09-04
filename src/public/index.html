@@ -258,5 +258,21 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/index.js" defer ></script>
+    <script>
+      async function fetchHeader() {
+            try {
+                const response = await fetch('header2.html');
+                if (!response.ok) {
+                    throw new Error('헤더 로드 실패');
+                }
+                const html = await response.text();
+                document.getElementById('header').innerHTML = html;
+            } catch (error) {
+                console.error('헤더 로드 오류:', error);
+            }
+        }
+
+        fetchHeader();
+    </script>
 
 </html>

@@ -116,7 +116,7 @@ loginForm.addEventListener('submit', async (event) => {
       const data = await response.json();
 
       if (data.admin === true) {
-        window.location.href = 'admin';
+        window.location.href = '/admin';
       } else {
         window.location.href = '/';
       }
