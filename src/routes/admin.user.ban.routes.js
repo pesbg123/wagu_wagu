@@ -7,6 +7,8 @@ router.post('/bannedUsers/:user_id', adminUserBanController.createUserBan.bind(a
 
 router.get('/users', adminUserBanController.getAllUsers.bind(adminUserBanController));
 
+router.get('/users/search', adminUserBanController.searchUsers.bind(adminUserBanController));
+
 // router.get('/bannedUsers', adminUserBanController.getAllBannedUsers.bind(adminUserBanController));
 
 router.get('/bannedUsers/:user_id', adminUserBanController.getBanHistoryByUser.bind(adminUserBanController));

@@ -36,9 +36,9 @@ app.use('/api', [
 
 app.use(express.static(path.join(__dirname, './public')));
 
-app.use((req, res, next) => {
-  indexMiddleware.indexToken(req, res, next);
-});
+// app.use((req, res, next) => {
+//   indexMiddleware.indexToken(req, res, next);
+// });
 
 // 메인
 app.get('/', (req, res) => {

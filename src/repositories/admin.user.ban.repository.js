@@ -1,4 +1,5 @@
 const { BannedUsers, Users } = require('../models');
+const { Op } = require('sequelize');
 
 class AdminUserBanRepository {
   // POST admin-user-ban
@@ -34,6 +35,21 @@ class AdminUserBanRepository {
   // DELETE admin-user-ban
   async deleteBanUser(id) {
     return await BannedUsers.destroy({ where: { id } });
+  }
+
+  // GET search-user
+  async searchUsers(nickname) {
+    const searchUser = await Users.findAll({
+      paranoid: false,
+      where: {
+        nickname: {
+          [Op.like]: `%${nickname}%`,
+        },
+      },
+      attributes: ['id', 'email', 'nickname', 'created_at', 'deleted_at'],
+    });
+    return searchUser;
+    return;
   }
 }
 

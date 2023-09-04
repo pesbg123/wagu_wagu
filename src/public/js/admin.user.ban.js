@@ -11,6 +11,8 @@ const getAllUsers = async () => {
     let allHtml = '';
 
     response.data.forEach((item) => {
+      console.log(item);
+
       allHtml += createUserRow(item);
     });
     $('.user-list-body').html(allHtml);
@@ -38,15 +40,13 @@ const createUserRow = (item) => {
             <td>${createdDateKST}</td>
             <td>${deletedDateKST}</td>
             <td><button type="submit" id="user-ban-btn" user-id="${item.id}" class="btn btn-dark create-btn ${createBanClass}">유저 밴</button>
-            <button type="submit" id="delete-userBan-btn" user-id="${item.id}" class="btn btn-secondary restore-btn ${restoreBanClass}">밴 취소</button>
+            <button type="submit" id="delete-userBan-btn" banned-id="${item['BannedUsers.id']}" class="btn btn-secondary restore-btn ${restoreBanClass}">밴 취소</button>
             </td>
           </tr>`;
 };
 
 // 계정 상태 나눠주는 함수
 const getUserStatus = (item) => {
-  console.log(item);
-
   if (item.deleted_at) {
     return {
       accountStatus: '탈퇴',
@@ -59,7 +59,7 @@ const getUserStatus = (item) => {
     return {
       accountStatus: '비활성화(밴)',
       statusSymbol: '🔴',
-      deletedDateKST: convertToKST(item['BannedUsers.created_at']),
+      deletedDateKST: '해당 없음',
     };
   }
 
@@ -81,6 +81,7 @@ const createBanUser = async (user_id) => {
   try {
     const response = await axios.post(`/api/bannedUsers/${user_id}`, { banned_reason: $('#banned-reason').val() });
     alert(response.data.message);
+    location.reload();
   } catch (error) {
     console.log(error);
     alert(error.response.data.errorMessage);
@@ -100,17 +101,38 @@ $(document).on('click', '#user-ban-btn', function () {
 });
 
 // 밴 취소
-// const deleteBanUser = async (id) => {
-//   try {
-//     const response = await axios.delete(`/api/bannedUsers/${id}`);
+const deleteBanUser = async (id) => {
+  try {
+    const response = await axios.delete(`/api/bannedUsers/${id}`);
 
-//     alert(response.data.message);
-//     location.reload();
-//   } catch (error) {
-//     console.log(error);
-//     alert(error.response.data.errorMessage);
-//   }
-// };
-// $(document).on('click', '#delete-userBan-btn', function () {
-//   deleteBanUser($(this).attr('banned-id'));
-// });
+    alert(response.data.message);
+    location.reload();
+  } catch (error) {
+    console.log(error);
+    alert(error.response.data.errorMessage);
+  }
+};
+$(document).on('click', '.restore-btn', function () {
+  deleteBanUser($(this).attr('banned-id'));
+});
+
+// 유저 검색
+const searchUser = async () => {
+  try {
+    const nickname = $('#search-input').val();
+    const response = await axios.get(`/api/users/search?nickname=${nickname}`);
+    console.log($('#search-input').val());
+    console.log(response);
+
+    // let allHtml = '';
+
+    // response.data.forEach((item) => {
+    //   allHtml += createUserRow(item);
+    // });
+    // $('.user-list-body').html(allHtml);
+  } catch (error) {
+    console.log(error);
+    alert(error.response.data.errorMessage);
+  }
+};
+$('.search-btn').click(searchUser);
