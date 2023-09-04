@@ -115,10 +115,10 @@ loginForm.addEventListener('submit', async (event) => {
       }
       const data = await response.json();
 
-      if (Boolean(data.admin) === true) {
-        // window.location.href = '/admin';
+      if (data.admin === 'true') {
+        window.location.href = '/admin';
       } else {
-        // window.location.href = '/';
+        window.location.href = '/';
       }
     } else {
       const data = await response.json();
