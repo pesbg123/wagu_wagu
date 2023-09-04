@@ -120,7 +120,7 @@ loginForm.addEventListener('submit', async (event) => {
       if (data.admin === true) {
         window.location.href = '/admin';
       } else {
-        window.location.href = '/';
+        // window.location.href = '/';
       }
     } else {
       const data = await response.json();
