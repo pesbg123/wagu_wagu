@@ -3,6 +3,10 @@ $(document).ready(() => {
   getAllUsers();
 });
 
+$('#go-back-index').click(() => {
+  location.href = '/admin';
+});
+
 // 유저 조회
 const getAllUsers = async () => {
   try {

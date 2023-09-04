@@ -3,16 +3,44 @@ const router = express.Router();
 const AdminUserBanController = require('../controllers/admin.user.ban.controller');
 const adminUserBanController = new AdminUserBanController();
 
-router.post('/bannedUsers/:user_id', adminUserBanController.createUserBan.bind(adminUserBanController));
+const AcountMiddleware = require('../middlewares/account.middleware');
+const acountMiddleware = new AcountMiddleware();
 
-router.get('/users', adminUserBanController.getAllUsers.bind(adminUserBanController));
+router.post(
+  '/bannedUsers/:user_id',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminUserBanController.createUserBan.bind(adminUserBanController),
+);
 
-router.get('/users/search', adminUserBanController.searchUsers.bind(adminUserBanController));
+router.get(
+  '/users/search',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminUserBanController.searchUsers.bind(adminUserBanController),
+);
+
+router.get(
+  '/users',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminUserBanController.getAllUsers.bind(adminUserBanController),
+);
 
 // router.get('/bannedUsers', adminUserBanController.getAllBannedUsers.bind(adminUserBanController));
 
-router.get('/bannedUsers/:user_id', adminUserBanController.getBanHistoryByUser.bind(adminUserBanController));
+router.get(
+  '/bannedUsers/:user_id',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminUserBanController.getBanHistoryByUser.bind(adminUserBanController),
+);
 
-router.delete('/bannedUsers/:id', adminUserBanController.deleteUserBan.bind(adminUserBanController));
+router.delete(
+  '/bannedUsers/:id',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminUserBanController.deleteUserBan.bind(adminUserBanController),
+);
 
 module.exports = router;

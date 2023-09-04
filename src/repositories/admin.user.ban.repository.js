@@ -10,8 +10,8 @@ class AdminUserBanRepository {
   // GET all-users
   async getAllUsers() {
     return await Users.findAll({
-      paranoid: false,
       raw: true,
+      paranoid: false,
       attributes: ['id', 'nickname', 'email', 'deleted_at', 'created_at'],
       include: [
         {
@@ -49,7 +49,6 @@ class AdminUserBanRepository {
       attributes: ['id', 'email', 'nickname', 'created_at', 'deleted_at'],
     });
     return searchUser;
-    return;
   }
 }
 

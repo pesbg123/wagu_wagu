@@ -18,7 +18,7 @@ router.get(
 );
 
 // findAll notice - not deleted
-router.get('/adminNotices', acountMiddleware.isAdmin, acountMiddleware.authenticateAccessToken, adminNotices.getAdminNotices.bind(adminNotices));
+router.get('/adminNotices', adminNotices.getAdminNotices.bind(adminNotices));
 
 // findAll notice - deleted  <- 일단 만들어둠
 router.get(
@@ -29,7 +29,7 @@ router.get(
 );
 
 // findOne notice - not deleted
-router.get('/adminNotices/:id', acountMiddleware.isAdmin, acountMiddleware.authenticateAccessToken, adminNotices.getAdminNotice.bind(adminNotices));
+router.get('/adminNotices/:id', adminNotices.getAdminNotice.bind(adminNotices));
 
 // update notice
 router.put(
