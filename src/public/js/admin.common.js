@@ -21,6 +21,18 @@ async function verify() {
   }
 }
 
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
+
 // 페이지가 처음 열릴 때 API 호출
 window.onload = verify;
 
