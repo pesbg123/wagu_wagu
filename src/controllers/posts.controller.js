@@ -1,4 +1,5 @@
 const PostsService = require('../services/posts.service');
+const upload = require('../middlewares/uploadMiddleware');
 
 const user_id = 1;
 
@@ -7,12 +8,23 @@ class PostsController {
 
   createPost = async (req, res, next) => {
     try {
-      // const { user_id } = req.user;
-      const { title, ingredient, recipe, food_img } = req.body;
+      // 이미지 업로드를 위한 미들웨어로 처리
+      upload.single('food_img')(req, res, async (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ errorMessage: '이미지 업로드에 실패하였습니다.' });
+        }
 
-      const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, food_img);
+        const { title, ingredient, recipe } = req.body;
 
-      return res.status(201).json({ message: '게시글을 생성하였습니다.', data: createPostData });
+        // 이미지 파일의 경로나 URL을 추출하여 문자열로 저장
+        const food_img_path = req.file ? req.file.location : null;
+
+        // 이미지 파일 정보를 PostsService.createPost 메서드로 전달
+        const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, food_img_path);
+
+        return res.status(201).json({ message: '게시글을 생성하였습니다.', data: createPostData });
+      });
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
@@ -57,6 +69,20 @@ class PostsController {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
       return res.status(500).json({ errorMessage: '사용자 게시글 조회에 실패하였습니다.' });
+    }
+  };
+
+  findNicknamePosts = async (req, res) => {
+    try {
+      const { nickname } = req.query;
+
+      const findNicknamePostsData = await this.postsService.findNicknamePosts(nickname);
+
+      return res.status(200).json({ data: findNicknamePostsData });
+    } catch (error) {
+      console.error(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: '닉네임 게시글 조회에 실패하였습니다.' });
     }
   };
 

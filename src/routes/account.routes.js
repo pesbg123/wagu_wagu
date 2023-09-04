@@ -8,7 +8,7 @@ const accountmiddleware = new Accountmiddleware();
 
 router.post('/signup', accountController.signUp);
 router.post('/login', accountController.logIn);
-router.post('/logout', accountmiddleware.authenticateAccessToken, accountController.logOut);
+router.post('/logout', accountController.logOut);
 router.get('/verify', accountmiddleware.authenticateAccessToken, accountController.verify);
 router.get('/admin/verify', accountmiddleware.isAdmin, accountmiddleware.authenticateAccessToken, accountController.verify);
 
