@@ -73,6 +73,11 @@ app.get('/admin/user_ban', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.user.ban.html'));
 });
 
+// food_page
+app.get('/food_page', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/food-page'));
+});
+
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });

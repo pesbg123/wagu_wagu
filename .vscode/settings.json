@@ -1,0 +1,46 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8"
+  },
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  },
+  "editor.tokenColorCustomizations": {
+    "comments": "#ffffff85"
+    // "comments": "#efdb0594"
+  },
+  "workbench.colorCustomizations": {
+    "editor.selectionHighlightBackground": "#f045026c",
+    "editor.wordHighlightBackground": "#c9e60b6c",
+    "editor.wordHighlightStrongBackground": "#0b34ea"
+    // "editor.findRangeHighlightBackground": "#f045026c"
+    // "editor.findRangeHighlightBackground": "#f045026c"
+    // "editor.findMatchHighlightBackground": "#f045026c"
+    // "editor.findMatchBackground": "#f045026c"
+    // "editor.lineHighlightBackground": "#f045026c"
+    // "editor.selectionBackground": "#fff"
+  },
+  "cSpell.ignorePaths": [
+    "config.json",
+    "package.json",
+    "tsconfig.json",
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    "README.md"
+  ],
+  "cSpell.words": [
+    "jsonify",
+    "middlewares",
+    "mogoose",
+    "nestjs",
+    "resave",
+    "sequelize",
+    "typeorm"
+  ]
+}
