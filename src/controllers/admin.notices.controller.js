@@ -1,16 +1,15 @@
 const AdminNoticesService = require('../services/admin.notices.service');
 
-const user_id = 1; // temporary hardcoding
-
 class AdminNoticesController {
   constructor() {
     this.adminNoticesService = new AdminNoticesService();
   }
 
-  // POST admin-notice
+  // ADMIN POST admin-notice
   async createAdminNotice(req, res) {
     try {
       const { content } = req.body;
+      const { id: user_id } = req.user;
 
       if (!content) {
         return res.status(400).json({ errorMessage: '공지 내용을 입력해주세요.' });
@@ -24,7 +23,19 @@ class AdminNoticesController {
     }
   }
 
-  // GET admin-notices ALL - not deleted
+  // ADMIN GET admin-page All notices
+  async getAdminNoticeList(req, res) {
+    try {
+      const adminNoticeList = await this.adminNoticesService.getAdminNoticeList();
+      return res.status(200).json(adminNoticeList);
+    } catch (error) {
+      console.log(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message, data: [] });
+      return res.status(500).json({ errorMessage: '공지 리스트 조회에 실패했습니다.' });
+    }
+  }
+
+  // USER GET admin-notices ALL - not deleted
   async getAdminNotices(req, res) {
     try {
       const adminNoticeList = await this.adminNoticesService.getAdminNotices();
@@ -37,7 +48,7 @@ class AdminNoticesController {
     }
   }
 
-  // GET admin-notices ALL - deleted
+  // ADMIN GET admin-notices ALL - deleted
   async getDeletedAdminNotices(req, res) {
     try {
       const deletedAdminNoticeList = await this.adminNoticesService.getDeletedAdminNotices();
@@ -65,7 +76,7 @@ class AdminNoticesController {
     }
   }
 
-  // PATCH admin-notice
+  // ADMIN PATCH admin-notice
   async updateAdminNotice(req, res) {
     try {
       const { content } = req.body;
@@ -83,12 +94,25 @@ class AdminNoticesController {
     }
   }
 
-  // DELETE admin-notice - soft delete
+  // ADMIN DELETE admin-notice - soft delete
   async deleteAdminNotice(req, res) {
     try {
       const { id } = req.params;
       await this.adminNoticesService.deleteAdminNotice(id);
       return res.status(200).json({ message: '공지 삭제에 성공했습니다.' });
+    } catch (error) {
+      console.log(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  }
+
+  // ADMIN DELETE admin-notice - hard delete
+  async hardDeleteAdminNotice(req, res) {
+    try {
+      const { id } = req.params;
+      await this.adminNoticesService.hardDeleteAdminNotice(id);
+      return res.status(200).json({ message: '공지 영구삭제에 성공했습니다.' });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ errorMessage: error.message });

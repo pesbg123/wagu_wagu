@@ -17,6 +17,12 @@ class AdminUserBanService {
     return res;
   }
 
+  // GET all-users
+  async getAllUsers() {
+    const allUsers = await this.adminUserBanRepository.getAllUsers();
+    return allUsers.length ? allUsers : [];
+  }
+
   // GET user-ban-history - All
   async getBanHistoryByUser(user_id) {
     const res = await this.adminUserBanRepository.getBanHistoryByUser(user_id);
@@ -26,14 +32,23 @@ class AdminUserBanService {
   }
 
   // DELETE admin-user-ban
-  async deleteUserBan(user_id) {
-    const existBanUser = await this.adminUserBanRepository.getBannedUser(user_id);
+  async deleteUserBan(id) {
+    const existBanUser = await this.adminUserBanRepository.getBannedUser(id);
     if (!existBanUser) throw new CustomError('밴 당하지 않은 유저입니다.', 400);
 
-    const res = await this.adminUserBanRepository.deleteBanUser(user_id);
+    const res = await this.adminUserBanRepository.deleteBanUser(id);
 
     if (!res) throw new Error('해당 유저를 밴 취소하는 과정에서 오류가 발생했습니다.');
-    return res;
+    return;
+  }
+
+  // GET search-user
+  async searchUsers(nickname) {
+    const searchUser = await this.adminUserBanRepository.searchUsers(nickname);
+
+    if (!searchUser.length) throw new CustomError('존재하지 않는 유저입니다.', 400);
+
+    return searchUser;
   }
 }
 module.exports = AdminUserBanService;

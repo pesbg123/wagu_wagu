@@ -1,0 +1,192 @@
+.button-contaier {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.button-contaier button {
+  margin-right: 1rem;
+  min-width: 100px;
+}
+
+p {
+  font: bold 11px arial;
+  font-size: 2rem;
+  text-align: center;
+}
+
+/* 게시물 테이블 */
+.posttable-container {
+  overflow: auto;
+  max-height: 350px; /* 원하는 높이로 조정 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  min-width: 200px;
+  max-width: 900px;
+  border-radius: 10px;
+  overflow-x: hidden;
+}
+
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 트랙 배경색 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바 색상 */
+  border-radius: 5px; /* 스크롤바 둥글기 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 스크롤바에 마우스 호버 시 색상 */
+}
+
+.posttable-container table {
+  border: 1px #a39485 solid;
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+}
+
+.posttable-container th {
+  text-align: left;
+}
+
+.posttable-container th:first-child {
+  width: 200px;
+}
+
+.posttable-container th:nth-child(2) {
+  width: 230px;
+}
+
+.posttable-container th:nth-child(3) {
+  width: 80px;
+}
+
+.posttable-container td:first-child {
+  word-break: break-all; /* 줄바꿈 처리 */
+}
+
+.posttable-container thead {
+  font-weight: bold;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.posttable-container td,
+.posttable-container th {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.posttable-container td {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition:
+    transform 0.15s,
+    background-color 0.2s; /* 호버 효과 시간 설정 */
+}
+
+.posttable-container td:hover {
+  transform: scale(1.02); /* 호버 시 약간 크기를 늘림 */
+  background-color: #f0f0f0;
+}
+
+.posttable-container a {
+  color: #000000;
+}
+
+/* 댓글 테이블 */
+.commentTable-container {
+  overflow: auto;
+  max-height: 350px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 200px;
+  max-width: 900px;
+  border-radius: 10px;
+  overflow-x: hidden;
+  margin-bottom: 3rem;
+}
+
+.commentTable-container table {
+  border: 1px #000000 solid;
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+}
+
+.commentTable-container th {
+  text-align: left;
+}
+
+.commentTable-container th:first-child {
+  width: 130px;
+}
+
+.commentTable-container th:nth-child(2) {
+  width: 200px;
+}
+
+.commentTable-container th:nth-child(3) {
+  width: 200px;
+}
+
+.commentTable-container th:nth-child(4) {
+  width: 80px;
+}
+
+.commentTable-container td:first-child {
+  word-break: break-all;
+}
+
+.commentTable-container thead {
+  font-weight: bold;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.commentTable-container td,
+.commentTable-container th {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.commentTable-container td {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition:
+    transform 0.15s,
+    background-color 0.2s;
+}
+
+.commentTable-container td:hover {
+  transform: scale(1.02);
+  background-color: #f0f0f0;
+}
+
+.commentTable-container a {
+  color: rgb(0, 0, 0);
+}

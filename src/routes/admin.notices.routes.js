@@ -2,25 +2,57 @@ const express = require('express');
 const router = express.Router();
 const AdminNotices = require('../controllers/admin.notices.controller');
 const adminNotices = new AdminNotices();
-// auth-middleware incomplete stage
-// admin-middleware incomplete stage
+
+const AcountMiddleware = require('../middlewares/account.middleware');
+const acountMiddleware = new AcountMiddleware();
 
 // create Notice
-router.post('/adminNotices', adminNotices.createAdminNotice.bind(adminNotices));
+router.post('/adminNotices', acountMiddleware.isAdmin, acountMiddleware.authenticateAccessToken, adminNotices.createAdminNotice.bind(adminNotices));
+
+// findAll all_Notice - admin page
+router.get(
+  '/admin/adminNotices',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminNotices.getAdminNoticeList.bind(adminNotices),
+);
 
 // findAll notice - not deleted
 router.get('/adminNotices', adminNotices.getAdminNotices.bind(adminNotices));
 
-// findAll notice - deleted
-router.get('/adminNotices/deleted', adminNotices.getDeletedAdminNotices.bind(adminNotices));
+// findAll notice - deleted  <- 일단 만들어둠
+router.get(
+  '/adminNotices/deleted',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminNotices.getDeletedAdminNotices.bind(adminNotices),
+);
 
 // findOne notice - not deleted
 router.get('/adminNotices/:id', adminNotices.getAdminNotice.bind(adminNotices));
 
 // update notice
-router.patch('/adminNotices/:id', adminNotices.updateAdminNotice.bind(adminNotices));
+router.put(
+  '/adminNotices/:id',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminNotices.updateAdminNotice.bind(adminNotices),
+);
 
-// delete notice
-router.delete('/adminNotices/:id', adminNotices.deleteAdminNotice.bind(adminNotices));
+// soft delete notice
+router.delete(
+  '/adminNotices/:id',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminNotices.deleteAdminNotice.bind(adminNotices),
+);
+
+// hard delete notice
+router.delete(
+  '/adminNotices/:id/delete',
+  acountMiddleware.isAdmin,
+  acountMiddleware.authenticateAccessToken,
+  adminNotices.hardDeleteAdminNotice.bind(adminNotices),
+);
 
 module.exports = router;

@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap');
+
+* {
+  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Jua', sans-serif;
+}
+
+p {
+  color: black;
+  font-size: 25px;
+}
+
+.button-contaier {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.button-contaier button {
+  margin-right: 1rem;
+  min-width: 100px;
+}
+
+.input-container {
+  min-height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input-container button {
+  min-width: 60px;
+  border: none;
+  height: 35px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: rgb(169, 169, 169);
+}
+.input-container button:hover {
+  background-color: #7a7a7a;
+}
+
+input {
+  width: 250px;
+  height: 35px;
+  font-size: 15px;
+  border: 1px solid white;
+}
+
+input:hover {
+  background-color: rgb(241, 241, 241);
+}
+
+.btn-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1rem;
+}
+
+.hashtags_box {
+  background-image: url('../img/wagu_cat.png');
+
+  color: white;
+  text-align: center;
+  height: 300px;
+
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  max-width: 1000px;
+  min-width: 300px;
+}
+
+.hashtags_input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.hashtags_list {
+  background-color: #000000;
+  margin: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  border-radius: 20px;
+  height: 500px;
+  overflow: auto;
+  max-width: 1000px;
+  min-width: 300px;
+}
+
+.hashtags_list::-webkit-scrollbar {
+  width: 12px;
+}
+
+.hashtags_list::-webkit-scrollbar-thumb {
+  background-color: #bcbaba;
+  border-radius: 10px;
+}
+
+.hashtags_list::-webkit-scrollbar-track {
+  background-color: #000000;
+  border-radius: 5px;
+}
+
+.hashtags_one {
+  background-color: #eae9e9;
+  border-radius: 15px;
+  margin: 30px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hashtags_one h5 {
+  text-align: center;
+  margin-top: 8px;
+}

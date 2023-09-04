@@ -1,0 +1,173 @@
+.button-contaier {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.button-contaier button {
+  margin-right: 1rem;
+  min-width: 100px;
+}
+
+p {
+  font: bold 11px arial;
+  font-size: 2rem;
+  text-align: center;
+}
+
+pre {
+  font-size: 1rem;
+}
+
+/* 유저 테이블 */
+.userTable-container {
+  overflow: auto;
+  max-height: 750px; /* 원하는 높이로 조정 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  min-width: 200px;
+  max-width: 1300px;
+  border-radius: 10px;
+  overflow-x: hidden;
+}
+
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 스크롤바 트랙 배경색 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바 색상 */
+  border-radius: 5px; /* 스크롤바 둥글기 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 스크롤바에 마우스 호버 시 색상 */
+}
+
+.userTable-container table {
+  border: 1px #a39485 solid;
+  font-size: 0.9em;
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+}
+
+.userTable-container th {
+  text-align: left;
+}
+
+.userTable-container th:first-child {
+  width: 150px;
+}
+
+.userTable-container th:nth-child(2) {
+  width: 170px;
+}
+
+.userTable-container th:nth-child(3) {
+  width: 100px;
+}
+.userTable-container th:nth-child(6) {
+  width: 40px;
+}
+.table-btn-container {
+  /* min-width: 200px; */
+  /* max-width: 20px; */
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  text-align: center;
+}
+
+input {
+  height: 38px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 0;
+  border: none;
+}
+.search-btn {
+  height: 38px;
+  min-width: 50px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 0;
+  border: none;
+  background-color: #5c6369;
+  color: white;
+}
+.search-btn:hover {
+  background-color: #363a3e;
+}
+
+.userTable-container th:nth-child(6) {
+  min-width: 200px;
+  max-width: 400px;
+}
+
+.userTable-container td:first-child {
+  word-break: break-all; /* 줄바꿈 처리 */
+}
+
+.userTable-container thead {
+  font-weight: bold;
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #000000;
+}
+
+.userTable-container td,
+.userTable-container th {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.userTable-container td {
+  padding: 1em 0.5em;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  background: #fff;
+  transition:
+    transform 0.15s,
+    background-color 0.2s; /* 호버 효과 시간 설정 */
+}
+
+.userTable-container td:hover {
+  transform: scale(1.02); /* 호버 시 약간 크기를 늘림 */
+  background-color: #f0f0f0;
+}
+
+.userTable-container a {
+  color: #000000;
+}
+
+.modal-body {
+  height: 500px;
+}
+
+.modal-body #banned-reason {
+  height: 400px;
+}
+
+.create-btn {
+  display: none;
+}
+.restore-btn {
+  display: none;
+}
+.show-create-ban-btn {
+  display: block;
+}
+.show-restore-ban-btn {
+  display: block;
+}
