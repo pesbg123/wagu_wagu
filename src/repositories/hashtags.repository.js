@@ -8,7 +8,10 @@ class AdminHashtagsRepository {
 
   // GET hashtags - all
   async getHashtags() {
-    return await Hashtags.findAll({ raw: true });
+    const hashtags = await Hashtags.findAll({ raw: true });
+    // 해시테그를 가나다 순으로 정렬하기 위해 sort 메서드 사용
+    hashtags.sort((a, b) => a.hashtag.localeCompare(b.hashtag));
+    return hashtags;
   }
 
   // GET hashtags - One
