@@ -27,14 +27,13 @@ $(document).ready(() => {
 
 const post_id = 1; // <- 테스트를 위해 하드코딩
 
-// 게시물 조회
 const getPosts = async (/*post_id*/) => {
   try {
     const response = await axios.get(`/api/posts/${post_id}`);
 
     let tempHtml = `<div class="resume-section-content">
                         <h2 class="mb-5">${response.data.data.title} 
-                            <button id="reportPostBtn" post-id="${response.data.data.id}">게시글 신고</button>
+                            <button class="reportPostBtn" data-post-id="${response.data.data.id}">게시글 신고</button>
                         </h2>
                         <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
                           <div class="flex-grow-1">
@@ -52,25 +51,28 @@ const getPosts = async (/*post_id*/) => {
                         </div>`;
 
     $('.posts').html(tempHtml);
-
-    $(document).on('click', '#reportPostBtn', function () {
-      console.log('reportPostBtn 클릭됨');
-      reportPost();
-    });
   } catch (error) {
     console.error(error);
   }
 };
 
 // 게시물 신고
-const reportPost = async () => {
+const reportPost = async (postId) => {
+  // postId 매개변수 추가
   try {
-    await axios.patch(`/api/posts/${post_id}/block`);
+    await axios.patch(`/api/posts/${postId}/block`);
     alert('게시글이 신고되었습니다.');
   } catch (error) {
     console.error(error);
   }
 };
+
+$(document).on('click', '.reportPostBtn', function () {
+  // 클래스 선택자로 변경
+  const postId = $(this).data('post-id'); // data-post-id 값을 가져옴
+  console.log(`게시글 ${postId} 신고 버튼 클릭됨`);
+  reportPost(postId); // postId 전달
+});
 
 // 댓글 조회
 const getComments = async () => {
@@ -220,25 +222,28 @@ const submitComment = async () => {
   }
 };
 
-// // 댓글 신고
-// $(document).on('click', 'button[comment-id]', function () {
-//   const comment_id = $(this).attr('comment-id');
-//   const reportReason = prompt('댓글을 신고하는 이유를 입력하세요.');
+// 댓글 신고
+$(document).on('click', 'button[comment-id]', function () {
+  const comment_id = $(this).attr('comment-id');
+  const reportReason = prompt('댓글을 신고하는 이유를 입력하세요.');
 
-//   if (reportReason !== null && reportReason.trim() !== '') {
-//     reportComment(comment_id, reportReason);
-//   }
-// });
+  if (reportReason !== null && reportReason.trim() !== '') {
+    reportComment(comment_id, reportReason);
+  }
+});
 
-// // 댓글을 서버에 신고
-// const reportComment = async (comment_id, reportReason) => {
-//   try {
-//     await axios.post(`/api/comments/${comment_id}/block`, {
-//       reason: reportReason,
-//     });
+// 댓글을 서버에 신고
+const reportComment = async (post_id, comment_id, reportReason) => {
+  try {
+    // 서버에 PATCH 요청을 보내 댓글을 신고
+    await axios.patch(`/api/posts/${post_id}/comments/${comment_id}/block`, {
+      reason: reportReason,
+    });
 
-//     alert('댓글이 성공적으로 신고되었습니다.');
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+    // 댓글이 성공적으로 신고되었을 때 알림을 띄움
+    alert('댓글이 성공적으로 신고되었습니다.');
+  } catch (error) {
+    console.error('댓글 신고 오류:', error);
+    // 오류 발생 시 오류 내용을 콘솔에 출력
+  }
+};
