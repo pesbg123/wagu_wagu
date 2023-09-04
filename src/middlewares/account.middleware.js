@@ -72,7 +72,10 @@ class AuthenticationMiddleware {
 
       const decodedToken = jwt.decode(accessToken);
 
-      if (this.authRepository.isAdmin(decodedToken.userId) === true) {
+      console.log('🚀 ~ file: account.middleware.js:75 ~ AuthenticationMiddleware ~ isAdmin= ~ decodedToken:', decodedToken);
+      // console.log(this.authRepository.isAdmin(decodedToken.userId));
+      const isAdmin = await this.authRepository.isAdmin(decodedToken.userId);
+      if (Boolean(isAdmin) === true) {
         next();
       } else {
         res.status(403).json({ message: '권한이 필요합니다.' });

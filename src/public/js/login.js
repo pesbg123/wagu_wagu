@@ -115,10 +115,8 @@ loginForm.addEventListener('submit', async (event) => {
       }
       const data = await response.json();
 
-      console.log('🚀 ~ file: login.js:118 ~ loginForm.addEventListener ~ data:', data.admin);
-
-      if (data.admin === true) {
-        window.location.href = '/admin';
+      if (Boolean(data.admin) === true) {
+        // window.location.href = '/admin';
       } else {
         // window.location.href = '/';
       }
