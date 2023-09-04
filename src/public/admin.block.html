@@ -1,12 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- 부트스트랩 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
     <!-- 제이쿼리 -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- axios -->
@@ -15,29 +18,29 @@
     <link rel="stylesheet" href="/css/admin.block.css" type="text/css" />
     <!-- js -->
     <script src="/js/admin.block.js" defer></script>
+    <script src="/js/admin.common.js"></script>
+
     <title>admin_block_list</title>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <div class="button-contaier">
-        <button type="submit" id="go-back-reports" class="btn btn-dark">뒤로 가기</button>
+      <button type="submit" id="go-back-reports" class="btn btn-dark">뒤로 가기</button>
     </div>
 
     <p>🚧 게시물 블락 목록 🚧</p>
     <div class="blockPost-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>작성자 닉네임</th>
-                    <th>블락된 게시물</th>
-                    <th>블락 조건</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody class="block-posts">
-
-                <!-- <tr>
+      <table>
+        <thead>
+          <tr>
+            <th>작성자 닉네임</th>
+            <th>블락된 게시물</th>
+            <th>블락 조건</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody class="block-posts">
+          <!-- <tr>
                     <td>JamesJamesJamesJamesJamesJamesJamesJamesJames
                     </td>
                     <td><a href="#">응애응애응애응애응애응애응애응애응애응애</a></td>
@@ -45,37 +48,33 @@
                         욕설</td>
                     <td> <button type="submit" id="post-unblock-btn" class="btn btn-dark">블락 취소</button></td>
                 </tr> -->
-
-            </tbody>
-        </table>
+        </tbody>
+      </table>
     </div>
 
     <p>🚧 댓글 블락 목록 🚧</p>
     <div class="blockComment-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>작성자 닉네임</th>
-                    <th>댓글이 달린 게시물</th>
-                    <th>블락된 댓글</th>
-                    <th>블락 조건</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody class="block-comments">
-
-                <tr>
-                    <td>작성자 닉네임1</td>
-                    <td>게시물1</td>
-                    <td>댓글1</td>
-                    <td>블락 사유블락 사유블락</td>
-                    <td> <button type="submit" id="comment-unblock-btn" class="btn btn-dark">블락 취소</button></td>
-                </tr>
-
-            </tbody>
-        </table>
+      <table>
+        <thead>
+          <tr>
+            <th>작성자 닉네임</th>
+            <th>댓글이 달린 게시물</th>
+            <th>블락된 댓글</th>
+            <th>블락 조건</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody class="block-comments">
+          <tr>
+            <td>작성자 닉네임1</td>
+            <td>게시물1</td>
+            <td>댓글1</td>
+            <td>블락 사유블락 사유블락</td>
+            <td><button type="submit" id="comment-unblock-btn" class="btn btn-dark">블락 취소</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <!-- 댓글 신고 리스트 끝 -->
-</body>
-
+  </body>
 </html>
