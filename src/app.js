@@ -73,6 +73,12 @@ app.get('/admin/user_ban', (req, res) => {
   res.sendFile(path.join(__dirname, './public/admin.user.ban.html'));
 });
 
+// 공지 상세 페이지
+app.get('/notice/:notice_id', (req, res) => {
+  const { notice_id } = req.params;
+  res.sendFile(path.join(__dirname, './public/notice.html'));
+});
+
 // food_page
 app.get('/food_page', (req, res) => {
   res.sendFile(path.join(__dirname, './public/food-page'));

@@ -59,8 +59,8 @@ class AccountController {
       }
 
       await this.authService.logOut(accessToken);
-
-      res.setHeader('Authorization', '').cookie;
+      console.log(1231234);
+      res.clearCookie('Authorization');
       return res.status(200).json({ message: '로그아웃 성공' });
     } catch (error) {
       if (error.errorCode) {
