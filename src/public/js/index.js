@@ -9,6 +9,7 @@ const getPosts = async () => {
 
     let allHtml = '';
     posts.forEach((item) => {
+      const cretedAt = convertToKST(item.created_at);
       let tempHtml = `
         <div class="col-md-4 mb-4">
           <div class="card shadow-sm">
@@ -17,10 +18,9 @@ const getPosts = async () => {
               <p class="card-text">${item.title}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">기본</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">기본</button>
+                  <p>${item['User.nickname']}</p>
                 </div>
-                <small class="text-body-secondary">${item.createdAt}</small>
+                <small class="text-body-secondary">${cretedAt}</small>
               </div>
             </div>
           </div>
@@ -34,8 +34,13 @@ const getPosts = async () => {
     const lastCard = document.querySelector('#card-list > .col-md-4:last-child');
     io.observe(lastCard);
   } catch (error) {
-    console.log(error);
+    console.log(error); 
   }
+};
+// 한국 시간으로 변환하는 함수
+const convertToKST = (dateUTCString) => {
+  const dateUTC = new Date(dateUTCString);
+  return dateUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 };
 
 let pageCount = 1;
@@ -50,6 +55,7 @@ const io = new IntersectionObserver(async (entries, observer) => {
         const cardList = document.getElementById('card-list');
 
         rows.forEach((row) => {
+          const createdAt = convertToKST(row.created_at);
           const card = document.createElement('div');
           card.classList.add('col-md-4', 'mb-4');
           card.innerHTML = `
@@ -59,10 +65,9 @@ const io = new IntersectionObserver(async (entries, observer) => {
                 <p class="card-text">${row.title}</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">무한</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">무한</button>
+                  <p>${row['User.nickname']}</p>
                   </div>
-                  <small class="text-body-secondary">${row.createdAt}</small>
+                  <small class="text-body-secondary">${createdAt}</small>
                 </div>
               </div>
             </div>

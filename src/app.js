@@ -84,6 +84,12 @@ app.get('/food_page', (req, res) => {
   res.sendFile(path.join(__dirname, './public/food-page'));
 });
 
+// 좋아요 게시물 페이지
+app.get('/users/:user_id/liked_posts', (req, res) => {
+  const { user_id } = req.params;
+  res.sendFile(path.join(__dirname, './public/post.like.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });
