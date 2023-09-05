@@ -8,6 +8,7 @@ class PostsController {
 
   createPost = async (req, res, next) => {
     try {
+      // const { user_id } = req.user;
       // 이미지 업로드를 위한 미들웨어로 처리
       upload.single('food_img')(req, res, async (err) => {
         if (err) {
