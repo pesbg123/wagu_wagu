@@ -1,16 +1,21 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- 부트스트랩 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
     <!-- 모달 부트스트랩 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
     <!-- 제이쿼리 -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- axios -->
@@ -22,87 +27,83 @@
     <script src="/js/admin.common.js"></script>
 
     <title>admin_user_ban</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="button-contaier">
-        <button type="submit" id="go-back-index" class="btn btn-dark">뒤로 가기</button>
+      <button type="submit" id="go-back-index" class="btn btn-dark">뒤로 가기</button>
     </div>
 
     <p>유저 목록</p>
     <div class="userTable-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>닉네임</th>
-                    <th>이메일</th>
-                    <th>계정 상태</th>
-                    <th>가입일자</th>
-                    <th>탈퇴일자</th>
-                    <th>
-                        <div class="table-btn-container"><input id='search-input' placeholder=" 닉네임 입력" /><button
-                                type="submit" class="search-btn">검색</button>
-                        </div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="user-list-body">
-
-                <!-- <tr>
+      <table>
+        <thead>
+          <tr>
+            <th>닉네임</th>
+            <th>이메일</th>
+            <th>계정 상태</th>
+            <th>가입일자</th>
+            <th>탈퇴일자</th>
+            <th>
+              <div class="table-btn-container">
+                <input id="search-input" placeholder=" 닉네임 입력" /><button type="submit" class="search-btn">검색</button>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody class="user-list-body">
+          <!-- <tr>
                     <td>이름이당</td>
                     <td>test@test.com</td>
                     <td>2023-09-01</td>
                     <td><button type="submit" id="user-ban-btn" class="btn btn-dark">유저 밴</button></td>
                 </tr> -->
-            </tbody>
-        </table>
+        </tbody>
+      </table>
     </div>
 
     <!-- 수정 모달 -->
     <div class="modal fade" id="ban-modal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content modal-extended">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">밴 유저 등록</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="banned-reason" class="form-label">밴 사유</label>
-                            <textarea class="form-control input-height" id="banned-reason"
-                                placeholder="밴 사유를 입력하세요"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                    <button type="submit" class="btn btn-dark save-btn">유저 밴</button>
-                </div>
-            </div>
+      <div class="modal-dialog">
+        <div class="modal-content modal-extended">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">밴 유저 등록</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="banned-reason" class="form-label">밴 사유</label>
+                <textarea class="form-control input-height" id="banned-reason" placeholder="밴 사유를 입력하세요"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="submit" class="btn btn-dark save-btn">유저 밴</button>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- 밴 사유 모달 -->
     <div class="modal fade" id="ban-reason-modal" tabindex="-1" aria-labelledby="banModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content modal-extended">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="banModalLabel">밴 사유</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="ban-reason-modal-body">
-                    <!-- <p id="banned-reason-content" class="form-control input-height">
+      <div class="modal-dialog">
+        <div class="modal-content modal-extended">
+          <div class="modal-header">
+            <h5 class="modal-title" id="banModalLabel">밴 사유</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="ban-reason-modal-body">
+            <!-- <p id="banned-reason-content" class="form-control input-height">
                         밴사유입니다.밴사유입니다.밴사유입니다.밴사유입니다.밴사유입니다.밴사유입니다.밴사유입니다.밴사유입니다.밴사유입니다.밴사유입니다.
                     </p> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                </div>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
         </div>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>
