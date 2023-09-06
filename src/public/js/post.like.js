@@ -9,11 +9,41 @@ $(document).ready(() => {
 const getLikePosts = async (userId) => {
   try {
     const response = await axios.get(`/api/users/${userId}/liked_posts`);
-    console.log(response);
+    const posts = response.data.data.list;
+
+    let allHtml = '';
+    posts.forEach((item) => {
+      const createdAt = convertToKST(item.Post.created_at);
+      let tempHtml = `
+            <div class="col-md-4 mb-4">
+              <div class="card shadow-sm">
+                <img src="${item.Post.food_img}" alt="${item.Post.title}" class="card-img-top">
+                <div class="card-body">
+                  <p class="card-text">${item.Post.title}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <p>${item.Post.User.nickname}</p>
+                    </div>
+                    <small class="text-body-secondary">${createdAt}</small>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+
+      allHtml += tempHtml;
+    });
+
+    $('#card-list').append(allHtml);
   } catch (error) {
-    alert(error.response.data.errorMessage);
     console.error(error);
+    alert(error.response.data.data.errorMessage);
   }
+};
+
+// 한국 시간으로 변환하는 함수
+const convertToKST = (dateUTCString) => {
+  const dateUTC = new Date(dateUTCString);
+  return dateUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 };
 
 // const likeButton = document.getElementById('likeButton');

@@ -35,6 +35,8 @@
 
 //         const view_step_cont = recipe$('.view_step_cont.media').text();
 //         console.log('view_step_cont:', view_step_cont.trim());
+
+//         // const response = await axios.post('/api/crawledRecipes', {recipeTitle, recipeContent, view_step_cont})
 //       }
 //     });
 //   });
@@ -46,5 +48,5 @@
 // for (let page = 1; page <= totalPages; page++) {
 //   setTimeout(function () {
 //     parsing(keyword, page);
-//   }, 1000 * page);
+//   }, 5000 * page);
 // }
