@@ -49,14 +49,20 @@ class AccountController {
 
   logOut = async (req, res) => {
     try {
-      const header = req.headers.cookie;
-      let accessToken;
-      if (header) {
-        const tokenParts = header.split(' ');
-        if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
-          accessToken = tokenParts[1];
-        }
-      }
+      // const header = req.headers.cookie;
+      // let accessToken;
+      // if (header) {
+      //   const tokenParts = header.split(' ');
+      //   if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
+      //     accessToken = tokenParts[1];
+      //   }
+      // }
+
+      console.log('🚀 ~ file: account.controller.js:62 ~ AccountController ~ logOut= ~ headers:', req.headers);
+
+      const accessToken = req.headers.authorization;
+
+      console.log('🚀 ~ file: account.controller.js:63 ~ AccountController ~ logOut= ~ accessToken:', accessToken);
 
       await this.authService.logOut(accessToken);
       console.log(1231234);

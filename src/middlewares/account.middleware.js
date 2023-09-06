@@ -89,20 +89,17 @@ class AuthenticationMiddleware {
 
   authenticateAccessToken = async (req, res, next) => {
     try {
-      console.log(req.header);
-      console.log(req.header.cookie);
-      console.log(req.header.cookies);
       console.log(req.headers);
       console.log(req.headers.cookie);
       console.log(req.headers.cookies);
-      const header = req.headers.cookie;
-      let accessToken;
-      if (header) {
-        const tokenParts = header.split(' ');
-        if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
-          accessToken = tokenParts[1];
-        }
-      }
+      const accessToken = req.headers.authorization;
+      // let accessToken;
+      // if (header) {
+      //   const tokenParts = header.split(' ');
+      //   if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
+      //     accessToken = tokenParts[1];
+      //   }
+      // }
 
       res.locals.accessToken = accessToken;
 
