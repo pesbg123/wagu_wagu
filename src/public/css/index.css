@@ -1,0 +1,22 @@
+.custom-card {
+  width: 100%;
+  height: 510px;
+}
+#myCarousel {
+  height: 640px;
+}
+.card-img-top {
+  height: 200px;
+}
+.carousel-inner {
+  margin-bottom: 20px;
+}
+
+.carousel-item {
+  height: 600px;
+}
+
+#card-list {
+  width: 1350vw;
+  height: 700px;
+}
