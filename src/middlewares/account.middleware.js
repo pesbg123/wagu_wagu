@@ -10,6 +10,7 @@ const env = process.env;
 //router.post('/comments', authMiddleware.authenticateAccessToken, (req, res) => {}
 //어드민 API는 authMiddleware.authenticateAccessToken쓰기 전에 authMiddleware.isAdmin을 추가해서 사용
 //유저아이디는 req.user로 받으면 됨.
+//const {id} = req.user 안되면 const {userId} = req.user , 어드민기능도 동일
 
 class AuthenticationMiddleware {
   constructor() {
@@ -88,6 +89,12 @@ class AuthenticationMiddleware {
 
   authenticateAccessToken = async (req, res, next) => {
     try {
+      console.log(req.header);
+      console.log(req.header.cookie);
+      console.log(req.header.cookies);
+      console.log(req.headers);
+      console.log(req.headers.cookie);
+      console.log(req.headers.cookies);
       const header = req.headers.cookie;
       let accessToken;
       if (header) {
