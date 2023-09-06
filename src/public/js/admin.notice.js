@@ -4,10 +4,17 @@ $(document).ready(function () {
 });
 $('.cancel_btn').click(() => (location.href = '/admin'));
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 // 공지 목록 조회
 const getAdminNotices = async () => {
   try {
-    const response = await axios.get('/api/admin/adminNotices');
+    const response = await axios.get('http://localhost:3000/api/admin/adminNotices', headers);
 
     let allHtml = '';
     response.data.forEach((item) => {
@@ -51,7 +58,7 @@ const createAdminNotice = async () => {
       alert('공지 내용을 입력해주세요.');
       return;
     }
-    const response = await axios.post('/api/adminNotices', { content: $('.notices_input').val() });
+    const response = await axios.post('http://localhost:3000/api/adminNotices', { content: $('.notices_input').val() }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -67,7 +74,7 @@ const editAdminNotice = async (id) => {
     if (!editedNotice) {
       alert('수정할 공지 내용을 입력해주세요.');
     }
-    const response = await axios.put(`/api/adminNotices/${id}`, { content: editedNotice });
+    const response = await axios.put(`http://localhost:3000/api/adminNotices/${id}`, { content: editedNotice }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -81,7 +88,7 @@ $(document).on('click', '.save-btn', function () {
 // 공지 삭제 (soft delete)
 const deleteAdminNotice = async (id) => {
   try {
-    const response = await axios.delete(`/api/adminNotices/${id}`);
+    const response = await axios.delete(`http://localhost:3000/api/adminNotices/${id}`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -95,7 +102,7 @@ $(document).on('click', '.del-btn', function () {
 // 공지 영구 삭제 (hard delete)
 const hardDeleteAdminNotice = async (id) => {
   try {
-    const response = await axios.delete(`/api/adminNotices/${id}/delete`);
+    const response = await axios.delete(`http://localhost:3000/api/adminNotices/${id}/delete`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {

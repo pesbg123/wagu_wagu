@@ -3,6 +3,13 @@ $(document).ready(() => {
   getAllUsers();
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 $('#go-back-index').click(() => {
   location.href = '/admin';
 });
@@ -10,7 +17,7 @@ $('#go-back-index').click(() => {
 // 유저 조회
 const getAllUsers = async () => {
   try {
-    const response = await axios.get('/api/users');
+    const response = await axios.get('http://localhost:3000/api/users', headers);
 
     let allHtml = '';
 
@@ -53,7 +60,7 @@ $(document).on('click', '#account-status', async function () {
   const isBanned = $(this).attr('is-banned');
   if (isBanned === 'null') return;
 
-  const response = await axios.get(`/api/bannedUsers/${userId}`);
+  const response = await axios.get(`http://localhost:3000/api/bannedUsers/${userId}`, headers);
   const tempHtml = ` <p id="banned-reason-content" class="form-control input-height">
                       ${response.data.getBanHistoryByUser.banned_reason}
                      </p>`;
@@ -96,7 +103,7 @@ const convertToKST = (dateUTCString) => {
 // 유저 밴
 const createBanUser = async (user_id) => {
   try {
-    const response = await axios.post(`/api/bannedUsers/${user_id}`, { banned_reason: $('#banned-reason').val() });
+    const response = await axios.post(`http://localhost:3000/api/bannedUsers/${user_id}`, { banned_reason: $('#banned-reason').val() }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -120,7 +127,7 @@ $(document).on('click', '#user-ban-btn', function () {
 // 밴 취소
 const deleteBanUser = async (id) => {
   try {
-    const response = await axios.delete(`/api/bannedUsers/${id}`);
+    const response = await axios.delete(`http://localhost:3000/api/bannedUsers/${id}`, headers);
 
     alert(response.data.message);
     location.reload();
@@ -137,7 +144,7 @@ $(document).on('click', '.restore-btn', function () {
 const searchUser = async () => {
   try {
     let nickname = $('#search-input').val();
-    const response = await axios.get(`/api/users/search?nickname=${nickname}`);
+    const response = await axios.get(`http://localhost:3000/api/users/search?nickname=${nickname}`, headers);
 
     let allHtml = '';
 

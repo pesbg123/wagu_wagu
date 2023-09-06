@@ -4,12 +4,19 @@ $(document).ready(() => {
   getBlockComments();
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 $('#go-back-reports').click(() => (location.href = '/admin'));
 
 // 블락 게시글 조회
 const getBlockPost = async () => {
   try {
-    const response = await axios.get('/api/posts');
+    const response = await axios.get('http://localhost:3000/api/posts', headers);
 
     let allHtml = '';
     response.data.data.forEach((item) => {
@@ -33,7 +40,7 @@ const getBlockPost = async () => {
 // 블락 댓글 조회
 const getBlockComments = async () => {
   try {
-    const response = await axios.get('/api/comments');
+    const response = await axios.get('http://localhost:3000/api/comments', headers);
     let allHtml = '';
     response.data.data.forEach((item) => {
       if (item.is_blocked) {
@@ -57,7 +64,7 @@ const getBlockComments = async () => {
 // 게시물 블락 취소
 const restorePost = async (id) => {
   try {
-    const response = await axios.patch(`/api/posts/${id}/unblock`);
+    const response = await axios.patch(`http://localhost:3000/api/posts/${id}/unblock`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -73,7 +80,7 @@ $(document).on('click', '#post-unblock-btn', function () {
 // 댓글 블락 취소
 const restoreComment = async (postId, commentId) => {
   try {
-    const response = await axios.patch(`/api/posts/${postId}/comments/${commentId}/unblock`);
+    const response = await axios.patch(`http://localhost:3000/api/posts/${postId}/comments/${commentId}/unblock`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
