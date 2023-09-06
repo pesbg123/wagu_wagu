@@ -1,12 +1,12 @@
 async function verify() {
   try {
-    const authorization = getCookie('Authorization'); // Authorization 값을 가져옴
+    // const authorization = getCookie('WGID'); // Authorization 값을 가져옴
 
     const response = await fetch('/api/verify', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
+        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -79,8 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   console.log('🚀 ~ file: user.common.js:65 ~ document.addEventListener ~ logoutBtn:', logoutBtn);
 
+  console.log('123123', getCookie('WGID'));
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
+      event.preventDefault(); // 기본 동작 차단
+
       try {
         console.log(333);
 
@@ -88,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            authorization: `${getCookie('WGID')}`,
           },
         });
 
@@ -96,11 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           // 로그아웃 성공 시 필요한 작업 수행
           console.log(5555);
-          deleteCookie(Authorization);
-          // window.location.href = '/';
+          deleteCookie('WGID');
+          window.location.reload();
         } else {
           // 로그아웃 실패 처리
-          console.error('로그아웃 실패');
+          console.error('로그아웃 실패', error);
         }
       } catch (error) {
         // 에러 처리
@@ -113,4 +117,18 @@ document.addEventListener('DOMContentLoaded', () => {
 //쿠키삭제
 function deleteCookie(name) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+// 쿠키에서 액세스 토큰을 가져올 때는 다음과 같이 사용
+const storedAccessToken = getCookie('accessToken');
+//쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
 }
