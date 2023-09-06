@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
-app.post('/posts', (req, res) => {
+app.get('/posts', (req, res) => {
   res.sendFile(path.join(__dirname, './public/createPost.html'));
 });
 
@@ -82,7 +82,7 @@ app.get('/notice/:notice_id', (req, res) => {
 
 // food_page
 app.get('/food_page', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/food-page'));
+  res.sendFile(path.join(__dirname, './public/food_page.html'));
 });
 
 // 좋아요 게시물 페이지

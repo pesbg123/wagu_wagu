@@ -93,11 +93,16 @@ loginForm.addEventListener('submit', async (event) => {
       // 로그인 성공시 페이지 이동
       // 서버 응답에서 Authorization 헤더를 가져옴
       const authHeader = response.headers.get('Authorization');
+      const parts = authHeader.split(' ');
+      const WGID = parts[1];
+
+      console.log('🚀 ~ file: login.js:97 ~ loginForm.addEventListener ~ authHeader:', authHeader);
+
       if (authHeader && authHeader.startsWith('Bearer ')) {
         const now = new Date();
         const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
         const cookieExpirationDate = oneHourLater.toUTCString();
-        document.cookie = `Authorization=${authHeader}; path=/; expires=${cookieExpirationDate};`;
+        document.cookie = `WGID=${WGID}; path=/; expires=${cookieExpirationDate};`;
         console.log(document.cookie);
         // 쿠키에서 액세스 토큰을 가져올 때는 다음과 같이 사용
         // const storedAccessToken = getCookie('accessToken');
