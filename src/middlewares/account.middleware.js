@@ -58,14 +58,16 @@ class AuthenticationMiddleware {
 
   isAdmin = async (req, res, next) => {
     try {
-      const header = req.headers.cookie;
-      let accessToken;
-      if (header) {
-        const tokenParts = header.split(' ');
-        if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
-          accessToken = tokenParts[1];
-        }
-      }
+      // const header = req.headers.cookie;
+      // let accessToken;
+      // if (header) {
+      //   const tokenParts = header.split(' ');
+      //   if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
+      //     accessToken = tokenParts[1];
+      //   }
+      // }
+
+      const accessToken = req.headers.authorization;
 
       if (!accessToken) {
         return res.status(503).json({ message: '토큰이 존재하지 않습니다.' });

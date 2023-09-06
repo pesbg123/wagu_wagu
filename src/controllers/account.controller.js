@@ -94,6 +94,10 @@ class AccountController {
       res.status(500).json({ message: error.message });
     }
   };
+
+  // getProfile = async (req, res) => {
+
+  // }
 }
 
 module.exports = AccountController;
