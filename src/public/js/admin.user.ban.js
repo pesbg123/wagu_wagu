@@ -17,7 +17,7 @@ $('#go-back-index').click(() => {
 // 유저 조회
 const getAllUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/users', headers);
+    const response = await axios.get('https://xyz.waguwagu.online/api/users', headers);
 
     let allHtml = '';
 
@@ -60,7 +60,7 @@ $(document).on('click', '#account-status', async function () {
   const isBanned = $(this).attr('is-banned');
   if (isBanned === 'null') return;
 
-  const response = await axios.get(`http://localhost:3000/api/bannedUsers/${userId}`, headers);
+  const response = await axios.get(`https://xyz.waguwagu.online/api/bannedUsers/${userId}`, headers);
   const tempHtml = ` <p id="banned-reason-content" class="form-control input-height">
                       ${response.data.getBanHistoryByUser.banned_reason}
                      </p>`;
@@ -103,7 +103,11 @@ const convertToKST = (dateUTCString) => {
 // 유저 밴
 const createBanUser = async (user_id) => {
   try {
-    const response = await axios.post(`http://localhost:3000/api/bannedUsers/${user_id}`, { banned_reason: $('#banned-reason').val() }, headers);
+    const response = await axios.post(
+      `https://xyz.waguwagu.online/api/bannedUsers/${user_id}`,
+      { banned_reason: $('#banned-reason').val() },
+      headers,
+    );
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -127,7 +131,7 @@ $(document).on('click', '#user-ban-btn', function () {
 // 밴 취소
 const deleteBanUser = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:3000/api/bannedUsers/${id}`, headers);
+    const response = await axios.delete(`https://xyz.waguwagu.online/api/bannedUsers/${id}`, headers);
 
     alert(response.data.message);
     location.reload();
@@ -144,7 +148,7 @@ $(document).on('click', '.restore-btn', function () {
 const searchUser = async () => {
   try {
     let nickname = $('#search-input').val();
-    const response = await axios.get(`http://localhost:3000/api/users/search?nickname=${nickname}`, headers);
+    const response = await axios.get(`https://xyz.waguwagu.online/api/users/search?nickname=${nickname}`, headers);
 
     let allHtml = '';
 
@@ -166,3 +170,15 @@ $('#search-input').keypress(function (e) {
     searchUser();
   }
 });
+
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}

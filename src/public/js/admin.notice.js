@@ -14,7 +14,7 @@ const headers = {
 // 공지 목록 조회
 const getAdminNotices = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/admin/adminNotices', headers);
+    const response = await axios.get('https://xyz.waguwagu.online/api/admin/adminNotices', headers);
 
     let allHtml = '';
     response.data.forEach((item) => {
@@ -58,7 +58,7 @@ const createAdminNotice = async () => {
       alert('공지 내용을 입력해주세요.');
       return;
     }
-    const response = await axios.post('http://localhost:3000/api/adminNotices', { content: $('.notices_input').val() }, headers);
+    const response = await axios.post('https://xyz.waguwagu.online/api/adminNotices', { content: $('.notices_input').val() }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -74,7 +74,7 @@ const editAdminNotice = async (id) => {
     if (!editedNotice) {
       alert('수정할 공지 내용을 입력해주세요.');
     }
-    const response = await axios.put(`http://localhost:3000/api/adminNotices/${id}`, { content: editedNotice }, headers);
+    const response = await axios.put(`https://xyz.waguwagu.online/api/adminNotices/${id}`, { content: editedNotice }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -88,7 +88,7 @@ $(document).on('click', '.save-btn', function () {
 // 공지 삭제 (soft delete)
 const deleteAdminNotice = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:3000/api/adminNotices/${id}`, headers);
+    const response = await axios.delete(`https://xyz.waguwagu.online/api/adminNotices/${id}`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -102,7 +102,7 @@ $(document).on('click', '.del-btn', function () {
 // 공지 영구 삭제 (hard delete)
 const hardDeleteAdminNotice = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:3000/api/adminNotices/${id}/delete`, headers);
+    const response = await axios.delete(`https://xyz.waguwagu.online/api/adminNotices/${id}/delete`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -112,3 +112,15 @@ const hardDeleteAdminNotice = async (id) => {
 $(document).on('click', '.hard-del-btn', function () {
   hardDeleteAdminNotice($(this).attr('notice-id'));
 });
+
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}

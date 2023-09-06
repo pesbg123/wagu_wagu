@@ -22,7 +22,7 @@ $('.hashtags_input').focus(function () {
 // 해시테그 목록 조회
 const getHashtags = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/hashtags', headers);
+    const response = await axios.get('https://xyz.waguwagu.online/api/hashtags', headers);
 
     let allHtml = '';
     response.data.forEach((item) => {
@@ -66,7 +66,7 @@ const createHashtag = async () => {
       return;
     }
 
-    const response = await axios.post('http://localhost:3000/api/hashtags', { hashtag }, headers);
+    const response = await axios.post('https://xyz.waguwagu.online/api/hashtags', { hashtag }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -86,7 +86,7 @@ $('#hashtag_input').keypress(function (e) {
 // 해시테그 삭제
 const deleteHashtag = async (id) => {
   try {
-    const response = await axios.delete(`http://localhost:3000/api/hashtags/${id}`, headers);
+    const response = await axios.delete(`https://xyz.waguwagu.online/api/hashtags/${id}`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -107,7 +107,7 @@ const editHashtag = async (id) => {
       alert('#으로 시작하는 해시테그를 입력해주세요.');
       return;
     }
-    const response = await axios.put(`http://localhost:3000/api/hashtags/${id}`, { hashtag: editedHashtag }, headers);
+    const response = await axios.put(`https://xyz.waguwagu.online/api/hashtags/${id}`, { hashtag: editedHashtag }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -126,3 +126,15 @@ $('#editedHashtag').keypress(function (e) {
     editHashtag($('.save-btn').attr('hashtag-id'));
   }
 });
+
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
