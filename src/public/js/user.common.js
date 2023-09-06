@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // 로그아웃 성공 시 필요한 작업 수행
           console.log(5555);
           deleteCookie('WGID');
-          // window.location.href = '/';
+          window.location.reload();
         } else {
           // 로그아웃 실패 처리
           console.error('로그아웃 실패', error);
