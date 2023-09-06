@@ -4,12 +4,19 @@ $(document).ready(() => {
   getBlockComments();
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 $('#go-back-reports').click(() => (location.href = '/admin'));
 
 // 블락 게시글 조회
 const getBlockPost = async () => {
   try {
-    const response = await axios.get('/api/posts');
+    const response = await axios.get('https://xyz.waguwagu.online/api/posts', headers);
 
     let allHtml = '';
     response.data.data.forEach((item) => {
@@ -33,7 +40,7 @@ const getBlockPost = async () => {
 // 블락 댓글 조회
 const getBlockComments = async () => {
   try {
-    const response = await axios.get('/api/comments');
+    const response = await axios.get('https://xyz.waguwagu.online/api/comments', headers);
     let allHtml = '';
     response.data.data.forEach((item) => {
       if (item.is_blocked) {
@@ -57,7 +64,7 @@ const getBlockComments = async () => {
 // 게시물 블락 취소
 const restorePost = async (id) => {
   try {
-    const response = await axios.patch(`/api/posts/${id}/unblock`);
+    const response = await axios.patch(`https://xyz.waguwagu.online/api/posts/${id}/unblock`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -73,7 +80,7 @@ $(document).on('click', '#post-unblock-btn', function () {
 // 댓글 블락 취소
 const restoreComment = async (postId, commentId) => {
   try {
-    const response = await axios.patch(`/api/posts/${postId}/comments/${commentId}/unblock`);
+    const response = await axios.patch(`https://xyz.waguwagu.online/api/posts/${postId}/comments/${commentId}/unblock`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -86,3 +93,15 @@ $(document).on('click', '#comment-unblock-btn', function () {
   const commentId = $(this).attr('comment-id');
   restoreComment(postId, commentId);
 });
+
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}

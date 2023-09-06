@@ -8,10 +8,17 @@ $(document).ready(() => {
   });
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 // 공지 상세
 const getOneNotice = async (id) => {
   try {
-    const response = await axios.get(`/api/adminNotices/${id}`);
+    const response = await axios.get(`/api/adminNotices/${id}`, headers);
     const notice = response.data;
 
     let temphtml = `<p>${notice.content}</p>`;
@@ -22,3 +29,15 @@ const getOneNotice = async (id) => {
     alert(error.response.data.errorMessage);
   }
 };
+
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}

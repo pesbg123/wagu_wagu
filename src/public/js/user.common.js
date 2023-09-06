@@ -119,8 +119,6 @@ function deleteCookie(name) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
-// 쿠키에서 액세스 토큰을 가져올 때는 다음과 같이 사용
-const storedAccessToken = getCookie('accessToken');
 //쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
 function getCookie(name) {
   const cookies = document.cookie.split(';');
