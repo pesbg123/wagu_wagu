@@ -88,7 +88,7 @@ class PostsController {
   updatePost = async (req, res) => {
     try {
       const { id } = req.params;
-      // const { user_id } = req.user;
+      const { id: user_id } = req.user;
       const { title, ingredient, recipe, food_img } = req.body;
 
       await this.postsService.updatePost(id, user_id, title, ingredient, recipe, food_img);
@@ -104,7 +104,7 @@ class PostsController {
   deletePost = async (req, res) => {
     try {
       const { id } = req.params;
-      // const { user_id } = req.user;
+      const { id: user_id } = req.user;
 
       await this.postsService.deletePost(id, user_id);
 

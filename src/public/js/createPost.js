@@ -14,6 +14,17 @@ window.onload = function () {
   loadContent('footer', 'footer.html');
 };
 
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
+
 $(document).ready(function () {
   $('form').submit(async function (event) {
     event.preventDefault();
@@ -33,9 +44,10 @@ $(document).ready(function () {
       formData.append('food_img', food_img);
 
       try {
-        const response = await axios.post('/api/posts', formData, {
+        const response = await axios.post('http://localhost:3000/api/posts', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
+            authorization: `${getCookie('WGID')}`,
           },
         });
 
