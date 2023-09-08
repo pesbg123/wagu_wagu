@@ -3,6 +3,13 @@ $(document).ready(() => {
   getHashtags();
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 $('.cancel_btn').click(() => (location.href = '/admin'));
 
 // input 요소에 포커스가 들어왔을 때 '#' 자동 추가
@@ -15,7 +22,7 @@ $('.hashtags_input').focus(function () {
 // 해시테그 목록 조회
 const getHashtags = async () => {
   try {
-    const response = await axios.get('/api/hashtags');
+    const response = await axios.get('http://localhost:3000/api/hashtags', headers);
 
     let allHtml = '';
     response.data.forEach((item) => {
@@ -59,7 +66,7 @@ const createHashtag = async () => {
       return;
     }
 
-    const response = await axios.post('/api/hashtags', { hashtag });
+    const response = await axios.post('http://localhost:3000/api/hashtags', { hashtag }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -79,7 +86,7 @@ $('#hashtag_input').keypress(function (e) {
 // 해시테그 삭제
 const deleteHashtag = async (id) => {
   try {
-    const response = await axios.delete(`/api/hashtags/${id}`);
+    const response = await axios.delete(`http://localhost:3000/api/hashtags/${id}`, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
@@ -100,7 +107,7 @@ const editHashtag = async (id) => {
       alert('#으로 시작하는 해시테그를 입력해주세요.');
       return;
     }
-    const response = await axios.put(`/api/hashtags/${id}`, { hashtag: editedHashtag });
+    const response = await axios.put(`http://localhost:3000/api/hashtags/${id}`, { hashtag: editedHashtag }, headers);
     alert(response.data.message);
     location.reload();
   } catch (error) {
