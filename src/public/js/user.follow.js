@@ -21,9 +21,9 @@ const getFollowedUsers = async (userId) => {
       throw new Error('액세스 토큰 오류');
     }
 
-    const users = await response.json();
-
-    displayUsers(users.data); // 사용자 목록을 화면에 표시
+    const data = await response.json();
+    console.log(data);
+    displayUsers(data);
   } catch (error) {
     console.error(error);
     alert(error.message);
@@ -43,6 +43,7 @@ function getCookie(name) {
 }
 // 사용자 목록을 화면에 표시하는 함수
 function displayUsers(users) {
+  console.log(users);
   const userListContainer = $('#followed-users');
 
   if (!Array.isArray(users)) {

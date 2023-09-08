@@ -34,26 +34,6 @@ const getPosts = async () => {
     pageCount++;
     const lastCard = document.querySelector('#card-list > .col-md-4:last-child');
     io.observe(lastCard);
-
-    // // 좋아요 버튼에 클릭 이벤트 핸들러 추가
-    // $('.like-button').on('click', async (event) => {
-    //   const postId = $(event.target).data('post-id');
-
-    //   try {
-    //     // 좋아요 버튼을 클릭하면 백엔드 API로 좋아요 수를 조회하고 업데이트합니다.
-    //     const response = await axios.get(`/api/posts/${postId}/likes`);
-    //     const { success, likeCount } = response.data;
-
-    //     if (success) {
-    //       // 조회된 좋아요 수를 UI에 업데이트합니다.
-    //       // "좋아요" 텍스트를 빼고 숫자만 표시합니다.
-    //       $(event.target).siblings('.like-count').text(`${likeCount}`);
-    //     }
-    //   } catch (error) {
-    //     console.error('좋아요 조회 오류:', error);
-    //     // 오류 처리
-    //   }
-    // });
   } catch (error) {
     console.log(error);
   }
@@ -99,26 +79,6 @@ const io = new IntersectionObserver(async (entries, observer) => {
 
         const lastCard = cardList.querySelector('.col-md-4:last-child');
         io.observe(lastCard);
-
-        // // 좋아요 버튼에 클릭 이벤트 핸들러 추가
-        // $('.like-button').on('click', async (event) => {
-        //   const postId = $(event.target).data('post-id');
-        //   const likeCountContainer = $(event.target).siblings('.like-count');
-
-        //   try {
-        //     // 좋아요 버튼을 클릭하면 백엔드 API로 좋아요 수를 조회하고 업데이트합니다.
-        //     const response = await axios.get(`/api/posts/${postId}/likes`);
-        //     const { success, likeCount } = response.data;
-
-        //     if (success) {
-        //       // 조회된 좋아요 수를 UI에 업데이트합니다.
-        //       likeCountContainer.text(`${likeCount} 좋아요`);
-        //     }
-        //   } catch (error) {
-        //     console.error('좋아요 조회 오류:', error);
-        //     // 오류 처리
-        //   }
-        // });
       } catch (error) {
         console.error('데이터 가져오기 오류:', error);
       }
@@ -135,6 +95,3 @@ $('#site-introduction').click(() => {
 $('#site-rule').click(() => {
   location.href = '/notice/25';
 });
-
-// const form = document.querySelector('#postForm');
-// form.addEventListener('submit', post);

@@ -107,7 +107,6 @@ class AuthenticationMiddleware {
       const redisCli = this.redisClient;
 
       const refreshToken = await redisCli.get(`userId:${req.user.id}`);
-      console.log('리프레쉬', refreshToken);
       // console.log('=== account access 레디스 연결 종료 ===');
 
       // // 레디스 클라이언트 해제
