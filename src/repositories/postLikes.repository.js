@@ -28,16 +28,15 @@ class PostLikesRepository {
         offset = limit * (page - 1);
       }
 
-      // 사용자가 좋아요한 게시물 목록 조회
       const likedPosts = await PostLikes.findAll({
-        where: { user_id }, // 변경된 부분
+        where: { user_id },
         include: [{ model: Posts, include: [{ model: Users, attributes: ['nickname'] }] }],
         limit,
         offset,
         order: [['created_at', 'DESC']],
       });
 
-      const likedPostsCount = await PostLikes.count({ where: { user_id } }); // 변경된 부분
+      const likedPostsCount = await PostLikes.count({ where: { user_id } });
 
       return {
         likedPosts,

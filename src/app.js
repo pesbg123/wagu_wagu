@@ -14,7 +14,7 @@ const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
-require('./routes/test')
+require('./routes/test');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -89,6 +89,12 @@ app.get('/food_page', (req, res) => {
 app.get('/users/:user_id/liked_posts', (req, res) => {
   const { user_id } = req.params;
   res.sendFile(path.join(__dirname, './public/post.like.html'));
+});
+
+//팔로워 페이지
+app.get('/users/:user_id/followers', (req, res) => {
+  const { user_id } = req.params;
+  res.sendFile(path.join(__dirname, './public/user.follow.html'));
 });
 
 app.listen(PORT, () => {

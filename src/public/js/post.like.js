@@ -8,27 +8,36 @@ $(document).ready(() => {
 // 해당 유저의 좋아요 게시물 가져오는 함수
 const getLikePosts = async (userId) => {
   try {
-    const response = await axios.get(`/api/users/${userId}/liked_posts`);
-    const posts = response.data.data.list;
+    const authorization = getCookie('WGID');
+    console.log('authorization', authorization);
+    const response = await fetch(`/api/users/${userId}/liked_posts`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+      },
+    });
 
+    const posts = await response.json();
+    console.log('포스트', posts);
     let allHtml = '';
-    posts.forEach((item) => {
+    posts.data.list.forEach((item) => {
       const createdAt = convertToKST(item.Post.created_at);
       let tempHtml = `
-            <div class="col-md-4 mb-4">
-              <div class="card shadow-sm">
-                <img src="${item.Post.food_img}" alt="${item.Post.title}" class="card-img-top">
-                <div class="card-body">
-                  <p class="card-text">${item.Post.title}</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <p>${item.Post.User.nickname}</p>
-                    </div>
-                    <small class="text-body-secondary">${createdAt}</small>
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+              <img src="${item.Post.food_img}" alt="${item.Post.title}" class="card-img-top">
+              <div class="card-body">
+                <p class="card-text">${item.Post.title}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <p>${item.Post.User.nickname}</p>
                   </div>
+                  <small class="text-body-secondary">${createdAt}</small>
                 </div>
               </div>
-            </div>`;
+            </div>
+          </div>`;
 
       allHtml += tempHtml;
     });
@@ -39,6 +48,16 @@ const getLikePosts = async (userId) => {
     alert(error.response.data.data.errorMessage);
   }
 };
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
 
 // 한국 시간으로 변환하는 함수
 const convertToKST = (dateUTCString) => {

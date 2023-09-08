@@ -89,9 +89,6 @@ class AuthenticationMiddleware {
 
   authenticateAccessToken = async (req, res, next) => {
     try {
-      console.log(req.headers);
-      console.log(req.headers.cookie);
-      console.log(req.headers.cookies);
       const accessToken = req.headers.authorization;
       // let accessToken;
       // if (header) {
@@ -102,7 +99,6 @@ class AuthenticationMiddleware {
       // }
 
       res.locals.accessToken = accessToken;
-
       const verifiedToken = jwt.verify(accessToken, env.ACCESS_KEY);
 
       // 유효한 액세스 토큰이라면 다음 미들웨어나 API 실행
@@ -111,7 +107,7 @@ class AuthenticationMiddleware {
       const redisCli = this.redisClient;
 
       const refreshToken = await redisCli.get(`userId:${req.user.id}`);
-
+      console.log('리프레쉬', refreshToken);
       // console.log('=== account access 레디스 연결 종료 ===');
 
       // // 레디스 클라이언트 해제
@@ -129,6 +125,7 @@ class AuthenticationMiddleware {
         req.user = { id: decodedToken.userId };
         return this.authenticateRefreshToken(req, res, next);
       }
+      console.log('error', error);
       // 액세스 토큰의 오류라면 오류 메세지
       return res.status(401).json({ message: '액세스 토큰 오류' });
     }

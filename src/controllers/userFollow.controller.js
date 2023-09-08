@@ -33,6 +33,17 @@ class UserFollowController {
       return res.status(500).json({ errorMessage: error.message });
     }
   }
+  async getUserFollowedUsers(req, res) {
+    try {
+      const { id: user_id } = req.user;
+      const followedUsers = await this.userFollowService.getUserFollowedUsers(user_id);
+
+      return res.status(200).json(followedUsers);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ errorMessage: '팔로우한 사용자 조회에 실패했습니다.' });
+    }
+  }
 }
 
 module.exports = UserFollowController;

@@ -49,6 +49,15 @@ class UserFollowService {
       throw error;
     }
   }
+  async getUserFollowedUsers(user_id) {
+    try {
+      const followedUsers = await this.userFollowRepository.getUserFollowedUsers(user_id);
+
+      return followedUsers;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UserFollowService;

@@ -1,4 +1,3 @@
-const { where } = require('sequelize');
 const { Followers, Users } = require('../models');
 
 class UserFollowRepository {
@@ -16,6 +15,20 @@ class UserFollowRepository {
 
   async removeFollower(user_id, target_id) {
     return await Followers.destroy({ where: { user_id, target_id } });
+  }
+  async getUserFollowedUsers(user_id) {
+    try {
+      const targetIds = await Followers.findAll({
+        attributes: ['target_id'],
+        where: { user_id },
+      });
+      const followedUsers = await Users.findAll({
+        where: { id: targetIds[0].dataValues.target_id },
+      });
+      return followedUsers;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
