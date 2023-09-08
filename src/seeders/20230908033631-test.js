@@ -25,7 +25,7 @@ module.exports = {
     };
 
     // 더미 데이터 추가 예시: 5개의 더미 사용자 생성
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 20000; i++) {
       await createAndSaveUser();
     }
   },
