@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('123123', getCookie('WGID'));
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
-      event.preventDefault(); // 기본 동작 차단
+      event.preventDefault();
 
       try {
         console.log(333);
@@ -95,19 +95,13 @@ document.addEventListener('DOMContentLoaded', () => {
           },
         });
 
-        console.log(444);
-
         if (response.ok) {
-          // 로그아웃 성공 시 필요한 작업 수행
-          console.log(5555);
           deleteCookie('WGID');
           window.location.reload();
         } else {
-          // 로그아웃 실패 처리
           console.error('로그아웃 실패', error);
         }
       } catch (error) {
-        // 에러 처리
         console.error('에러:', error);
       }
     });
