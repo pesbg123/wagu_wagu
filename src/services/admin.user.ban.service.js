@@ -41,5 +41,14 @@ class AdminUserBanService {
     if (!res) throw new Error('해당 유저를 밴 취소하는 과정에서 오류가 발생했습니다.');
     return;
   }
+
+  // GET search-user
+  async searchUsers(nickname) {
+    const searchUser = await this.adminUserBanRepository.searchUsers(nickname);
+
+    if (!searchUser.length) throw new CustomError('존재하지 않는 유저입니다.', 400);
+
+    return searchUser;
+  }
 }
 module.exports = AdminUserBanService;

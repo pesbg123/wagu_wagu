@@ -70,6 +70,23 @@ class AdminUserBanController {
       return res.status(500).json({ errorMessage: error.message });
     }
   }
+
+  // GET search-user
+  async searchUsers(req, res) {
+    try {
+      const { nickname } = req.query;
+
+      const searchUser = await this.adminUserBanService.searchUsers(nickname);
+
+      return res.status(200).json(searchUser);
+    } catch (error) {
+      console.log(error);
+      // 커스텀 에러
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      // 서버에러
+      return res.status(500).json({ errorMessage: error.message });
+    }
+  }
 }
 
 module.exports = AdminUserBanController;

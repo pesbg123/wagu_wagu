@@ -49,18 +49,24 @@ class AccountController {
 
   logOut = async (req, res) => {
     try {
-      const header = req.headers.cookie;
-      let accessToken;
-      if (header) {
-        const tokenParts = header.split(' ');
-        if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
-          accessToken = tokenParts[1];
-        }
-      }
+      // const header = req.headers.cookie;
+      // let accessToken;
+      // if (header) {
+      //   const tokenParts = header.split(' ');
+      //   if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
+      //     accessToken = tokenParts[1];
+      //   }
+      // }
+
+      console.log('🚀 ~ file: account.controller.js:62 ~ AccountController ~ logOut= ~ headers:', req.headers);
+
+      const accessToken = req.headers.authorization;
+
+      console.log('🚀 ~ file: account.controller.js:63 ~ AccountController ~ logOut= ~ accessToken:', accessToken);
 
       await this.authService.logOut(accessToken);
-
-      res.setHeader('Authorization', '').cookie;
+      console.log(1231234);
+      res.clearCookie('Authorization');
       return res.status(200).json({ message: '로그아웃 성공' });
     } catch (error) {
       if (error.errorCode) {
@@ -88,6 +94,10 @@ class AccountController {
       res.status(500).json({ message: error.message });
     }
   };
+
+  // getProfile = async (req, res) => {
+
+  // }
 }
 
 module.exports = AccountController;
