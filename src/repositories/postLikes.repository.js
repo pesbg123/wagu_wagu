@@ -46,6 +46,10 @@ class PostLikesRepository {
       throw error;
     }
   }
+
+  async postLikeCountIncrease(like, post_id) {
+    return Posts.update({ like }, { where: { post_id  } });
+  }
 }
 
 module.exports = PostLikesRepository;

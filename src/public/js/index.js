@@ -18,10 +18,10 @@ const getPosts = async () => {
               <p class="card-text">${item.title}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <p>${item['User.nickname']}</p>
+                  <p>${item.User.nickname}</p>
                 </div>
                 <small class="text-body-secondary">${cretedAt}</small>
-                <span class="like-count">0</span> 
+                <span class="like-count">❤️ ${item.like} </span> 
               </div>
             </div>
           </div>

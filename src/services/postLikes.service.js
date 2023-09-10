@@ -20,6 +20,7 @@ class PostLikesService {
     if (!existPostLike) {
       const message = await this.postLikesRepository.addPostLike(post_id, user_id);
       if (message) {
+        await this.postLikesRepository.postLikeCountIncrease(existPost.like + 1, post_id, );
         return '좋아요 등록에 성공했습니다.';
       }
     } else {
