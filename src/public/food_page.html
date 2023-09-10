@@ -1,359 +1,258 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head><div id="header"></div> </head>
+/* eslint-disable no-undef */
+$(document).ready(() => {
+  // URL을 가변적으로 변경하기 위해.
+  const urlPath = window.location.pathname;
+  const pathSegments = urlPath.split('/');
+  const post_id = pathSegments[2];
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- 부트스트랩 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+  // 하드코딩된 로그인한 사용자의 아이디
+  const loggedInUserId = 2;
 
-<!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<!-- axios -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-//
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="./css/food_page.css" />
+  if (post_id) {
+    getPosts(post_id, loggedInUserId);
+    getComments(post_id, loggedInUserId);
+  } else {
+    console.error('Invalid post ID');
+  }
 
-    <!-- 부트스트랩 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
-    <!-- 제이쿼리 -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- js -->
-    <script src="/js/food_page.js" defer></script>
+  $('#submitCommentBtn').click(() => {
+    submitComment(post_id); // post_id 전달
+  });
+});
 
-    <style>
+const getPosts = async (post_id, loggedInUserId) => {
+  try {
+    const response = await axios.get(`/api/posts/${post_id}`);
 
-             #experience {
-      padding-top: calc(56px + 16px); /* 내비바 높이 + 패딩 값 */
+    let tempHtml = `<div class="resume-section-content">
+                        <h2 class="mb-5">${response.data.data.title}`;
+
+    // 사용자 user_id와 포스트의 작성자 user_id가 일치하지 않을 경우에만 게시글 신고 버튼 표시
+    if (loggedInUserId !== response.data.data.user_id) {
+      tempHtml += `<button class="reportPostBtn" data-post-id="${response.data.data.id}">게시글 신고</button>`;
     }
 
-      #reportPostBtn{
-        margin-top: 50px;
-      }
-      *, ::after, ::before {
-    box-sizing: border-box;
-    text-align: center;
-}
-
-    </style>
-  </head>
-  <body id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <span class="d-block d-lg-none">Clarence Taylor</span>
-        
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarResponsive"
-        aria-controls="navbarResponsive"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">요리 이름</a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">조리법 </a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">댓글창</a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">신고</a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">공란</a></li>
-        </ul>
-      </div>
-    </nav>
-    <!-- Page Content-->
-    <div class="container-fluid p-0">
-      <hr class="m-0" />
-
-      <!-- post-->
-      <section class="resume-section posts" id="experience">
-
-        <div class="resume-section-content">
-            <h2 class="mb-5">${response.data.data.title} 
-              <button id="reportPostBtn" post-id="${response.data.data.id}">게시글 신고</button>
-          </h2>
-          <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-            <div class="flex-grow-1">
-              <h3 class="mb-0">재료</h3>
-              <p>
-                재료목록
-              </p>
-            </div>
-          </div>
-          <div class="d-flex flex-column flex-md-row justify-content-between">
-            <div class="flex-grow-1">
-              <div class="subheading mb-3">레시피</div>
-              <p>
-              조리법
-              </p>
-            </div>
-          </div>
-        </div>
-
-      </section>
-
-      <hr class="m-0" />
-
-      <hr class="m-0" />
-      <!-- Awards-->
-      <section class="resume-section" id="awards">
-          <div class="comments-container">
-              <div class="subheading mb-3">댓글 목록</div>
-  
-              <div class="one-comment">
-                <p>댓글입니다.</p>
-                <button comment-id="${comment.id}">수정</button>
-                <button comment-id="${response.data.data.id}">신고</button>
-
-                <p id="postCommentContent_${response.data.post.id}">${response.data.post.content}</p>
-                <button id="postDeleteCommentBtn_${response.data.post.id}">삭제</button>
-              </div>
-              
-            </div>
-          </div>
-          <ul class="fa-ul mb-0">
-        </div>
-      </section>
-
-            <section class="resume-section" id="awards">
-                <div class="reply-container">
-                    <div class="subheading mb-4">대댓글 목록</div>
-        
-                    <div class="one-reply">
+    tempHtml += `</h2>
+                  <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                    <div class="flex-grow-1">
+                      <h3 class="mb-0">재료 목록</h3>
                       <p>
-                        대댓글입니다.
-                        </p>
-                        <button>수정</button>
-                        <button>신고</button>
-                        <button>삭제</button>
+                        ${response.data.data.ingredient}
+                      </p>
                     </div>
-        
                   </div>
-                </div>
-                <ul class="fa-ul mb-0">
-              </div>
-            </section>
+                  <div class="d-flex flex-column flex-md-row justify-content-between">
+                    <div class="flex-grow-1">
+                      <div class="subheading mb-3">조리법</div>
+                      <p>${response.data.data.recipe}</p>`;
 
-            <section class="resume-section" id="skills">
-              <div class="resume-section-content">
-                <!-- 댓글 박스와 입력 버튼 -->
-                <div class="comment-container">
-                  <!-- 기존 댓글 박스 -->
-                  <textarea id="commentText" placeholder="댓글을 작성해주세요." class=""></textarea><br />
-                
-                  <!-- 댓글 제출 버튼 -->
-                  <button id="submitCommentBtn">댓글 제출</button><br />
-                  
-                   <!-- 수정 중인 덧붙임 ID (기본적으로 숨김 처리) -->
-                   <input type= "hidden"id= "editingCommentId"value= ""/>
-                </div>
-            </section>
+    // 이미지 요소.
+    if (response.data.data.food_img) {
+      tempHtml += `<img src="${response.data.data.food_img}" alt="${response.data.title}" />`;
+    }
 
-      <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Notice</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden=true>&times;</span>
-              </button>
-            </div>
-            <div class= "modal-body">
-              댓글이 작성되었습니다.
-            </div>
-            <div class= "modal-footer">
-              <button type= "button"class= "btn btn-secondary"data-dismiss= "modal">Close</button>
-            </div> 
-          </div> 
-        </div> 
-      </div> 
+    tempHtml += `</div>
+                </div>`;
 
+    tempHtml += '</br></br>';
 
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>
-    <!-- 부트스트랩 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
-    <!-- 제이쿼리 -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- axios -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- js -->
-    <script src="/js/food_page.js" defer></script>
+    $('.posts').html(tempHtml);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    <style>
-      #reportPostBtn{
-        margin-top: 50px;
-      }
-      *, ::after, ::before {
-    box-sizing: border-box;
-    text-align: center;
-}
+const reportPost = async (post_id) => {
+  try {
+    await axios.patch(`/api/posts/${post_id}/block`);
+    alert('게시글이 신고되었습니다.');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    </style>
-  </head>
-  <body id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-      <a class="navbar-brand js-scroll-trigger" href="#page-top">
-        <span class="d-block d-lg-none">Clarence Taylor</span>
-        
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarResponsive"
-        aria-controls="navbarResponsive"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">요리 이름</a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">조리법 </a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">댓글창</a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">신고</a></li>
-          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">공란</a></li>
-        </ul>
-      </div>
-    </nav>
-    <!-- Page Content-->
-    <div class="container-fluid p-0">
-      <hr class="m-0" />
+$(document).on('click', '.reportPostBtn', function () {
+  const post_id = $(this).data('post-id');
+  reportPost(post_id);
+});
 
-      <!-- post-->
-      <section class="resume-section posts" id="experience">
+//댓글 조회
+const getComments = async (post_id, loggedInUserId) => {
+  try {
+    const response = await axios.get(`/api/comments/${post_id}`);
+    let allHtml = '';
 
-        <div class="resume-section-content">
-            <h2 class="mb-5">${response.data.data.title} 
-              <button id="reportPostBtn" post-id="${response.data.data.id}">게시글 신고</button>
-          </h2>
-          <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-            <div class="flex-grow-1">
-              <h3 class="mb-0">재료</h3>
-              <p>
-                재료목록
-              </p>
-            </div>
-          </div>
-          <div class="d-flex flex-column flex-md-row justify-content-between">
-            <div class="flex-grow-1">
-              <div class="subheading mb-3">레시피</div>
-              <p>
-              조리법
-              </p>
-            </div>
-          </div>
-        </div>
+    if (response.data.data.length === 0) {
+      // 만약 댓글이 없다면
+      allHtml = '<p>아직 등록된 댓글이 없습니다.</p>';
+    } else {
+      response.data.data.forEach((comment) => {
+        let tempHtml = `<div class="${comment.reply_id ? 'reply-comment' : 'original-comment'}">
+                  <p id="postCommentContent_${comment.id}">
+                  ${comment.content}
+                  </p>`;
 
-      </section>
+        // 로그인한 사용자와 댓글 작성자의 user_id 비교
+        if (loggedInUserId === comment.user_id) {
+          // 사용자가 댓글 작성자인 경우 수정, 삭제, 대댓글 버튼 보이기
+          tempHtml += `
+            <button id="editCommentBtn_${comment.id}" class="edit-button">수정</button>
+            <button id="deleteCommentBtn_${comment.id}" class="delete-button">삭제</button>
+            <button id="replyCommentBtn_${comment.id}" data-post-id="${comment.post_id}" data-comment-id="${comment.reply_id}">대댓글 작성</button>
+          `;
+        } else {
+          // 사용자가 댓글 작성자가 아닌 경우 신고, 대댓글 버튼 보이기
+          tempHtml += `
+            <button class="report-button" data-post-id="${post_id}" data-comment-id="${comment.id}">신고123</button>
+            <button id="replyCommentBtn_${comment.id}" data-post-id="${comment.post_id}" data-comment-id="${comment.reply_id}">대댓글 작성</button>
+          `;
+        }
 
-      <hr class="m-0" />
+        tempHtml += '</div><br></br>';
+        allHtml += tempHtml;
+      });
+    }
 
-      <hr class="m-0" />
-      <!-- Awards-->
-      <section class="resume-section" id="awards">
-          <div class="comments-container">
-              <div class="subheading mb-3">댓글 목록</div>
-  
-              <div class="one-comment">
-                <p>댓글입니다.</p>
-                <button comment-id="${comment.id}">수정</button>
-                <button comment-id="${response.data.data.id}">신고</button>
+    $('.comments-container').html(allHtml);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-                <p id="postCommentContent_${response.data.post.id}">${response.data.post.content}</p>
-                <button id="postDeleteCommentBtn_${response.data.post.id}">삭제</button>
-              </div>
-              
-            </div>
-          </div>
-          <ul class="fa-ul mb-0">
-        </div>
-      </section>
+$(document).on('click', '[id^=deleteCommentBtn_]', function () {
+  const comment_id = this.id.split('_')[1];
+  if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+    deleteComment(comment_id);
+  }
+});
 
-            <section class="resume-section" id="awards">
-                <div class="reply-container">
-                    <div class="subheading mb-4">대댓글 목록</div>
-        
-                    <div class="one-reply">
-                      <p>
-                        대댓글입니다.
-                        </p>
-                        <button>수정</button>
-                        <button>신고</button>
-                        <button>삭제</button>
-                    </div>
-        
-                  </div>
-                </div>
-                <ul class="fa-ul mb-0">
-              </div>
-            </section>
+const deleteComment = async (comment_id) => {
+  try {
+    await axios.delete(`/api/comments/${comment_id}`);
+    $(`#postCommentContent_${comment_id}`).parent().remove();
+    alert('댓글이 성공적으로 삭제되었습니다.');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-            <section class="resume-section" id="skills">
-              <div class="resume-section-content">
-                <!-- 댓글 박스와 입력 버튼 -->
-                <div class="comment-container">
-                  <!-- 기존 댓글 박스 -->
-                  <textarea id="commentText" placeholder="댓글을 작성해주세요." class=""></textarea><br />
-                
-                  <!-- 댓글 제출 버튼 -->
-                  <button id="submitCommentBtn">댓글 제출</button><br />
-                  
-                   <!-- 수정 중인 덧붙임 ID (기본적으로 숨김 처리) -->
-                   <input type= "hidden"id= "editingCommentId"value= ""/>
-                </div>
-            </section>
+const editComment = async (comment_id, newContent) => {
+  try {
+    await axios.put(`/api/comments/${comment_id}`, {
+      content: newContent,
+    });
 
-      <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Notice</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden=true>&times;</span>
-              </button>
-            </div>
-            <div class= "modal-body">
-              댓글이 작성되었습니다.
-            </div>
-            <div class= "modal-footer">
-              <button type= "button"class= "btn btn-secondary"data-dismiss= "modal">Close</button>
-            </div> 
-          </div> 
-        </div> 
-      </div> 
+    $(`#postCommentContent_${comment_id}`).text(newContent);
 
+    alert('댓글이 성공적으로 수정되었습니다.');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>
+$(document).on('click', 'button.edit-button', function () {
+  const comment_id = $(this).attr('comment-id');
+  const newContent = prompt('댓글을 수정하세요.');
+
+  if (newContent !== null && newContent.trim() !== '') {
+    editComment(comment_id, newContent);
+  }
+});
+
+// 댓글 제출
+const submitComment = async (post_id) => {
+  try {
+    const commentText = $('#commentText').val();
+
+    if (!commentText.trim()) {
+      alert('댓글 내용을 입력해주세요.');
+      return;
+    }
+
+    await axios.post(`/api/comments/${post_id}`, {
+      content: commentText,
+      post_id: post_id,
+      reply_id: null,
+    });
+
+    $('#commentText').val('');
+    getComments(post_id);
+
+    // 확인용 모달창
+    $('#commentModal').modal('show');
+  } catch (error) {
+    console.error(error);
+  }
+  // 자동 새로고침
+  getComments(post_id);
+};
+
+// 댓글 신고
+const reportComment = async (post_id, comment_id) => {
+  try {
+    await axios.patch(`/api/posts/${post_id}/comments/${comment_id}/block`);
+    alert('댓글이 성공적으로 신고되었습니다.');
+    getComments(post_id); // 화면에서 바로 변경사항 반영
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+$(document).on('click', '.report-button', function () {
+  const post_id = $(this).data('post-id');
+  const comment_id = $(this).data('comment-id');
+
+  if (confirm('정말로 이 댓글을 신고하시겠습니까?')) {
+    reportComment(post_id, comment_id);
+  }
+});
+
+//대댓글 작성
+const submitReplyComment = async (post_id, reply_id) => {
+  try {
+    const commentText = $('#replyCommentText').val();
+
+    if (!commentText.trim()) {
+      alert('대댓글 내용을 입력해주세요.');
+      return;
+    }
+
+    console.log(`post_id=${post_id}, reply_id=${reply_id}, content=${commentText}`);
+
+    const response = await axios.post(`/api/comments/${post_id}`, {
+      content: commentText,
+      reply_id: reply_id, // 대댓글의 ID를 reply_id로 전달
+    });
+
+    console.log(`Response from server: ${JSON.stringify(response.data)}`);
+
+    $('#replyCommentText').val('');
+
+    // 확인용 모달창
+    $('#commentModal').modal('show');
+  } catch (error) {
+    console.error(error);
+  }
+
+  // 자동 새로고침
+  getComments(post_id);
+
+  // 대댓글 작성이 완료되면 대댓글 작성 모달창 닫기
+  $('#replyModal').modal('hide');
+};
+
+// 이벤트 핸들러 등록 - 대댓글 작성 버튼 클릭 시 동작
+$(document).on('click', '[id^=replyCommentBtn_]', function () {
+  const post_id = $(this).data('post-id'); // post_id 가져오기
+  const reply_id = $(this).data('comment-id'); // 부모 댓글의 id 가져오기
+
+  // 대댓글 작성 모달창 띄우기
+  $('#replyModal').modal('show');
+
+  // 대댓글 제출 버튼에 이벤트 핸들러 추가
+  $('#submitReplyBtn')
+    .off()
+    .click(() => {
+      submitReplyComment(post_id, reply_id); // post_id와 reply_id를 올바르게 전달
+    });
+});
