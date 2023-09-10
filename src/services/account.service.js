@@ -27,6 +27,18 @@ class AccountService {
 
   signUp = async (email, password) => {
     try {
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      // 이메일 형식 검사
+      if (!emailRegex.test(email)) {
+        throw { errorCode: 400, message: '올바른 이메일 형식이 아닙니다.' };
+      }
+
+      // 비밀번호 길이 검사
+      if (password.length < 5) {
+        throw { errorCode: 400, message: '비밀번호는 5글자 이상이어야 합니다.' };
+      }
+
       const existUser = await this.accountRepository.findUserByEmail(email);
 
       if (existUser) {
