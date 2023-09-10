@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Info</title>
+  </head>
+  <body>
+    <main>
+      <section id="profile">
+        <img src="#" id="userImage" alt="프로필 사진" />
+        <label>
+          프로필 사진 변경
+          <input id="imageInput" type="file" accept="image/*" style="display: none" />
+          <button id="uploadImageButton" type="button">업로드</button>
+        </label>
+
+        <label
+          >이메일
+          <span id="email"></span>
+        </label>
+
+        <!-- <span id="nickname"></span> -->
+        <label
+          >닉네임
+          <form action="">
+            <div class="input-box" id="ChNm">
+              <input id="nicknameInput" type="text" required />
+            </div>
+          </form>
+          <button id="nmButton" type="button">변경</button>
+        </label>
+
+        <!-- <span id="introduction"></span> -->
+        <label
+          >소개
+          <form action="">
+            <div class="input-box" id="ChIt">
+              <input id="introductionInput" type="text" required />
+            </div>
+          </form>
+          <button id="itButton" type="button">변경</button>
+        </label>
+      </section>
+
+      <section class="chPw">
+        <span class="pw">비밀번호</span>
+        <button type="button">변경</button>
+        <form action="">
+          <div class="input-box" id="currentPw">
+            <label>현재 비밀번호</label>
+            <input id="currentPwInput" type="text" required />
+          </div>
+          <div class="input-box" id="newPw">
+            <label>새 비밀번호</label>
+            <input id="newPwInput" type="text" required />
+          </div>
+        </form>
+        <button id="pwButton" type="button">확인</button>
+      </section>
+    </main>
+  </body>
+  <script src="./js/info.js"></script>
+</html>
