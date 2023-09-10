@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Posts = require('../controllers/posts.controller');
 const posts = new Posts();
+
+const AuthMiddleware = require('../middlewares/account.middleware');
+const authMiddleware = new AuthMiddleware();
 // auth-middleware incomplete stage
 // admin-middleware incomplete stage
 
-//작성
-router.post('/posts', posts.createPost);
+router.post('/posts', authMiddleware.authenticateAccessToken, posts.createPost);
 
 //전체 게시글 조회
 router.get('/posts', posts.findPosts);
@@ -20,11 +22,9 @@ router.get('/posts/nickname', posts.findNicknamePosts);
 //게시글 상세 조회
 router.get('/posts/:id', posts.findOnePost);
 
-//게시글 수정
-router.patch('/posts/:id', posts.updatePost);
+router.patch('/posts/:id', authMiddleware.authenticateAccessToken, posts.updatePost);
 
-//게시글 삭제
-router.delete('/posts/:id', posts.deletePost);
+router.delete('/posts/:id', authMiddleware.authenticateAccessToken, posts.deletePost);
 
 //게시글 블락
 router.patch('/posts/:id/block', posts.blockPost);
