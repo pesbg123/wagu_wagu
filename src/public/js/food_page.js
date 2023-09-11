@@ -495,7 +495,7 @@ $(document).on('click', '[id^=replyCommentBtn_]', function () {
 //     console.error(error);
 //   }
 //   // 자동 새로고침
-//   getComments(post_id);
+//   getComments(loggedInUserId);
 // };
 
 // // 댓글 신고
@@ -546,7 +546,7 @@ $(document).on('click', '[id^=replyCommentBtn_]', function () {
 //   }
 
 //   // 자동 새로고침
-//   getComments(post_id);
+//   getComments(loggedInUserId);
 
 //   // 대댓글 작성이 완료되면 대댓글 작성 모달창 닫기
 //   $('#replyModal').modal('hide');
@@ -554,7 +554,7 @@ $(document).on('click', '[id^=replyCommentBtn_]', function () {
 
 // // 이벤트 핸들러 등록 - 대댓글 작성 버튼 클릭 시 동작
 // $(document).on('click', '[id^=replyCommentBtn_]', function () {
-//   const post_id = $(this).data('post-id'); // post_id 가져오기
+//   const  = $(this).data('post-id'); // post_id 가져오기
 //   const reply_id = $(this).data('comment-id'); // 부모 댓글의 id 가져오기, 여기서 수정.
 //   //console.log($(this). $(this).data('comment-id'))
 
