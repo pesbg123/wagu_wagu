@@ -19,6 +19,7 @@ const headers = {
 const getOneNotice = async (id) => {
   try {
     const response = await axios.get(`https://xyz.waguwagu.online/api/adminNotices/${id}`, headers);
+
     const notice = response.data;
 
     let temphtml = `<p>${notice.content}</p>`;
