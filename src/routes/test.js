@@ -39,7 +39,6 @@ module.exports = async (keyword, page) => {
         console.log('view_step_cont:', view_step_cont.trim());
 
         CrawledRecipes.create({ recipe_title: recipeTitle, recipe_content: recipeContent, view_step_cont });
-        // const response = await axios.post('/api/crawledRecipes', {recipeTitle, recipeContent, view_step_cont})
       }
     });
   });

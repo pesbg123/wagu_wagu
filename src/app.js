@@ -34,7 +34,6 @@ app.use('/api', [
   postRouter,
   reportRouter,
   commentsRouter,
-  scroll,
 ]);
 
 app.use(express.static(path.join(__dirname, './public')));
