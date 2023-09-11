@@ -18,7 +18,7 @@ function getCookie(name) {
 }
 const getUserInfo = async () => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/users/me`, headers);
+    const response = await axios.get(`https://xyz.waguwagu.online/api/users/me`, headers);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -53,7 +53,7 @@ $(document).ready(async () => {
 
 const getPosts = async (post_id, loggedInUserId) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/posts/${post_id}`, headers);
+    const response = await axios.get(`https://xyz.waguwagu.online/api/posts/${post_id}`, headers);
 
     let tempHtml = `<div class="resume-section-content">
                         <h2 class="mb-5">${response.data.data.title}`;
@@ -99,7 +99,7 @@ const getPosts = async (post_id, loggedInUserId) => {
 //댓글 신고.
 const reportPost = async (post_id) => {
   try {
-    await axios.patch(`http://localhost:3000/api/posts/${post_id}/block`, headers);
+    await axios.patch(`https://xyz.waguwagu.online/api/posts/${post_id}/block`, headers);
     alert('게시글이 신고되었습니다.');
   } catch (error) {
     console.error(error);
@@ -114,7 +114,7 @@ $(document).on('click', '.reportPostBtn', function () {
 //댓글 조회
 const getComments = async (post_id, loggedInUserId) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/comments/${post_id}`, headers);
+    const response = await axios.get(`https://xyz.waguwagu.online/api/comments/${post_id}`, headers);
     let allHtml = '';
 
     if (response.data.data.length === 0) {
@@ -164,7 +164,7 @@ $(document).on('click', '[id^=deleteCommentBtn_]', function () {
 
 const deleteComment = async (comment_id) => {
   try {
-    await axios.delete(`http://localhost:3000/api/comments/${comment_id}`, headers);
+    await axios.delete(`https://xyz.waguwagu.online/api/comments/${comment_id}`, headers);
     $(`#postCommentContent_${comment_id}`).parent().remove();
     alert('댓글이 성공적으로 삭제되었습니다.');
   } catch (error) {
@@ -175,7 +175,7 @@ const deleteComment = async (comment_id) => {
 const editComment = async (comment_id, newContent) => {
   try {
     await axios.put(
-      `http://localhost:3000/api/comments/${comment_id}`,
+      `https://xyz.waguwagu.online/api/comments/${comment_id}`,
       {
         content: newContent,
       },
@@ -209,7 +209,7 @@ const submitComment = async (post_id) => {
     }
 
     await axios.post(
-      `/http://localhost:3000/api/comments/${post_id}`,
+      `https://xyz.waguwagu.online/api/comments/${post_id}`,
       {
         content: commentText,
         post_id: post_id,
@@ -233,7 +233,7 @@ const submitComment = async (post_id) => {
 // 댓글 신고
 const reportComment = async (post_id, comment_id) => {
   try {
-    await axios.patch(`http://localhost:3000/api/posts/${post_id}/comments/${comment_id}/block`, headers);
+    await axios.patch(`https://xyz.waguwagu.online/api/posts/${post_id}/comments/${comment_id}/block`, headers);
     alert('댓글이 성공적으로 신고되었습니다.');
     getComments(loggedInUserId); // 화면에서 바로 변경사항 반영
   } catch (error) {
@@ -263,7 +263,7 @@ const submitReplyComment = async (post_id, reply_id) => {
     console.log(`post_id=${post_id}, reply_id=${reply_id}, content=${commentText}`);
 
     const response = await axios.post(
-      `http://localhost:3000/api/comments/${post_id}`,
+      `https://xyz.waguwagu.online/api/comments/${post_id}`,
       {
         content: commentText,
         reply_id: reply_id, // 대댓글의 ID를 reply_id로 전달
