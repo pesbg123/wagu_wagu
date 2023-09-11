@@ -1,15 +1,13 @@
+const redisClient = require('../middlewares/redis.middleware');
 const AccountRepository = require('../repositories/account.repository');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const redis = require('ioredis');
-
 require('dotenv').config({ path: '../.env' });
 const env = process.env;
 
 class AccountService {
   constructor() {
     this.accountRepository = new AccountRepository();
-    this.redisCli = new redis();
   }
 
   generateAccessToken = (user) => {
@@ -79,14 +77,16 @@ class AccountService {
       const accessToken = this.generateAccessToken(user);
       const refreshToken = this.generateRefreshToken(user);
 
-      // Redis에 토큰 저장
-      await this.redisCli.set(`userId:${user.id.toString()}`, refreshToken);
-      // 리프레시 토큰 만료 일자랑 동일한 시기에 레디스에서 자동 삭제
-      await this.redisCli.expire(`userId:${user.id.toString()}`, 24 * 60 * 60);
+      console.log('🚀 ~ file: account.service.js:80 ~ AccountService ~ logIn= ~ refreshToken:', refreshToken);
 
-      const redisValue = await this.redisCli.get(`userId:${user.id}`);
+      // redisClient.connect();
 
-      console.log(`추가된 유저키와 리프레시 값 : ${redisValue}`);
+      // 데이터를 Redis에 저장하고 만료 시간을 설정
+      await redisClient.v4.set(`userId:${user.id.toString()}`, refreshToken, 'EX', 24 * 60 * 60);
+
+      const redisValue = await redisClient.v4.get(`userId:${user.id.toString()}`);
+
+      console.log(`추가된 유저키와 리프레시 값 : ${user.id}, ${redisValue}`);
 
       return { accessToken, refreshToken, isAdmin };
     } catch (error) {
@@ -107,13 +107,13 @@ class AccountService {
       }
 
       // 토큰 존재 확인
-      const redisKEY = await this.redisCli.exists(`userId:${user.id}`);
+      const redisKEY = await redisClient.v4.exists(`userId:${user.id}`);
 
       if (!redisKEY) {
         throw { errorCode: 401, message: '리프레시 토큰이 존재하지 않음' };
       }
 
-      const redisDEL = await this.redisCli.del(`userId:${user.id}`);
+      const redisDEL = await redisClient.v4.del(`userId:${user.id}`);
 
       if (redisDEL) {
         console.log('토큰 삭제 성공');
@@ -185,13 +185,13 @@ class AccountService {
       await this.accountRepository.updatePassword(id, hashedPassword);
 
       // 토큰 존재 확인
-      const redisKEY = await this.redisCli.exists(`userId:${user.id}`);
+      const redisKEY = await redisClient.v4.exists(`userId:${user.id}`);
 
       if (!redisKEY) {
         throw { errorCode: 401, message: '리프레시 토큰이 존재하지 않음' };
       }
 
-      const redisDEL = await this.redisCli.del(`userId:${user.id}`);
+      const redisDEL = await redisClient.v4.del(`userId:${user.id}`);
 
       if (redisDEL) {
         console.log('토큰 삭제 성공');
