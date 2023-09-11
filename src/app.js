@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const cron = require('node-cron');
+const redis = require('redis');
 
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
@@ -22,6 +23,19 @@ console.log('parsing', parsing);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+const redisClient = redis.createClient({
+  url: process.env.REDIS_URL,
+  legacyMode: true,
+});
+
+redisClient.on('connect', () => {
+  console.log('Redis 연결 성공');
+});
+
+redisClient.on('error', (error) => {
+  console.error('Redis 연결 오류:', error);
+});
 
 app.use('/api', [
   accountRouter,
@@ -111,6 +125,11 @@ cron.schedule('0 3 * * *', () => {
 
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
+});
+
+// Unhandled Promise Rejection 처리
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('promise:', promise, 'reason:', reason);
 });
 
 // ChatGPT를 호출하는 비동기 함수를 정의합니다.

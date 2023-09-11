@@ -81,14 +81,6 @@ class AccountController {
 
   verify = async (req, res) => {
     try {
-      const header = req.headers.cookie;
-      let accessToken;
-      if (header) {
-        const tokenParts = header.split(' ');
-        if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
-          accessToken = tokenParts[1];
-        }
-      }
       return res.status(200).json({ message: '검증 성공' });
     } catch (error) {
       console.log(error);

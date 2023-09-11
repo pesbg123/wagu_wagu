@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const redis = require('redis');
 const AccountRepository = require('../repositories/account.repository');
+const redis = require('ioredis');
 require('dotenv').config();
 const env = process.env;
 
@@ -15,39 +15,8 @@ const env = process.env;
 class AuthenticationMiddleware {
   constructor() {
     this.authRepository = new AccountRepository();
-
-    // 레디스 클라이언트를 생성하고 인스턴스 변수에 저장
-    this.redisClient = redis.createClient({
-      url: env.REDIS_URL,
-      legacyMode: true,
-    });
-
-    this.redisClient.on('connect', () => {
-      console.log('=== account 레디스 연결 성공 ===');
-    });
-
-    this.redisClient.on('error', (error) => {
-      throw { errorCode: 500, message: error };
-    });
-
-    this.redisClient.connect();
+    this.redisCli = new redis();
   }
-
-  // getRefreshToken = async (cookie) => {
-  //   try {
-  //     const decodedToken = jwt.decode(cookie);
-  //     const redisCli = this.redisClient;
-
-  //     const refreshToken = await redisCli.get(`userId:${decodedToken.userId}`);
-  //     console.log('=== account refresh 레디스 연결 종료 ===');
-  //     // 레디스 클라이언트 해제
-  //     this.redisClient.quit();
-  //     return refreshToken;
-  //   } catch (error) {
-  //     console.error('리프레시 토큰이 레디스에 존재하지 않음', error);
-  //     return null;
-  //   }
-  // };
 
   generateAccessToken = (user) => {
     const accessToken = jwt.sign({ userId: user.userId }, env.ACCESS_KEY, {
@@ -58,15 +27,6 @@ class AuthenticationMiddleware {
 
   isAdmin = async (req, res, next) => {
     try {
-      // const header = req.headers.cookie;
-      // let accessToken;
-      // if (header) {
-      //   const tokenParts = header.split(' ');
-      //   if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
-      //     accessToken = tokenParts[1];
-      //   }
-      // }
-
       const accessToken = req.headers.authorization;
 
       if (!accessToken) {
@@ -75,8 +35,6 @@ class AuthenticationMiddleware {
 
       const decodedToken = jwt.decode(accessToken);
 
-      // console.log('🚀 ~ file: account.middleware.js:75 ~ AuthenticationMiddleware ~ isAdmin= ~ decodedToken:', decodedToken);
-      // console.log(this.authRepository.isAdmin(decodedToken.userId));
       const isAdmin = await this.authRepository.isAdmin(decodedToken.userId);
       if (Boolean(isAdmin) === true) {
         next();
@@ -92,13 +50,6 @@ class AuthenticationMiddleware {
   authenticateAccessToken = async (req, res, next) => {
     try {
       const accessToken = req.headers.authorization;
-      // let accessToken;
-      // if (header) {
-      //   const tokenParts = header.split(' ');
-      //   if (tokenParts.length === 2 && tokenParts[0] === 'Authorization=Bearer') {
-      //     accessToken = tokenParts[1];
-      //   }
-      // }
 
       res.locals.accessToken = accessToken;
       const verifiedToken = jwt.verify(accessToken, env.ACCESS_KEY);
@@ -106,13 +57,7 @@ class AuthenticationMiddleware {
       // 유효한 액세스 토큰이라면 다음 미들웨어나 API 실행
       req.user = { id: verifiedToken.userId }; // 사용자 "아이디"를 req.user 객체에 저장
 
-      const redisCli = this.redisClient;
-
-      const refreshToken = await redisCli.get(`userId:${req.user.id}`);
-      // console.log('=== account access 레디스 연결 종료 ===');
-
-      // // 레디스 클라이언트 해제
-      // this.redisClient.quit();
+      const refreshToken = await this.redisCli.get(`userId:${req.user.id}`);
 
       if (refreshToken === null) {
         return res.status(401).json({ message: '토큰이 만료되었습니다.' });
@@ -126,22 +71,14 @@ class AuthenticationMiddleware {
         req.user = { id: decodedToken.userId };
         return this.authenticateRefreshToken(req, res, next);
       }
-      console.log('error', error);
-      // 액세스 토큰의 오류라면 오류 메세지
-      return res.status(401).json({ message: '액세스 토큰 오류' });
+      console.error('authenticateAccessToken 오류:', error);
+      return res.status(500).json({ message: '오류 발생: ' + error.message });
     }
   };
 
   authenticateRefreshToken = async (req, res, next) => {
     try {
-      const redisCli = this.redisClient;
-
-      const refreshToken = await redisCli.get(`userId:${req.user.id}`);
-
-      // console.log('=== account refresh 레디스 연결 종료 ===');
-
-      // // 레디스 클라이언트 해제
-      // this.redisClient.quit();
+      const refreshToken = await this.redisCli.get(`userId:${req.user.id}`);
 
       if (!refreshToken) {
         return res.status(401).json({ message: '토큰이 만료되었습니다.' });
@@ -159,7 +96,9 @@ class AuthenticationMiddleware {
       // if (error.name === 'TokenExpiredError') {
       //   return res.status(401).json({ message: '리프레시 토큰 만료' });
       // }
-      return res.status(401).json({ message: '리프레시 토큰 오류' });
+      console.error('authenticateRefreshToken 오류:', error);
+
+      return res.status(500).json({ message: '오류 발생: ' + error.message });
     }
   };
 }

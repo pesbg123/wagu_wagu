@@ -41,6 +41,9 @@ class PostsController {
       // limit과 offset을 서비스에 전달
       const findPostsData = await this.postsService.findPosts(postsPerPage, offset);
 
+      // 검색 종료 시간 기록
+      console.timeEnd('findPosts');
+
       return res.status(200).json({ data: findPostsData });
     } catch (error) {
       console.error(error);
@@ -67,8 +70,11 @@ class PostsController {
   findUserPosts = async (req, res) => {
     try {
       const { user_id } = req.query;
-
+      // 검색 시작 시간 기록
+      console.time('findUserPosts');
       const findUserPostsData = await this.postsService.findUserPosts(user_id);
+      // 검색 종료 시간 기록
+      console.timeEnd('findUserPosts');
 
       return res.status(200).json({ data: findUserPostsData });
     } catch (error) {
