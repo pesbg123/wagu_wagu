@@ -75,7 +75,7 @@ class AuthenticationMiddleware {
 
       const decodedToken = jwt.decode(accessToken);
 
-      console.log('🚀 ~ file: account.middleware.js:75 ~ AuthenticationMiddleware ~ isAdmin= ~ decodedToken:', decodedToken);
+      // console.log('🚀 ~ file: account.middleware.js:75 ~ AuthenticationMiddleware ~ isAdmin= ~ decodedToken:', decodedToken);
       // console.log(this.authRepository.isAdmin(decodedToken.userId));
       const isAdmin = await this.authRepository.isAdmin(decodedToken.userId);
       if (Boolean(isAdmin) === true) {
