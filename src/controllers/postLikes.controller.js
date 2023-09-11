@@ -33,8 +33,8 @@ class PostLikesController {
 
   async getUserLikedPosts(req, res) {
     try {
-      const { id: user_id } = req.user; // <- 요청을 보낸 사용자의 id
-      const { user_id: paramUserId } = req.params; // url 파라미터에 들어온 유저 id
+      const { id: user_id } = req.user;
+      const { user_id: paramUserId } = req.params;
       const { page } = req.query;
 
       const { likedPosts, likedPostsCount } = await this.postLikesService.getUserLikedPosts(user_id, paramUserId, page);

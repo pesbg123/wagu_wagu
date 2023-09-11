@@ -8,7 +8,7 @@ const postLikesController = new PostLikesController();
 //좋아요 api
 router.post('/posts/:post_id/likes', acountMiddleware.authenticateAccessToken, postLikesController.addPostLike.bind(postLikesController));
 
-router.post('/posts/:post_id/cancelLikes', acountMiddleware.authenticateAccessToken, postLikesController.removePostLike.bind(postLikesController));
+router.delete('/posts/:post_id/cancelLikes', acountMiddleware.authenticateAccessToken, postLikesController.removePostLike.bind(postLikesController));
 
 // 사용자가 좋아요한 게시물 조회
 router.get('/users/:user_id/liked_posts', acountMiddleware.authenticateAccessToken, postLikesController.getUserLikedPosts.bind(postLikesController));

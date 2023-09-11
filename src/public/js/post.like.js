@@ -9,7 +9,6 @@ $(document).ready(() => {
 const getLikePosts = async (userId) => {
   try {
     const authorization = getCookie('WGID');
-    console.log('authorization', authorization);
     const response = await fetch(`http://localhost:3000/api/users/${userId}/liked_posts`, {
       method: 'GET',
       headers: {
@@ -19,10 +18,13 @@ const getLikePosts = async (userId) => {
     });
 
     const posts = await response.json();
-    console.log('포스트', posts);
+
     let allHtml = '';
+
     posts.data.list.forEach((item) => {
       const createdAt = convertToKST(item.Post.created_at);
+
+      // 버튼에 data-user-id 속성 추가
       let tempHtml = `
           <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
@@ -34,6 +36,7 @@ const getLikePosts = async (userId) => {
                     <p>${item.Post.User.nickname}</p>
                   </div>
                   <small class="text-body-secondary">${createdAt}</small>
+                  <button class="unlike-button" data-post-id="${item.Post.id}" data-user-id="${userId}">좋아요 취소</button> 
                 </div>
               </div>
             </div>
@@ -58,7 +61,40 @@ function getCookie(name) {
   }
   return null;
 }
+// 모든 "좋아요 취소" 버튼에 클릭 이벤트 리스너를 등록합니다.
+$(document).on('click', '.unlike-button', function () {
+  const postId = $(this).data('post-id');
+  const userId = $(this).data('user-id');
 
+  console.log(postId, userId);
+
+  unlikePost(userId, postId);
+});
+
+// 좋아요 취소 API 호출
+const unlikePost = async (userId, postId) => {
+  try {
+    const authorization = getCookie('WGID');
+    const response = await fetch(`http://localhost:3000/api/posts/${postId}/cancelLikes`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: authorization,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+
+    alert('좋아요 취소에 성공했습니다.');
+    location.reload();
+  } catch (error) {
+    console.error(error);
+    alert('좋아요 취소 중 오류가 발생했습니다:\n' + error.message);
+  }
+};
 // 한국 시간으로 변환하는 함수
 const convertToKST = (dateUTCString) => {
   const dateUTC = new Date(dateUTCString);
