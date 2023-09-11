@@ -35,16 +35,47 @@ class AccountRepository {
     }
   };
 
+  updateNickname = async (id, nickname) => {
+    try {
+      await Users.update({ nickname }, { where: { id } });
+      return;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updateIntroduction = async (id, introduction) => {
+    try {
+      await Users.update({ introduction }, { where: { id } });
+      return;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updateUserImg = async (id, userImage) => {
+    try {
+      await Users.update({ user_img: userImage }, { where: { id } });
+      return;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  updatePassword = async (id, hashedPassword) => {
+    try {
+      await Users.update({ password: hashedPassword }, { where: { id } });
+      return;
+    } catch (error) {
+      throw error;
+    }
+  };
   // updateUserLoginId = async (userId, newLoginId) => {
   //   await Users.update({ email: newLoginId }, { where: { id: userId } });
   // };
 
   // updateUserPassword = async (userId, newPassword) => {
   //   await Users.update({ password: newPassword }, { where: { id: userId } });
-  // };
-
-  // updateUserUserName = async (userId, newUserName) => {
-  //   await Users.update({ userName: newUserName }, { where: { id: userId } });
   // };
 }
 
