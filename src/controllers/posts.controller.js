@@ -32,13 +32,20 @@ class PostsController {
   };
 
   findPosts = async (req, res) => {
+    const postsPerPage = 12;
+    const { page } = req.query;
+    const pageNum = parseInt(page) || 1;
+    const offset = (pageNum - 1) * postsPerPage;
+
     try {
-      const findPostsData = await this.postsService.findPosts();
+      // limit과 offset을 서비스에 전달
+      const findPostsData = await this.postsService.findPosts(postsPerPage, offset);
 
       return res.status(200).json({ data: findPostsData });
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+
       return res.status(500).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
     }
   };

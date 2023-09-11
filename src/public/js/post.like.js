@@ -10,7 +10,7 @@ const getLikePosts = async (userId) => {
   try {
     const authorization = getCookie('WGID');
     console.log('authorization', authorization);
-    const response = await fetch(`/api/users/${userId}/liked_posts`, {
+    const response = await fetch(`http://localhost:3000/api/users/${userId}/liked_posts`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -4,6 +4,8 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
+const sqlite3 = require('sqlite3').verbose();
+const cron = require('node-cron');
 
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
@@ -14,8 +16,9 @@ const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
-require('./routes/test');
-
+const parsing = require('./routes/test');
+const scroll = require('./routes/scroll');
+console.log('parsing', parsing);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -31,6 +34,7 @@ app.use('/api', [
   postRouter,
   reportRouter,
   commentsRouter,
+  scroll,
 ]);
 
 app.use(express.static(path.join(__dirname, './public')));
@@ -95,6 +99,15 @@ app.get('/users/:user_id/liked_posts', (req, res) => {
 app.get('/users/:user_id/followers', (req, res) => {
   const { user_id } = req.params;
   res.sendFile(path.join(__dirname, './public/user.follow.html'));
+});
+
+// cron.schedule('1 * * * * *', () => {
+//   // parsing();
+//   console.log('스케줄러실행중');
+// });
+cron.schedule('0 3 * * *', () => {
+  parsing('recipe', 1);
+  // console.log('running a task every minute');
 });
 
 app.listen(PORT, () => {

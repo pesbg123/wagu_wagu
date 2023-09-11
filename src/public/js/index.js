@@ -1,10 +1,10 @@
 $(document).ready(() => {
-  getPosts();
+  getPosts(1);
 });
 
-const getPosts = async () => {
+const getPosts = async (page) => {
   try {
-    const response = await axios.get('/api/posts');
+    const response = await axios.get(`/api/posts?page=${page}`);
     const posts = response.data.data;
 
     let allHtml = '';
@@ -31,9 +31,7 @@ const getPosts = async () => {
 
     $('#card-list').append(allHtml);
 
-    pageCount++;
-    const lastCard = document.querySelector('#card-list > .col-md-4:last-child');
-    io.observe(lastCard);
+    io.observe(document.querySelector('#card-list .col-md-4:last-child'));
   } catch (error) {
     console.log(error);
   }
@@ -47,45 +45,17 @@ const convertToKST = (dateUTCString) => {
 
 let pageCount = 1;
 const io = new IntersectionObserver(async (entries, observer) => {
-  entries.forEach(async (entry) => {
-    if (entry.isIntersecting) {
-      pageCount++;
-      try {
-        const response = await axios.get(`/api/posts?page=${pageCount}`);
-        const rows = response.data.data;
-
-        const cardList = document.getElementById('card-list');
-
-        rows.forEach((row) => {
-          const createdAt = convertToKST(row.created_at);
-          const card = document.createElement('div');
-          card.classList.add('col-md-4', 'mb-4');
-          card.innerHTML = `
-            <div class="card shadow-sm">
-              <img src="${row.food_img}" alt="${row.title}" class="card-img-top">
-              <div class="card-body">
-                <p class="card-text">${row.title}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                  <p>${row['User.nickname']}</p>
-                  </div>
-                  <small class="text-body-secondary">${createdAt}</small>
-                </div>
-              </div>
-            </div>
-          `;
-          cardList.appendChild(card);
-        });
-
-        const lastCard = cardList.querySelector('.col-md-4:last-child');
-        io.observe(lastCard);
-      } catch (error) {
-        console.error('데이터 가져오기 오류:', error);
+  entries.forEach(
+    async (entry) => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        pageCount++;
+        getPosts(pageCount); // 사용자가 페이지 하단에 도달하면 새로운 페이지의 게시물들을 불러옵니다.
       }
-    }
-  });
+    },
+    { threshold: [1] },
+  );
 });
-
 // 공지 1
 $('#site-introduction').click(() => {
   location.href = '/notice/24';

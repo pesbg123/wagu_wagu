@@ -9,7 +9,7 @@ $(document).ready(() => {
 const getFollowedUsers = async (userId) => {
   try {
     const authorization = getCookie('WGID');
-    const response = await fetch(`/api/users/${userId}/followers`, {
+    const response = await fetch(`http://localhost:3000/api/users/${userId}/followers`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
