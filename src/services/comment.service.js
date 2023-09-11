@@ -7,15 +7,12 @@ class CommentsService {
   postsRepository = new PostsRespository();
 
   // 전체 댓글 조회
-  findComments = async (/*admin_id*/) => {
+  findComments = async () => {
     try {
       const content = await this.commentsRepository.findAll();
       if (content.length === 0) {
         return { code: 404, data: '댓글이 존재하지 않습니다.' };
       }
-      /*if (!admin_id) {
-        return res.status(401).json({ message: '관리자 권한이 필요합니다.' });
-      }*/
       return { code: 200, data: content };
     } catch (error) {
       return { code: 500, data: error.message };
@@ -203,6 +200,7 @@ class CommentsService {
   };*/
 
   blockComment = async (post_id, comment_id) => {
+    console.log('post_id', post_id);
     const existPost = await this.postsRepository.findOnePost(post_id);
     const existComment = await this.commentsRepository.findComment(comment_id);
     if (!existPost) throw new CustomError('해당 게시물이 존재하지 않습니다.', 404);

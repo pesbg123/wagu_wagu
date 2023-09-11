@@ -2,9 +2,9 @@ const { Comments, Users, Posts /*,AdminNotices*/ } = require('../models');
 const { Op } = require('sequelize');
 
 class CommentsRepository {
-  // 전체 댓글 조회
-  findAll = async (/*admin_id*/) => {
-    return await Comments.findAll({
+  //전체 댓글 조회.
+  findAll = async () => {
+    const comments = await Comments.findAll({
       include: [
         {
           model: Users,
@@ -16,6 +16,8 @@ class CommentsRepository {
         },
       ],
     });
+
+    return comments;
   };
 
   // 댓글 게시물 조회
