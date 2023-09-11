@@ -5,6 +5,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 
+const redisClient = require('./middlewares/redis.middleware');
+
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
 const adminNoticeRouter = require('./routes/admin.notices.routes');
@@ -18,6 +20,8 @@ const reportRouter = require('./routes/reports.routes');
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+redisClient.connect();
 
 app.use('/api', [
   accountRouter,
@@ -88,45 +92,7 @@ app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });
 
-// ChatGPT를 호출하는 비동기 함수를 정의합니다.
-// async function callChatGPT(prompt) {
-//   try {
-//     const response = await axios.post(
-//       'https://api.openai.com/v1/chat/completions',
-//       {
-//         prompt: prompt,
-//         max_tokens: 100,
-//       },
-//       {
-//         headers: {
-//           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-//         },
-//       },
-//     );
-
-//     return response.data.choices[0].text;
-//   } catch (error) {
-//     console.error('Error calling ChatGPT API:', error);
-//     return null;
-//   }
-// }
-
-// '/ask' 경로의 GET 요청을 처리
-// app.get('/chatGPT', async function (req, res) {
-//   res.sendFile(path.join(__dirname, './public/chatGPT.html')); // askgpt.html 파일을 보내줍니다.
-// });
-
-// // '/ask' 경로의 POST 요청을 처리
-// app.post('/chatGPT', async (req, res) => {
-//   const prompt = req.body.prompt;
-//   const response = await callChatGPT(prompt);
-
-//   if (response) {
-//     res.json({ response: response });
-//   } else {
-//     res.status(500).json({ error: 'Failed to get response from ChatGPT API' });
-//   }
-//   app.use((req, res, next) => {
-//     indexMiddleware.indexToken(req, res, next);
-//   });
-// });
+// Unhandled Promise Rejection 처리
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('promise:', promise, 'reason:', reason);
+});

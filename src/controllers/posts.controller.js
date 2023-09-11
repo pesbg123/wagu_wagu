@@ -1,13 +1,12 @@
 const PostsService = require('../services/posts.service');
 const upload = require('../middlewares/uploadMiddleware');
 
-const user_id = 1;
-
 class PostsController {
   postsService = new PostsService();
 
-  createPost = async (req, res, next) => {
+  createPost = async (req, res) => {
     try {
+      const { id } = req.user;
       // 이미지 업로드를 위한 미들웨어로 처리
       upload.single('food_img')(req, res, async (err) => {
         if (err) {
@@ -21,7 +20,7 @@ class PostsController {
         const food_img_path = req.file ? req.file.location : null;
 
         // 이미지 파일 정보를 PostsService.createPost 메서드로 전달
-        const createPostData = await this.postsService.createPost(user_id, title, ingredient, recipe, food_img_path);
+        const createPostData = await this.postsService.createPost(id, title, ingredient, recipe, food_img_path);
 
         return res.status(201).json({ message: '게시글을 생성하였습니다.', data: createPostData });
       });
@@ -34,7 +33,12 @@ class PostsController {
 
   findPosts = async (req, res) => {
     try {
+      // 검색 시작 시간 기록
+      console.time('findPosts');
       const findPostsData = await this.postsService.findPosts();
+
+      // 검색 종료 시간 기록
+      console.timeEnd('findPosts');
 
       return res.status(200).json({ data: findPostsData });
     } catch (error) {
@@ -61,8 +65,11 @@ class PostsController {
   findUserPosts = async (req, res) => {
     try {
       const { user_id } = req.query;
-
+      // 검색 시작 시간 기록
+      console.time('findUserPosts');
       const findUserPostsData = await this.postsService.findUserPosts(user_id);
+      // 검색 종료 시간 기록
+      console.timeEnd('findUserPosts');
 
       return res.status(200).json({ data: findUserPostsData });
     } catch (error) {
@@ -86,10 +93,10 @@ class PostsController {
     }
   };
 
-  updatePost = async (req, res, next) => {
+  updatePost = async (req, res) => {
     try {
       const { id } = req.params;
-      // const { user_id } = req.user;
+      const { id: user_id } = req.user;
       const { title, ingredient, recipe, food_img } = req.body;
 
       await this.postsService.updatePost(id, user_id, title, ingredient, recipe, food_img);
@@ -102,10 +109,10 @@ class PostsController {
     }
   };
 
-  deletePost = async (req, res, next) => {
+  deletePost = async (req, res) => {
     try {
       const { id } = req.params;
-      // const { user_id } = req.user;
+      const { id: user_id } = req.user;
 
       await this.postsService.deletePost(id, user_id);
 

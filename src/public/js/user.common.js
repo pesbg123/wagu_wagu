@@ -45,8 +45,15 @@ async function verify() {
           // 다른 페이지인 경우 리디렉션
           window.location.href = '/';
         }
+      } else {
+        if (window.location.pathname === '/') {
+          return;
+        } else {
+          // 다른 페이지인 경우 리디렉션
+          window.location.href = '/';
+        }
       }
-      window.location.href = '/';
+      // window.location.href = '/';
     }
   } catch (error) {
     console.error('Error:', error);
@@ -77,16 +84,11 @@ setInterval(verify, 900000);
 document.addEventListener('DOMContentLoaded', () => {
   const logoutBtn = document.getElementById('logoutBtn');
 
-  console.log('🚀 ~ file: user.common.js:65 ~ document.addEventListener ~ logoutBtn:', logoutBtn);
-
-  console.log('123123', getCookie('WGID'));
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
-      event.preventDefault(); // 기본 동작 차단
+      event.preventDefault();
 
       try {
-        console.log(333);
-
         const response = await fetch('/api/logout', {
           method: 'POST',
           headers: {
@@ -95,19 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
           },
         });
 
-        console.log(444);
-
         if (response.ok) {
-          // 로그아웃 성공 시 필요한 작업 수행
-          console.log(5555);
           deleteCookie('WGID');
           window.location.reload();
         } else {
-          // 로그아웃 실패 처리
           console.error('로그아웃 실패', error);
         }
       } catch (error) {
-        // 에러 처리
         console.error('에러:', error);
       }
     });
