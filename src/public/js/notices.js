@@ -18,7 +18,8 @@ const headers = {
 // 공지 상세
 const getOneNotice = async (id) => {
   try {
-    const response = await axios.get(`/api/adminNotices/${id}`, headers);
+    const response = await axios.get(`https://xyz.waguwagu.online/api/adminNotices/${id}`, headers);
+
     const notice = response.data;
 
     let temphtml = `<p>${notice.content}</p>`;

@@ -38,13 +38,20 @@ const getPosts = async () => {
   }
 };
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 let pageCount = 1;
 const io = new IntersectionObserver(async (entries, observer) => {
   entries.forEach(async (entry) => {
     if (entry.isIntersecting) {
       pageCount++;
       try {
-        const response = await axios.get(`/api/posts?page=${pageCount}`);
+        const response = await axios.get(`https://xyz.waguwagu.online/api/posts?page=${pageCount}`, headers);
         const rows = response.data.data;
 
         const cardList = document.getElementById('card-list');
@@ -91,3 +98,15 @@ $('#site-rule').click(() => {
 
 // const form = document.querySelector('#postForm');
 // form.addEventListener('submit', post);
+
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}

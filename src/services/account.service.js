@@ -1,8 +1,7 @@
+const redisClient = require('../middlewares/redis.middleware');
 const AccountRepository = require('../repositories/account.repository');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const redis = require('redis');
-
 require('dotenv').config({ path: '../.env' });
 const env = process.env;
 
@@ -27,6 +26,18 @@ class AccountService {
 
   signUp = async (email, password) => {
     try {
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      // 이메일 형식 검사
+      if (!emailRegex.test(email)) {
+        throw { errorCode: 400, message: '올바른 이메일 형식이 아닙니다.' };
+      }
+
+      // 비밀번호 길이 검사
+      if (password.length < 5) {
+        throw { errorCode: 400, message: '비밀번호는 5글자 이상이어야 합니다.' };
+      }
+
       const existUser = await this.accountRepository.findUserByEmail(email);
 
       if (existUser) {
@@ -66,37 +77,16 @@ class AccountService {
       const accessToken = this.generateAccessToken(user);
       const refreshToken = this.generateRefreshToken(user);
 
-      const redisClient = redis.createClient({
-        url: env.REDIS_URL,
-        connect_timeout: 5000,
-        max_attempts: 3,
-        legacyMode: true,
-      });
+      console.log('🚀 ~ file: account.service.js:80 ~ AccountService ~ logIn= ~ refreshToken:', refreshToken);
 
-      redisClient.on('connect', () => {
-        console.log('===레디스 연결 성공===');
-      });
+      // redisClient.connect();
 
-      redisClient.on('error', (error) => {
-        throw { errorCode: 500, message: error };
-      });
+      // 데이터를 Redis에 저장하고 만료 시간을 설정
+      await redisClient.v4.set(`userId:${user.id.toString()}`, refreshToken, 'EX', 24 * 60 * 60);
 
-      await redisClient.connect();
+      const redisValue = await redisClient.v4.get(`userId:${user.id.toString()}`);
 
-      const redisCli = redisClient.v4;
-
-      // Redis에 토큰 저장
-      await redisCli.set(`userId:${user.id.toString()}`, refreshToken);
-      // 리프레시 토큰 만료 일자랑 동일한 시기에 레디스에서 자동 삭제
-      await redisCli.expire(`userId:${user.id.toString()}`, 24 * 60 * 60);
-
-      const redisValue = await redisCli.get(`userId:${user.id}`);
-
-      console.log(`추가된 유저키와 리프레시 값 : ${redisValue}`);
-
-      console.log('===레디스 연결 종료===');
-
-      await redisClient.v4.quit();
+      console.log(`추가된 유저키와 리프레시 값 : ${user.id}, ${redisValue}`);
 
       return { accessToken, refreshToken, isAdmin };
     } catch (error) {
@@ -108,7 +98,7 @@ class AccountService {
     try {
       const decodedAccessToken = jwt.verify(accessToken, env.ACCESS_KEY);
 
-      console.log(decodedAccessToken.userId);
+      // console.log(decodedAccessToken.userId);
 
       const user = await this.accountRepository.findUserByUserId(decodedAccessToken.userId);
 
@@ -116,43 +106,20 @@ class AccountService {
         throw { errorCode: 404, message: '존재하지 않는 유저아이디.' };
       }
 
-      const redisClient = redis.createClient({
-        url: env.REDIS_URL,
-        connect_timeout: 5000,
-        max_attempts: 3,
-        legacyMode: true,
-      });
-
-      redisClient.on('connect', () => {
-        console.log('===레디스 연결 성공===');
-      });
-
-      redisClient.on('error', (error) => {
-        throw { errorCode: 500, message: error };
-      });
-
-      await redisClient.connect();
-
-      const redisCli = redisClient.v4;
-
       // 토큰 존재 확인
-      const redisKEY = await redisCli.exists(`userId:${user.id}`);
+      const redisKEY = await redisClient.v4.exists(`userId:${user.id}`);
 
       if (!redisKEY) {
         throw { errorCode: 401, message: '리프레시 토큰이 존재하지 않음' };
       }
 
-      const redisDEL = await redisCli.del(`userId:${user.id}`);
+      const redisDEL = await redisClient.v4.del(`userId:${user.id}`);
 
       if (redisDEL) {
         console.log('토큰 삭제 성공');
       } else {
         throw { errorCode: 401, message: '토큰 삭제 오류' };
       }
-
-      console.log('===레디스 연결 종료===');
-
-      await redisClient.v4.quit();
     } catch (error) {
       throw error;
     }
@@ -217,44 +184,20 @@ class AccountService {
 
       await this.accountRepository.updatePassword(id, hashedPassword);
 
-      const redisClient = redis.createClient({
-        url: env.REDIS_URL,
-        connect_timeout: 5000,
-        max_attempts: 3,
-        legacyMode: true,
-      });
-
-      redisClient.on('connect', () => {
-        console.log('===레디스 연결 성공===');
-      });
-
-      redisClient.on('error', (error) => {
-        throw { errorCode: 500, message: error };
-      });
-
-      await redisClient.connect();
-
-      const redisCli = redisClient.v4;
-
       // 토큰 존재 확인
-      const redisKEY = await redisCli.exists(`userId:${user.id}`);
+      const redisKEY = await redisClient.v4.exists(`userId:${user.id}`);
 
       if (!redisKEY) {
         throw { errorCode: 401, message: '리프레시 토큰이 존재하지 않음' };
       }
 
-      const redisDEL = await redisCli.del(`userId:${user.id}`);
+      const redisDEL = await redisClient.v4.del(`userId:${user.id}`);
 
       if (redisDEL) {
         console.log('토큰 삭제 성공');
       } else {
         throw { errorCode: 401, message: '토큰 삭제 오류' };
       }
-
-      console.log('===레디스 연결 종료===');
-
-      await redisClient.v4.quit();
-
       return;
     } catch (error) {
       throw error;

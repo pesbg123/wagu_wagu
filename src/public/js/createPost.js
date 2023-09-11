@@ -44,7 +44,7 @@ $(document).ready(function () {
       formData.append('food_img', food_img);
 
       try {
-        const response = await axios.post('http://localhost:3000/api/posts', formData, {
+        const response = await axios.post('https://xyz.waguwagu.online/api/posts', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             authorization: `${getCookie('WGID')}`,
