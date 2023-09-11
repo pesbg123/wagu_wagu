@@ -1,19 +1,50 @@
 /* eslint-disable no-undef */
-$(document).ready(() => {
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}
+const getUserInfo = async () => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/users/me`, headers);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+$(document).ready(async () => {
   // URL을 가변적으로 변경하기 위해.
   const urlPath = window.location.pathname;
   const pathSegments = urlPath.split('/');
+
+  // 게시글 ID
   const post_id = pathSegments[2];
 
-  // 하드코딩된 로그인한 사용자의 아이디
-  const loggedInUserId = 2;
+  // 로그인한 사용자 정보 가져오기
+  const userInfo = await getUserInfo();
 
-  if (post_id) {
-    getPosts(post_id, loggedInUserId);
-    getComments(post_id, loggedInUserId);
-  } else {
-    console.error('Invalid post ID');
+  if (!userInfo || !post_id) {
+    console.error('Invalid user info or post ID');
+    return;
   }
+
+  // 로그인한 사용자의 아이디
+  const loggedInUserId = userInfo.id;
+
+  getPosts(post_id, loggedInUserId);
 
   $('#submitCommentBtn').click(() => {
     submitComment(post_id); // post_id 전달
@@ -22,7 +53,7 @@ $(document).ready(() => {
 
 const getPosts = async (post_id, loggedInUserId) => {
   try {
-    const response = await axios.get(`/api/posts/${post_id}`);
+    const response = await axios.get(`http://localhost:3000/api/posts/${post_id}`, headers);
 
     let tempHtml = `<div class="resume-section-content">
                         <h2 class="mb-5">${response.data.data.title}`;
@@ -48,11 +79,14 @@ const getPosts = async (post_id, loggedInUserId) => {
 
     // 이미지 요소.
     if (response.data.data.food_img) {
+      console.log(`이미지 경로가 있을 시 : ${response.data.data.food_img}`); // 콘솔 로그 수정
       tempHtml += `<img src="${response.data.data.food_img}" alt="${response.data.title}" />`;
+    } else {
+      console.log('이미지 경로가 없을 시'); // 이미지 경로가 없을 경우에 대한 콘솔 로그 추가
     }
 
     tempHtml += `</div>
-                </div>`;
+                  </div>`;
 
     tempHtml += '</br></br>';
 
@@ -62,9 +96,10 @@ const getPosts = async (post_id, loggedInUserId) => {
   }
 };
 
+//댓글 신고.
 const reportPost = async (post_id) => {
   try {
-    await axios.patch(`/api/posts/${post_id}/block`);
+    await axios.patch(`http://localhost:3000/api/posts/${post_id}/block`, headers);
     alert('게시글이 신고되었습니다.');
   } catch (error) {
     console.error(error);
@@ -79,7 +114,7 @@ $(document).on('click', '.reportPostBtn', function () {
 //댓글 조회
 const getComments = async (post_id, loggedInUserId) => {
   try {
-    const response = await axios.get(`/api/comments/${post_id}`);
+    const response = await axios.get(`http://localhost:3000/api/comments/${post_id}`, headers);
     let allHtml = '';
 
     if (response.data.data.length === 0) {
@@ -92,8 +127,9 @@ const getComments = async (post_id, loggedInUserId) => {
                   ${comment.content}
                   </p>`;
 
-        // 로그인한 사용자와 댓글 작성자의 user_id 비교
+        // 로그인한 사용자와 댓글 작성자의 user_id 비교, 닉네임 가져오도록 수정.
         if (loggedInUserId === comment.user_id) {
+          // <-- 여기서 변경됨
           // 사용자가 댓글 작성자인 경우 수정, 삭제, 대댓글 버튼 보이기
           tempHtml += `
             <button id="editCommentBtn_${comment.id}" class="edit-button">수정</button>
@@ -128,7 +164,7 @@ $(document).on('click', '[id^=deleteCommentBtn_]', function () {
 
 const deleteComment = async (comment_id) => {
   try {
-    await axios.delete(`/api/comments/${comment_id}`);
+    await axios.delete(`http://localhost:3000/api/comments/${comment_id}`, headers);
     $(`#postCommentContent_${comment_id}`).parent().remove();
     alert('댓글이 성공적으로 삭제되었습니다.');
   } catch (error) {
@@ -138,9 +174,13 @@ const deleteComment = async (comment_id) => {
 
 const editComment = async (comment_id, newContent) => {
   try {
-    await axios.put(`/api/comments/${comment_id}`, {
-      content: newContent,
-    });
+    await axios.put(
+      `http://localhost:3000/api/comments/${comment_id}`,
+      {
+        content: newContent,
+      },
+      headers,
+    );
 
     $(`#postCommentContent_${comment_id}`).text(newContent);
 
@@ -149,9 +189,8 @@ const editComment = async (comment_id, newContent) => {
     console.error(error);
   }
 };
-
-$(document).on('click', 'button.edit-button', function () {
-  const comment_id = $(this).attr('comment-id');
+$(document).on('click', '[id^=editCommentBtn_]', function () {
+  const comment_id = this.id.split('_')[1];
   const newContent = prompt('댓글을 수정하세요.');
 
   if (newContent !== null && newContent.trim() !== '') {
@@ -169,14 +208,18 @@ const submitComment = async (post_id) => {
       return;
     }
 
-    await axios.post(`/api/comments/${post_id}`, {
-      content: commentText,
-      post_id: post_id,
-      reply_id: null,
-    });
+    await axios.post(
+      `/http://localhost:3000/api/comments/${post_id}`,
+      {
+        content: commentText,
+        post_id: post_id,
+        reply_id: null,
+      },
+      headers,
+    );
 
     $('#commentText').val('');
-    getComments(post_id);
+    getComments(loggedInUserId);
 
     // 확인용 모달창
     $('#commentModal').modal('show');
@@ -184,15 +227,15 @@ const submitComment = async (post_id) => {
     console.error(error);
   }
   // 자동 새로고침
-  getComments(post_id);
+  getComments(loggedInUserId);
 };
 
 // 댓글 신고
 const reportComment = async (post_id, comment_id) => {
   try {
-    await axios.patch(`/api/posts/${post_id}/comments/${comment_id}/block`);
+    await axios.patch(`http://localhost:3000/api/posts/${post_id}/comments/${comment_id}/block`, headers);
     alert('댓글이 성공적으로 신고되었습니다.');
-    getComments(post_id); // 화면에서 바로 변경사항 반영
+    getComments(loggedInUserId); // 화면에서 바로 변경사항 반영
   } catch (error) {
     console.error(error);
   }
@@ -219,10 +262,14 @@ const submitReplyComment = async (post_id, reply_id) => {
 
     console.log(`post_id=${post_id}, reply_id=${reply_id}, content=${commentText}`);
 
-    const response = await axios.post(`/api/comments/${post_id}`, {
-      content: commentText,
-      reply_id: reply_id, // 대댓글의 ID를 reply_id로 전달
-    });
+    const response = await axios.post(
+      `http://localhost:3000/api/comments/${post_id}`,
+      {
+        content: commentText,
+        reply_id: reply_id, // 대댓글의 ID를 reply_id로 전달
+      },
+      headers,
+    );
 
     console.log(`Response from server: ${JSON.stringify(response.data)}`);
 
@@ -235,7 +282,7 @@ const submitReplyComment = async (post_id, reply_id) => {
   }
 
   // 자동 새로고침
-  getComments(post_id);
+  getComments(loggedInUserId);
 
   // 대댓글 작성이 완료되면 대댓글 작성 모달창 닫기
   $('#replyModal').modal('hide');
@@ -244,7 +291,8 @@ const submitReplyComment = async (post_id, reply_id) => {
 // 이벤트 핸들러 등록 - 대댓글 작성 버튼 클릭 시 동작
 $(document).on('click', '[id^=replyCommentBtn_]', function () {
   const post_id = $(this).data('post-id'); // post_id 가져오기
-  const reply_id = $(this).data('comment-id'); // 부모 댓글의 id 가져오기
+  const reply_id = $(this).data('comment-id'); // 부모 댓글의 id 가져오기, 여기서 수정.
+  //console.log($(this). $(this).data('comment-id'))
 
   // 대댓글 작성 모달창 띄우기
   $('#replyModal').modal('show');
@@ -256,3 +304,5 @@ $(document).on('click', '[id^=replyCommentBtn_]', function () {
       submitReplyComment(post_id, reply_id); // post_id와 reply_id를 올바르게 전달
     });
 });
+
+//안될 시 헤더와 http//localohost, 초기에 선언된 함수 삭제해보기.
