@@ -6,7 +6,8 @@ const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3').verbose();
 const cron = require('node-cron');
-const redis = require('redis');
+
+const redisClient = require('./middlewares/redis.middleware');
 
 const accountRouter = require('./routes/account.routes');
 const commentsRouter = require('./routes/comments.routes');
@@ -24,18 +25,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const redisClient = redis.createClient({
-  url: process.env.REDIS_URL,
-  legacyMode: true,
-});
-
-redisClient.on('connect', () => {
-  console.log('Redis 연결 성공');
-});
-
-redisClient.on('error', (error) => {
-  console.error('Redis 연결 오류:', error);
-});
+redisClient.connect();
 
 app.use('/api', [
   accountRouter,

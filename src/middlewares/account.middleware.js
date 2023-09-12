@@ -1,6 +1,6 @@
+const redisClient = require('../middlewares/redis.middleware');
 const jwt = require('jsonwebtoken');
 const AccountRepository = require('../repositories/account.repository');
-const redis = require('ioredis');
 require('dotenv').config();
 const env = process.env;
 
@@ -15,7 +15,6 @@ const env = process.env;
 class AuthenticationMiddleware {
   constructor() {
     this.authRepository = new AccountRepository();
-    this.redisCli = new redis();
   }
 
   generateAccessToken = (user) => {
@@ -57,9 +56,11 @@ class AuthenticationMiddleware {
       // 유효한 액세스 토큰이라면 다음 미들웨어나 API 실행
       req.user = { id: verifiedToken.userId }; // 사용자 "아이디"를 req.user 객체에 저장
 
-      const refreshToken = await this.redisCli.get(`userId:${req.user.id}`);
+      const refreshToken = await redisClient.v4.get(`userId:${req.user.id}`);
 
-      if (refreshToken === null) {
+      // console.log('🚀 ~ file: account.middleware.js:69 ~ AuthenticationMiddleware ~ authenticateAccessToken= ~ refreshToken:', refreshToken);
+
+      if (!refreshToken) {
         return res.status(401).json({ message: '토큰이 만료되었습니다.' });
       }
 
@@ -71,14 +72,14 @@ class AuthenticationMiddleware {
         req.user = { id: decodedToken.userId };
         return this.authenticateRefreshToken(req, res, next);
       }
-      console.error('authenticateAccessToken 오류:', error);
+      // console.error('authenticateAccessToken 오류:', error);
       return res.status(500).json({ message: '오류 발생: ' + error.message });
     }
   };
 
   authenticateRefreshToken = async (req, res, next) => {
     try {
-      const refreshToken = await this.redisCli.get(`userId:${req.user.id}`);
+      const refreshToken = await redisClient.v4.get(`userId:${req.user.id}`);
 
       if (!refreshToken) {
         return res.status(401).json({ message: '토큰이 만료되었습니다.' });
@@ -96,7 +97,7 @@ class AuthenticationMiddleware {
       // if (error.name === 'TokenExpiredError') {
       //   return res.status(401).json({ message: '리프레시 토큰 만료' });
       // }
-      console.error('authenticateRefreshToken 오류:', error);
+      // console.error('authenticateRefreshToken 오류:', error);
 
       return res.status(500).json({ message: '오류 발생: ' + error.message });
     }
