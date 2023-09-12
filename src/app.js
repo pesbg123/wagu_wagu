@@ -114,6 +114,18 @@ cron.schedule('0 3 * * *', () => {
   }
 });
 
+app.get('/api/getCrawledRecipes', async (req, res) => {
+  try {
+    // 모든 크롤링 데이터를 검색합니다.
+    const recipes = await CrawledRecipes.findAll();
+
+    res.status(200).json({ data: recipes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: '데이터 검색 중에 오류가 발생했습니다.' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });
