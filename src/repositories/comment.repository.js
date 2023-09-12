@@ -24,11 +24,10 @@ class CommentsRepository {
   findAllComment = async ({ post_id }) => {
     return await Comments.findAll({
       where: { post_id },
-      include: [
-        {
-          model: Users,
-        },
-      ],
+      include: {
+        model: Users,
+        attributes: ['nickname', 'user_img'],
+      },
     });
   };
 

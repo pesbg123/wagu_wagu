@@ -12,7 +12,7 @@
   <!-- axios -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- css -->
-  <link href="./css/food_page.css" rel="stylesheet" />
+  <link href="/css/food_page.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -39,16 +39,23 @@
     <div class="row">
       <div class="col-lg-8">
         <!-- Post content-->
-        <article>
+        <article class="one-post">
           <!-- Post header-->
           <header class="mb-4">
             <!-- Post title-->
-            <h1 class="fw-bolder mb-1">제목이 들어갑니다.</h1>
+            <h1 class="fw-bolder mb-2">제목이 들어갑니다.</h1>
             <!-- Post meta content-->
-            <div class="text-muted fst-italic mb-2">작성 날짜가 들어갑니다.</div>
+            <div class="text-muted fst-italic mb-2">
+              작성 날짜가 들어갑니다.
+            </div>
+            <!-- Btn container -->
+            <div>
+              <button style="border: none; margin-bottom: 5px;">수정</button>
+              <button style="border: none; margin-bottom: 5px;">삭제</button>
+            </div>
             <!-- Post categories-->
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a>
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a>
+            <a class="badge bg-info text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a>
+            <a class="badge bg-success text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a>
           </header>
           <!-- Preview image figure-->
           <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"
@@ -61,6 +68,7 @@
             <p class="fs-5 mb-4">레시피가 들어갑니다.</p>
           </section>
         </article>
+
         <!-- Comments section-->
         <section class="mb-5">
           <div class="card bg-light">
@@ -68,20 +76,34 @@
               <!-- Comment form-->
               <form class="mb-4"><textarea class="form-control" rows="3" placeholder="댓글을 입력하세요!"></textarea></form>
               <!-- Comment with nested comments-->
-              <div class="d-flex mb-4">
+              <div class="d-flex mb-4 comments-container">
                 <!-- Parent comment-->
-                <div class="flex-shrink-0"><img class="rounded-circle"
-                    src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                <div class="ms-3">
-                  <div class="fw-bold">댓글 작성자 이름</div>
-                  맛있는 음식 레시피 공유 감사드립니다 ^_^
+                <div class=" one-comment" id="comment-container">
+                  <div class="flex-shrink-0"><img class="rounded-circle"
+                      src="https://cdn.landesa.org/wp-content/uploads/default-user-image.png" alt="..." /></div>
+                  <div class="ms-3">
+                    <div class="fw-bold" id="comment-author">닉넴</div>
+                    <div>
+                      댓글
+                    </div>
+                    <button comment-id="" style="border: none; margin-top: 5px;">답글</button>
+                    <button comment-id="" style="border: none; margin-top: 5px;">신고</button>
+                    <button comment-id="" style="border: none; margin-top: 5px;">수정</button>
+                    <button comment-id="" style="border: none; margin-top: 5px;">삭제</button>
+                  </div>
                   <!-- Child comment 1-->
-                  <div class="d-flex mt-4">
-                    <div class="flex-shrink-0"><img class="rounded-circle"
-                        src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
-                    <div class="ms-3">
-                      <div class="fw-bold">답글 작성자 이름</div>
-                      별말씀을요!
+                  <div class="d-flex mt-4" id="reply-comment" style="margin-left: 4rem;">
+                    <div class="one-reply">
+                      <div class="flex-shrink-0"><img class="rounded-circle"
+                          src="https://cdn.landesa.org/wp-content/uploads/default-user-image.png" alt="..." /></div>
+                      <div class="ms-3">
+                        <div class="fw-bold">답글 작성자 이름</div>
+                        <div>reply</div>
+                        <button style="border: none; margin-top: 5px;">답글</button>
+                        <button style="border: none; margin-top: 5px;">신고</button>
+                        <button style="border: none; margin-top: 5px;">수정</button>
+                        <button style="border: none; margin-top: 5px;">삭제</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -90,11 +112,16 @@
           </div>
         </section>
       </div>
+
+
       <!-- Side widget-->
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-header">작성자 이름</div>
           <img class="card-body" src="https://cdn.landesa.org/wp-content/uploads/default-user-image.png" />
+          <div class="text-muted fst-italic mb-2" style="margin-left: auto; margin-right: auto;">
+            이메일이 들어갑니다.
+          </div>
         </div>
       </div>
     </div>
@@ -102,13 +129,14 @@
   <!-- Footer-->
   <footer class="py-5 bg-dark">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p>
+      <p class="m-0 text-center text-white">Copyright &copy; Wagu_Wagu 2023</p>
     </div>
   </footer>
   <!-- Bootstrap core JS-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Core theme JS-->
-  <script src="./js/food_page.js"></script>
+
+  <!-- js -->
+  <script src="/js/food_page.js" defer></script>
 </body>
 
 </html>

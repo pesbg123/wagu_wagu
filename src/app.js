@@ -86,7 +86,7 @@ app.get('/notice/:notice_id', (req, res) => {
 });
 
 // food_page
-app.get('/food_page/', (req, res) => {
+app.get('/food_page/:post_id', (req, res) => {
   const { post_id } = req.params;
   res.sendFile(path.join(__dirname, './public/food_page.html'));
 });
