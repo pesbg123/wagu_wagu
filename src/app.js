@@ -18,7 +18,7 @@ const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
-const parsing = require('./routes/test');
+const parsing = require('./routes/crawled.routes');
 console.log('parsing', parsing);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -118,50 +118,50 @@ app.listen(PORT, () => {
   console.log(`server listening on ${PORT}`);
 });
 
-// Unhandled Promise Rejection 처리
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('promise:', promise, 'reason:', reason);
-});
+// // Unhandled Promise Rejection 처리
+// process.on('unhandledRejection', (reason, promise) => {
+//   console.error('promise:', promise, 'reason:', reason);
+// });
 
-// ChatGPT를 호출하는 비동기 함수를 정의합니다.
-async function callChatGPT(prompt) {
-  try {
-    const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
-      {
-        prompt: prompt,
-        max_tokens: 100,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-        },
-      },
-    );
+// // ChatGPT를 호출하는 비동기 함수를 정의합니다.
+// async function callChatGPT(prompt) {
+//   try {
+//     const response = await axios.post(
+//       'https://api.openai.com/v1/chat/completions',
+//       {
+//         prompt: prompt,
+//         max_tokens: 100,
+//       },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+//         },
+//       },
+//     );
 
-    return response.data.choices[0].text;
-  } catch (error) {
-    console.error('Error calling ChatGPT API:', error);
-    return null;
-  }
-}
+//     return response.data.choices[0].text;
+//   } catch (error) {
+//     console.error('Error calling ChatGPT API:', error);
+//     return null;
+//   }
+// }
 
-// '/ask' 경로의 GET 요청을 처리
-app.get('/chatGPT', async function (req, res) {
-  res.sendFile(path.join(__dirname, './public/chatGPT.html')); // askgpt.html 파일을 보내줍니다.
-});
+// // '/ask' 경로의 GET 요청을 처리
+// app.get('/chatGPT', async function (req, res) {
+//   res.sendFile(path.join(__dirname, './public/chatGPT.html')); // askgpt.html 파일을 보내줍니다.
+// });
 
-// '/ask' 경로의 POST 요청을 처리
-app.post('/chatGPT', async (req, res) => {
-  const prompt = req.body.prompt;
-  const response = await callChatGPT(prompt);
+// // '/ask' 경로의 POST 요청을 처리
+// app.post('/chatGPT', async (req, res) => {
+//   const prompt = req.body.prompt;
+//   const response = await callChatGPT(prompt);
 
-  if (response) {
-    res.json({ response: response });
-  } else {
-    res.status(500).json({ error: 'Failed to get response from ChatGPT API' });
-  }
-  app.use((req, res, next) => {
-    indexMiddleware.indexToken(req, res, next);
-  });
-});
+//   if (response) {
+//     res.json({ response: response });
+//   } else {
+//     res.status(500).json({ error: 'Failed to get response from ChatGPT API' });
+//   }
+//   app.use((req, res, next) => {
+//     indexMiddleware.indexToken(req, res, next);
+//   });
+// });
