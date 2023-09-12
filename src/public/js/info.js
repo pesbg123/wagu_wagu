@@ -165,3 +165,13 @@ function getCookie(name) {
 function deleteCookie(name) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
+
+const chPwBtn = document.getElementById('chPwBtn');
+chPwBtn.addEventListener('click', function () {
+  chPwBtn.style.display = 'none';
+  const pwForm = document.getElementById('pwForm');
+  const pwButton = document.getElementById('pwButton');
+  pwForm.style.display = 'block';
+  pwButton.style.display = 'block';
+  document.getElementById('currentPwInput').focus();
+});
