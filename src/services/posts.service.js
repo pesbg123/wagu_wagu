@@ -26,8 +26,9 @@ class PostsService {
     return createPostData;
   };
 
-  findPosts = async () => {
-    const findPostsData = await this.postsRespository.findPosts();
+  findPosts = async (limit, offset) => {
+    // limit과 offset을 리포지토리에 전달
+    const findPostsData = await this.postsRespository.findPosts(limit, offset);
 
     return findPostsData;
   };
