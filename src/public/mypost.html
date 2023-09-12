@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+      .box {
+        border: 1px solid black;
+        width: 25%;
+        padding: 20px;
+      }
+
+      .box-image {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <!-- header 내용... -->
+    </header>
+
+    <!--  박스 -->
+    <div id="box1" class="box" style="float: left">
+      <h2>박스</h2>
+
+      <!-- 폼 요소들... -->
+    </div>
+
+    <!-- 수정, 삭제 버튼 ( 박스 아래에 위치) -->
+    <div class="box mt-3" style="float: left; clear: left">
+      <button type="button" class="btn btn-secondary mr-2">수정</button>
+      <button type="button" class="btn btn-danger">삭제</button>
+    </div>
+
+    <footer>
+      <div id="footer"></div>
+    </footer>
+
+    <!-- 스크립트 경로 업데이트 -->
+    <script src="./js/updatepost.js"></script>
+  </body>
+</html>
