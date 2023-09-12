@@ -1,5 +1,5 @@
 const PostsService = require('../services/posts.service');
-const upload = require('../middlewares/uploadMiddleware');
+const { upload } = require('../middlewares/uploadMiddleware');
 
 class PostsController {
   postsService = new PostsService();
