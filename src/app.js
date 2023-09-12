@@ -16,6 +16,7 @@ const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
+const userRouter = require('./routes/users.routes');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,6 +35,7 @@ app.use('/api', [
   postRouter,
   reportRouter,
   commentsRouter,
+  userRouter,
 ]);
 
 app.use(express.static(path.join(__dirname, './public')));
