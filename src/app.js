@@ -4,7 +4,6 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
-const sqlite3 = require('sqlite3').verbose();
 const cron = require('node-cron');
 
 const redisClient = require('./middlewares/redis.middleware');
@@ -19,7 +18,6 @@ const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
 const parsing = require('./routes/crawled.routes');
-console.log('parsing', parsing);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -44,6 +42,18 @@ app.use(express.static(path.join(__dirname, './public')));
 // 메인
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/login.html'));
+});
+
+app.get('/info', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/info.html'));
+});
+
+app.get('/myPost', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/myPost.html'));
 });
 
 app.get('/posts', (req, res) => {

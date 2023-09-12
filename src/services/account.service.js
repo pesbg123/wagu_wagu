@@ -12,7 +12,7 @@ class AccountService {
 
   generateAccessToken = (user) => {
     const accessToken = jwt.sign({ userId: user.id }, env.ACCESS_KEY, {
-      expiresIn: '60m',
+      expiresIn: '10m',
     });
     return accessToken;
   };
@@ -82,7 +82,7 @@ class AccountService {
       // redisClient.connect();
 
       // 데이터를 Redis에 저장하고 만료 시간을 설정
-      await redisClient.v4.set(`userId:${user.id.toString()}`, refreshToken, 'EX', 24 * 60 * 60);
+      await redisClient.v4.set(`userId:${user.id.toString()}`, refreshToken, { EX: 86400 });
 
       const redisValue = await redisClient.v4.get(`userId:${user.id.toString()}`);
 

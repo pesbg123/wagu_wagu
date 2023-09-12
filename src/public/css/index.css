@@ -1,22 +1,177 @@
-.custom-card {
+/* 헤더 */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1350px;
+  margin: 0 auto;
+  padding: 20px 20px;
+}
+
+/* 로고 */
+/* #logo {
+  position: relative;
+} */
+
+/* 로그인 및 햄버거 메뉴 */
+#login-ham {
+  /* position: absolute; */
+  display: flex;
+  align-items: center;
+}
+
+/* 서치 박스 */
+.search {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  width: 700px;
+}
+
+.search-input {
   width: 100%;
-  height: 510px;
-}
-#myCarousel {
-  height: 640px;
-}
-.card-img-top {
-  height: 200px;
-}
-.carousel-inner {
-  margin-bottom: 20px;
-}
-
-.carousel-item {
-  height: 600px;
+  height: 60px;
+  line-height: 28px;
+  padding: 0 1rem;
+  padding-left: 3rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #f3f3f4;
+  color: #0d0c22;
+  transition: 0.3s ease;
 }
 
-#card-list {
-  width: 1350vw;
-  height: 700px;
+.search-input::placeholder {
+  color: #9e9ea7;
+}
+
+.search-input:focus,
+.search-input:hover {
+  outline: none;
+  border-color: rgba(234, 76, 137, 0.4);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgb(234 76 137 / 10%);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  fill: #9e9ea7;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* 추천 검색어 목록 스타일 */
+.search-box {
+  display: none; /* 초기에는 숨김 */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 2; /* 다른 요소 위에 나타나게 설정합니다. */
+}
+
+/* 추천 검색어 목록 스타일 */
+.search-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-box li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.search-box li:last-child {
+  border-bottom: none; /* 마지막 요소의 아래 테두리 제거 */
+}
+
+/* 사용자가 입력한 검색어 스타일 */
+.search-box .user-input {
+  font-weight: bold;
+}
+
+/*햄버거 메뉴 */
+
+#menu__toggle {
+  opacity: 0;
+}
+#menu__toggle:checked + .menu__btn > span {
+  transform: rotate(45deg);
+}
+#menu__toggle:checked + .menu__btn > span::before {
+  top: 0;
+  transform: rotate(0deg);
+}
+#menu__toggle:checked + .menu__btn > span::after {
+  top: 0;
+  transform: rotate(90deg);
+}
+#menu__toggle:checked ~ .menu__box {
+  right: 300px;
+  display: block;
+}
+.menu__btn {
+  position: absolute;
+  top: 80px;
+  right: 310px;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.menu__btn > span,
+.menu__btn > span::before,
+.menu__btn > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #616161;
+  transition-duration: 0.25s;
+}
+
+.menu__btn > span::before {
+  content: '';
+  top: -8px;
+}
+
+.menu__btn > span::after {
+  content: '';
+  top: 8px;
+}
+
+.menu__box {
+  display: none;
+  position: absolute;
+  /* right: 100px; */
+  top: 110px;
+  width: 300px;
+  margin: 0;
+  list-style: none;
+  background-color: #eceff1;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  transition-duration: 0.25s;
+  z-index: 2;
+}
+
+.menu__item {
+  display: block;
+  padding: 12px 24px;
+  color: #333;
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  transition-duration: 0.25s;
+}
+
+.menu__item:hover {
+  background-color: #cfd8dc;
 }
