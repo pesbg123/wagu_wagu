@@ -19,7 +19,6 @@ const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
 const parsing = require('./routes/test');
-const scroll = require('./routes/scroll');
 console.log('parsing', parsing);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -104,13 +103,15 @@ app.get('/users/:user_id/followers', (req, res) => {
   res.sendFile(path.join(__dirname, './public/user.follow.html'));
 });
 
-// cron.schedule('1 * * * * *', () => {
-//   // parsing();
-//   console.log('스케줄러실행중');
-// });
 cron.schedule('0 3 * * *', () => {
-  parsing('recipe', 1);
-  // console.log('running a task every minute');
+  const totalPages = 1;
+  const keyword = '레시피';
+
+  for (let page = 1; page <= totalPages; page++) {
+    setTimeout(function () {
+      parsing(keyword, page);
+    }, 10000 * page);
+  }
 });
 
 app.listen(PORT, () => {

@@ -14,7 +14,6 @@ router.get('/scroll', async (req, res) => {
     const posts = await Posts.findAll({
       limit,
       offset,
-      order: [['star', 'DESC']],
     });
 
     res.status(200).json(posts);

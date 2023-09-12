@@ -2,6 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const cron = require('node-cron');
 const { CrawledRecipes } = require('../models');
+const { where } = require('sequelize');
 
 const getHTML = async (url) => {
   try {
@@ -38,14 +39,20 @@ module.exports = async (keyword, page) => {
         const view_step_cont = recipe$('.view_step_cont.media').text();
         console.log('view_step_cont:', view_step_cont.trim());
 
+        const findrecipe = CrawledRecipes.findAll({ where: { recipe_title: recipeTitle } });
+
+        if (findrecipe.length > 0) {
+          return 
+        }
+
         CrawledRecipes.create({ recipe_title: recipeTitle, recipe_content: recipeContent, view_step_cont });
       }
     });
   });
 };
 
-const totalPages = 1;
-const keyword = '레시피';
+// const totalPages = 1;
+// const keyword = '레시피';
 
 // for (let page = 1; page <= totalPages; page++) {
 //   setTimeout(function () {

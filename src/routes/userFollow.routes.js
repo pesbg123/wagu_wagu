@@ -8,7 +8,7 @@ const userFollowController = new UserFollowController();
 router.post('/users/:user_id/followers', acountMiddleware.authenticateAccessToken, userFollowController.addUserFollow.bind(userFollowController));
 
 router.delete(
-  '/users/:user_id/unfollowers',
+  '/users/:userId/unfollowers/:targetId',
   acountMiddleware.authenticateAccessToken,
   userFollowController.removeUserFollow.bind(userFollowController),
 );

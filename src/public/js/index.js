@@ -43,14 +43,14 @@ const convertToKST = (dateUTCString) => {
   return dateUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 };
 
-let pageCount = 1;
+let pageCount = 12;
 const io = new IntersectionObserver(async (entries, observer) => {
   entries.forEach(
     async (entry) => {
       if (entry.isIntersecting) {
         observer.unobserve(entry.target);
         pageCount++;
-        getPosts(pageCount); // 사용자가 페이지 하단에 도달하면 새로운 페이지의 게시물들을 불러옵니다.
+        getPosts(pageCount);
       }
     },
     { threshold: [1] },

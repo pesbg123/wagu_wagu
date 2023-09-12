@@ -34,7 +34,7 @@ class PostsController {
   findPosts = async (req, res) => {
     const postsPerPage = 12;
     const { page } = req.query;
-    const pageNum = parseInt(page) || 1;
+    const pageNum = parseInt(page) || 12;
     const offset = (pageNum - 1) * postsPerPage;
 
     try {

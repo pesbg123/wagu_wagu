@@ -8,6 +8,7 @@ class UserFollowService {
 
   async addUserFollow(user_id, target_id) {
     try {
+      console.log('target_id', target_id);
       const existTargetUser = await this.userFollowRepository.findUserById(target_id);
 
       if (!existTargetUser) {

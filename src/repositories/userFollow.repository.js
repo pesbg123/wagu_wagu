@@ -1,4 +1,4 @@
-const { Followers, Users } = require('../models');
+const { Users, Followers } = require('../models');
 
 class UserFollowRepository {
   async findUserById(id) {
@@ -16,15 +16,20 @@ class UserFollowRepository {
   async removeFollower(user_id, target_id) {
     return await Followers.destroy({ where: { user_id, target_id } });
   }
-  async getUserFollowedUsers(user_id) {
+
+  async getUserFollowedUsers(user_Id) {
     try {
-      const targetIds = await Followers.findAll({
-        attributes: ['target_id'],
-        where: { user_id },
+      const targets = await Followers.findAll({
+        attributes: ['target_Id'],
+        where: { user_Id },
       });
+
+      if (!targets.length) return [];
+
       const followedUsers = await Users.findAll({
-        where: { id: targetIds[0].dataValues.target_id },
+        where: { id: targets.map((target) => target.dataValues.target_Id) },
       });
+
       return followedUsers;
     } catch (error) {
       throw error;
