@@ -140,16 +140,16 @@
     <div class="modal-dialog">
       <div class="modal-content modal-extended">
         <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel">댓글 수정</h5>
+          <h5 class="modal-title">게시글 수정</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form>
             <div class="mb-3">
               <label for="editedPostt" class="form-label">수정할 내용</label>
-              <textarea class="form-control input-height" id="editedPost" placeholder="레시피 제목"></textarea>
-              <textarea class="form-control input-height" id="editedPost" placeholder="재료"></textarea>
-              <textarea class="form-control input-height" id="editedPost" placeholder="조리법"></textarea>
+              <textarea class="form-control input-height" id="title" placeholder="레시피 제목"></textarea>
+              <textarea class="form-control input-height" id="ingredient" placeholder="재료"></textarea>
+              <textarea class="form-control input-height" id="recipe" placeholder="조리법"></textarea>
               <label for="recipeImage" class="form-label">요리 사진 첨부</label>
               <input type="file" class="form-control" id="food_img" />
             </div>
@@ -157,7 +157,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-          <button type="submit" class="btn btn-dark save-post-btn">수정</button>
+          <button type="submit" class="btn btn-dark save-post-btn" id="updatePost">수정</button>
         </div>
       </div>
     </div>

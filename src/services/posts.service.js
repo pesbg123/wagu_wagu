@@ -1,6 +1,7 @@
 const CustomError = require('../errors/customError');
 const PostsRespository = require('../repositories/posts.repository');
 const AccountRepository = require('../repositories/account.repository');
+const { error } = require('console');
 
 class PostsService {
   postsRespository = new PostsRespository();
@@ -79,6 +80,10 @@ class PostsService {
   };
 
   updatePost = async (id, user_id, title, ingredient, recipe, food_img) => {
+    const isExistPost = await this.postsRespository.findOnePost(id);
+
+    if (isExistPost.user_id !== user_id) throw new CustomError('본인이 작성한 게시글만 수정할 수 있습니다.', 402);
+
     const updatePostData = await this.postsRespository.updatePost(id, user_id, title, ingredient, recipe, food_img);
 
     return updatePostData;
