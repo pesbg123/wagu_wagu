@@ -10,11 +10,11 @@ class PostLikesService {
   async addPostLike(post_id, user_id) {
     // 해당 게시글이 있는지 조회
     const existPost = await this.postLikesRepository.getPost(post_id, user_id);
-
+  
     if (!existPost) {
-      throw new Error('게시물 존재하지 않는다.');
+      throw new Error('게시물 존재하지 않습니다.');
     }
-
+  
     const existPostLike = await this.postLikesRepository.getPostLike(post_id, user_id);
 
     console.log('🚀 ~ file: postLikes.service.js:20 ~ PostLikesService ~ addPostLike ~ existPostLike:', existPostLike);
@@ -22,11 +22,12 @@ class PostLikesService {
     if (existPostLike) {
       const message = await this.postLikesRepository.addPostLike(post_id, user_id);
       if (message) {
-        await this.postLikesRepository.postLikeCountIncrease(existPost.like + 1, post_id);
+        // 게시글의 좋아요 수를 증가시킴
+        await this.postLikesRepository.increasePostLikeCount(post_id);
         return '좋아요 등록에 성공했습니다.';
       }
     } else {
-      throw new Error('좋아요 등록에 실패했다.');
+      throw new Error('이미 좋아요를 눌렀습니다.');
     }
   }
 
