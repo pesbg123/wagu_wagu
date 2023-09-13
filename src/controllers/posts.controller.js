@@ -117,11 +117,21 @@ class PostsController {
     try {
       const { id } = req.params;
       const { id: user_id } = req.user;
-      const { title, ingredient, recipe, food_img } = req.body;
+      upload.single('food_img')(req, res, async (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ errorMessage: '이미지 업로드에 실패하였습니다.' });
+        }
 
-      await this.postsService.updatePost(id, user_id, title, ingredient, recipe, food_img);
+        const { title, ingredient, recipe } = req.body;
 
-      return res.status(200).json({ message: '게시글을 수정하였습니다.' });
+        // 이미지 파일의 경로나 URL을 추출하여 문자열로 저장
+        const food_img_path = req.file ? req.file.location : null;
+
+        await this.postsService.updatePost(id, user_id, title, ingredient, recipe, food_img_path);
+
+        return res.status(200).json({ message: '게시글을 수정하였습니다.' });
+      });
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });

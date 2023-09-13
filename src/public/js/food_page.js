@@ -276,7 +276,56 @@ $(document).on('click', '.delete-btn', function () {
 
 // 게시글 수정 버튼 이벤트
 $(document).on('click', '.post-edit-btn', function () {
+  // 게시글 수정 모달 열기
   $('#editPostModal').modal('show');
+
+  // 수정 버튼 클릭 시 게시글 업데이트 이벤트 연결
+  $('#updatePost')
+    .off('click')
+    .on('click', async function (event) {
+      event.preventDefault();
+
+      const userConfirmed = confirm('게시글을 수정하시겠습니까?');
+
+      if (userConfirmed) {
+        const title = $('#title').val();
+        const ingredient = $('#ingredient').val();
+        const recipe = $('#recipe').val();
+        const food_img = $('#food_img')[0].files[0];
+
+        console.log(title);
+        console.log(ingredient);
+        console.log(recipe);
+        console.log(food_img);
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('ingredient', ingredient);
+        formData.append('recipe', recipe);
+        formData.append('food_img', food_img);
+
+        try {
+          const response = await axios.patch(`http://localhost:3000/api/posts/${postId}`, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              authorization: `${getCookie('WGID')}`,
+            },
+          });
+
+          console.log('게시글 수정이 완료되었습니다.', response.data);
+
+          // 모달 닫기
+          $('#editPostModal').modal('hide');
+
+          // 페이지 다시 로드 또는 필요한 처리를 수행할 수 있습니다.
+          window.location.reload();
+        } catch (error) {
+          console.error('게시글 수정 중 오류가 발생했습니다.', error);
+        }
+      } else {
+        console.log('게시글 수정이 취소되었습니다.');
+      }
+    });
 });
 
 // 댓글 신고 버튼 이벤트
