@@ -54,7 +54,7 @@ class PostLikesRepository {
   }
 
   async postLikeCountIncrease(like, post_id) {
-    return Posts.update({ like }, { where: { post_id } });
+    return Posts.update({ like }, { where: { id: post_id } });
   }
 }
 
