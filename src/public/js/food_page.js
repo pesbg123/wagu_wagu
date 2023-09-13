@@ -154,7 +154,22 @@ const getComment = async () => {
     let allComment = '';
     let replyComment = '';
     comment.forEach((item) => {
-      if (item.reply_id === null) {
+      if (item.reply_id !== null) {
+        replyComment = `<div class="d-flex mt-4" id="reply-comment" style="margin-left: 4rem;">
+                        <div class="one-reply">
+                          <div class="flex-shrink-0"><img class="rounded-circle"
+                              src="${item.User.user_img}" alt="..." /></div>
+                          <div class="ms-3">
+                            <div class="fw-bold">답글 작성자 이름 ${item.User.nickname}</div>
+                            <div>답글 ${item.content}</div>
+                            <button style="border: none; margin-top: 5px;">답글</button>
+                            <button style="border: none; margin-top: 5px;">신고</button>
+                            <button style="border: none; margin-top: 5px;">수정</button>
+                            <button style="border: none; margin-top: 5px;">삭제</button>
+                          </div>
+                        </div>
+                      </div>`;
+      } else {
         let temphtml = `<div class="d-flex mb-4 comments-container">
                           <!-- Parent comment-->
                           <div class=" one-comment" id="comment-container">
@@ -171,29 +186,12 @@ const getComment = async () => {
                             </div>
                             <!-- Child comment 1-->
                             <div class="d-flex mt-4 reply-comment" id="reply-comment" comment-id="${item.id}" style="margin-left: 4rem;">
+                              ${replyComment}
                             </div>
                           </div>
-
                         </div>`;
         allComment += temphtml;
       }
-      // } else {
-      //   let temphtml = `<div class="one-reply">
-      //                         <div class="flex-shrink-0"><img class="rounded-circle"
-      //                             src="${item.User.user_img}" alt="..." /></div>
-      //                         <div class="ms-3">
-      //                           <div class="fw-bold">${item.User.nickname}</div>
-      //                           <div>${item.content}</div>
-      //                           <button style="border: none; margin-top: 5px;">답글</button>
-      //                           <button style="border: none; margin-top: 5px;">신고</button>
-      //                           <button style="border: none; margin-top: 5px;">수정</button>
-      //                           <button style="border: none; margin-top: 5px;">삭제</button>
-      //                         </div>
-      //                       </div>`;
-      //   replyComment += temphtml;
-      //   console.log(replyComment);
-      //   $(`.reply-comment`).html(replyComment);
-      // }
     });
 
     $('.comment-card').html(allComment);
@@ -202,29 +200,15 @@ const getComment = async () => {
   }
 };
 
-// const getReplyComment = async () => {
-//   try {
-//     const response = await axios.get(`http://localhost:3000/api/post/${postId}/comments/160`);
-//     // const replyComment = response.data.data;
-//     console.log(response);
-
-//     // replyComment.forEach((item) => {
-//     //   if (item.reply_id) {
-//     //   }
-//     // });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 // 댓글 생성
 const createComment = async () => {
   try {
-    if (!$('#comment-input').val()) {
+    const content = $('#comment-input').val();
+    if (!content) {
       alert('댓글을 입력해주세요.');
       return;
     }
-    const response = await axios.post(`http://localhost:3000/api/comments/${postId}`, { content: $('#comment-input').val() }, headers);
+    const response = await axios.post(`http://localhost:3000/api/comments/${postId}`, { content }, headers);
     console.log(response);
 
     location.reload();
@@ -297,14 +281,98 @@ $(document).on('click', '.post-edit-btn', function () {
 
 // 댓글 신고 버튼 이벤트
 $(document).on('click', '#comment-report-btn', function () {
+  const commentId = $(this).attr('comment-id');
+
   $('#reportCommentModal').modal('show');
+  $('#reportCommentModal .modal-footer').html(
+    `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+    <button type="submit" comment-id="${commentId}" class="btn btn-dark report-comment-btn">제출</button>`,
+  );
 });
 
 // 댓글 신고
 const reportComment = async (commentId) => {
   try {
-    await axios.post(`http://localhost:3000/api/posts/${postId}/comments/${commentId}/reports`, repor);
+    if ($('#report-type').val() === '선택하세요') {
+      alert('신고유형을 선택해주세요');
+      return;
+    }
+    if (!$('.input-report').val()) {
+      alert('신고사유를 입력해주세요');
+      return;
+    }
+    console.log($('#report-type').val());
+
+    await axios.post(
+      `http://localhost:3000/api/posts/${postId}/comments/${commentId}/reports`,
+      { report_type: $('#report-type').val(), reported_reason: $('.input-report').val() },
+      headers,
+    );
+
+    alert('해당 댓글을 신고했습니다');
+    location.reload();
   } catch (error) {
-    console.log(error);
+    console.log(error.response);
+    alert(error.response.data.errorMessage);
+    location.reload();
   }
 };
+$(document).on('click', '.report-comment-btn', async function () {
+  await reportComment($(this).attr('comment-id'));
+});
+
+// 게시글 신고 버튼 이벤트
+$(document).on('click', '.post-report-btn', function () {
+  $('#reportPostModal').modal('show');
+  $('#reportPostModal .modal-footer').html(
+    `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+    <button type="submit" post-id="${postId}" class="btn btn-dark report-post-btn">제출</button>`,
+  );
+});
+
+// 게시글 신고
+const reportPost = async () => {
+  try {
+    if ($('#report-type').val() === '선택하세요') {
+      alert('신고유형을 선택해주세요');
+      return;
+    }
+    if (!$('.input-report').val()) {
+      alert('신고사유를 입력해주세요');
+      return;
+    }
+
+    await axios.post(
+      `http://localhost:3000/api/posts/${postId}/reports`,
+      { report_type: $('#report-type').val(), reported_reason: $('.input-report').val() },
+      headers,
+    );
+
+    alert('해당 게시글을 신고했습니다');
+    location.reload();
+  } catch (error) {
+    console.log(error.response);
+    alert(error.response.data.errorMessage);
+    location.reload();
+  }
+};
+$(document).on('click', '.report-post-btn', async function () {
+  await reportPost($(this).attr('post-id'));
+});
+
+// 게시글 삭제
+const deletePost = async () => {
+  try {
+    await axios.delete(`http://localhost:3000/api/posts/${postId}`, headers);
+    // location.reload();
+  } catch (error) {
+    console.log(error.response);
+    alert(error.response.data.errorMessage);
+    // location.reload();
+  }
+};
+$(document).on('click', '.post-del-btn', function () {
+  const isConfirmed = confirm('게시물을 정말로 삭제하시겠습니까?');
+  deletePost($(this).attr('post-id'));
+  // isConfirmed ? deletePost($(this).attr('post-id')) : location.reload();
+});
