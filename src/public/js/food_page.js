@@ -170,11 +170,12 @@ const getComment = async () => {
 // 댓글 생성
 const createComment = async () => {
   try {
-    if (!$('#comment-input').val()) {
+    const content = $('#comment-input').val();
+    if (!content) {
       alert('댓글을 입력해주세요.');
       return;
     }
-    const response = await axios.post(`http://localhost:3000/api/comments/${postId}`, { content: $('#comment-input').val() }, headers);
+    const response = await axios.post(`http://localhost:3000/api/comments/${postId}`, { content }, headers);
     console.log(response);
 
     location.reload();
@@ -247,14 +248,56 @@ $(document).on('click', '.post-edit-btn', function () {
 
 // 댓글 신고 버튼 이벤트
 $(document).on('click', '#comment-report-btn', function () {
+  const commentId = $(this).attr('comment-id');
+
   $('#reportCommentModal').modal('show');
+  $('#reportCommentModal .modal-footer').html(
+    `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+    <button type="submit" comment-id="${commentId}" class="btn btn-dark report-comment-btn">제출</button>`,
+  );
+  // reportComment(commentId);
 });
 
 // 댓글 신고
 const reportComment = async (commentId) => {
   try {
-    await axios.post(`http://localhost:3000/api/posts/${postId}/comments/${commentId}/reports`, repor);
+    if ($('#report-type').val() === '선택하세요') {
+      alert('신고유형을 선택해주세요');
+      return;
+    }
+    if (!$('.input-report').val()) {
+      alert('신고사유를 입력해주세요');
+      return;
+    }
+    console.log($('#report-type').val());
+
+    await axios.post(
+      `http://localhost:3000/api/posts/${postId}/comments/${commentId}/reports`,
+      { report_type: $('#report-type').val(), reported_reason: $('.input-report').val() },
+      headers,
+    );
+
+    alert('해당 댓글을 신고했습니다');
+    location.reload();
   } catch (error) {
-    console.log(error);
+    console.log(error.response);
+    alert(error.response.data.errorMessage);
+    location.reload();
   }
 };
+$(document).on('click', '.report-comment-btn', async function () {
+  await reportComment($(this).attr('comment-id'));
+  // location.reload();
+});
+
+// 게시글 신고 버튼 이벤트
+$(document).on('click', '#comment-report-btn', function () {
+  const commentId = $(this).attr('comment-id');
+
+  $('#reportPostModal').modal('show');
+  $('#reportPostModal .modal-footer').html(
+    `<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+    <button type="submit" comment-id="${commentId}" class="btn btn-dark report-comment-btn">제출</button>`,
+  );
+  // reportComment(commentId);
+});
