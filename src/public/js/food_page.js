@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 let postId;
+let userId;
 
 const headers = {
   headers: {
@@ -13,7 +14,52 @@ $(document).ready(() => {
   postId = url.pathname.split('/')[2];
   getPost();
   getComment();
-  // getReplyComment();
+
+  $(document).on('click', '#likeBtn', async () => {
+    try {
+      const response = await fetch(`/api/posts/${postId}/likes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `${getCookie('WGID')}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        window.location.reload();
+      } else {
+        const data = await response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  $(document).on('click', '#followBtn', async () => {
+    try {
+      const response = await fetch(`/api/users/${userId}/followers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `${getCookie('WGID')}`,
+        },
+        body: JSON.stringify({
+          target_id: userId,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      } else {
+        const data = await response.json();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  });
 });
 
 // 한국 시간으로 변환하는 함수
@@ -25,6 +71,7 @@ const convertToKST = (dateUTCString) => {
 const getPost = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/api/posts/${postId}`, headers);
+
     const createdAt = convertToKST(response.data.data.created_at);
 
     const tempHtml = `<!-- Post header-->
@@ -55,11 +102,14 @@ const getPost = async () => {
                           <h2 class="fw-bolder mb-4 mt-5">레시피</h2>
                           <p class="fs-5 mb-4">${response.data.data.recipe}</p>
                           <div class="like-btn-contaier">
-                          <button>❤️ 1</button>
+                          <button id="likeBtn">❤️ ${response.data.data.like}</button>
                         </div>
                         </section>`;
 
     $('.one-post').html(tempHtml);
+
+    userId = response.data.data['User.id'];
+
     await getUserInfo(
       response.data.data['User.id'],
       response.data.data['User.email'],
@@ -78,7 +128,7 @@ const getUserInfo = async (userId, email, nickname, userImg) => {
                     <div class="text-muted fst-italic mb-2" style="margin-left: auto; margin-right: auto;">
                       ${email}
                     </div>
-                    <button>팔로워</button>
+                    <button id="followBtn">팔로우</button>
                   </div>`;
   $('.col-lg-4').html(userInfoHtml);
 };

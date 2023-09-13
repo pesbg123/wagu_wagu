@@ -16,7 +16,10 @@ class PostLikesService {
     }
 
     const existPostLike = await this.postLikesRepository.getPostLike(post_id, user_id);
-    if (!existPostLike) {
+
+    console.log('🚀 ~ file: postLikes.service.js:20 ~ PostLikesService ~ addPostLike ~ existPostLike:', existPostLike);
+
+    if (existPostLike) {
       const message = await this.postLikesRepository.addPostLike(post_id, user_id);
       if (message) {
         await this.postLikesRepository.postLikeCountIncrease(existPost.like + 1, post_id);
