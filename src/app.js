@@ -105,6 +105,9 @@ app.get('/food_page', (req, res) => {
   res.sendFile(path.join(__dirname, './public/food_page.html'));
 });
 
+app.get('/mypost', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/mypost.html'));
+
 // 좋아요 게시물 페이지
 app.get('/users/:user_id/liked_posts', (req, res) => {
   const { user_id } = req.params;

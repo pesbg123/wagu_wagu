@@ -62,6 +62,10 @@ class PostsRespository {
   postReportCountIncrease = async (id, report_count) => {
     return Posts.update({ report_count }, { where: { id } });
   };
+
+  findMyPosts = async (user_id) => {
+    return Posts.findAll({ where: { user_id } });
+  };
 }
 
 module.exports = PostsRespository;

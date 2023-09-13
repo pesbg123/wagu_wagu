@@ -35,4 +35,6 @@ router.patch('/posts/:id/block', posts.blockPost);
 //게시글 블락 해제
 router.patch('/posts/:id/unblock', posts.unblockPost);
 
+router.get('/posts/mypost', authMiddleware.authenticateAccessToken, posts.findMyPosts);
+
 module.exports = router;

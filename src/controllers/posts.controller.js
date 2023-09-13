@@ -170,6 +170,19 @@ class PostsController {
       return res.status(500).json({ errorMessage: error.message });
     }
   };
+
+  findMyPosts = async (req, res) => {
+    try {
+      const { id } = req.user;
+
+      await this.postsService.findMyPosts(id);
+      return res.status(200).json({ message: '게시글 조회에 성공하였습니다.' });
+    } catch (error) {
+      console.error(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
+    }
+  };
 }
 
 module.exports = PostsController;
