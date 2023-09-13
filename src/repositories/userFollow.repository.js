@@ -1,4 +1,4 @@
-const { Users, Followers } = require('../models');
+const { Users, Followers, Posts } = require('../models');
 
 class UserFollowRepository {
   async findUserById(id) {
@@ -29,6 +29,12 @@ class UserFollowRepository {
       const followedUsers = await Users.findAll({
         where: { id: targets.map((target) => target.dataValues.target_Id) },
       });
+
+      // 팔로우한 사용자가 작성한 게시물의 개수
+      for (const user of followedUsers) {
+        const postCount = await Posts.count({ where: { user_id: user.id } });
+        user.setDataValue('postCount', postCount);
+      }
 
       return followedUsers;
     } catch (error) {

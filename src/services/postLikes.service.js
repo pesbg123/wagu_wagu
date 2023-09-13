@@ -42,11 +42,8 @@ class PostLikesService {
     }
   }
 
-  async getUserLikedPosts(user_id, paramUserId, page) {
+  async getUserLikedPosts(user_id, page) {
     try {
-      if (user_id !== Number(paramUserId)) {
-        throw new CustomError('본인이 좋아요 누른 게시물만 조회할 수 있습니다.', 402);
-      }
       return await this.postLikesRepository.getUserLikedPosts(user_id, page);
     } catch (error) {
       throw error;

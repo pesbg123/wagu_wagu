@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const response = await fetch('/api/posts/mypost', {
+    const response = await fetch('/api/posts/liked_posts', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -10,13 +10,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (response.ok) {
       const data = await response.json();
-      const coursesPage = document.querySelector('.courses-page');
+      const { data: countNList, page } = data;
+      const { count, list } = countNList;
 
-      data.forEach((item) => {
-        const gridItem = document.createElement('div');
-        gridItem.classList.add('grid-item', 'course', 'bg-white', 'rad-6', 'p-relative');
+      if (count === 0) {
+        alert('좋아요 표시한 게시물이 없습니다.');
+      } else {
+        const coursesPage = document.querySelector('.courses-page');
 
-        gridItem.innerHTML = `
+        list.forEach((item) => {
+          const gridItem = document.createElement('div');
+          gridItem.classList.add('grid-item', 'course', 'bg-white', 'rad-6', 'p-relative');
+
+          gridItem.innerHTML = `
           <img class="cover" src="${item.food_img}" alt="" />
           <div class="p-10">
             <h4 class="m-0">${item.title}</h4>
@@ -28,10 +34,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           </div>
         `;
 
-        coursesPage.appendChild(gridItem);
-      });
-    } else {
-      alert('작성한 게시물이 없습니다.');
+          coursesPage.appendChild(gridItem);
+        });
+      }
     }
   } catch (error) {
     console.error('Error:', error);

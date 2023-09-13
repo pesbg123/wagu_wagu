@@ -30,7 +30,13 @@ class PostLikesRepository {
 
       const likedPosts = await PostLikes.findAll({
         where: { user_id },
-        include: [{ model: Posts, include: [{ model: Users, attributes: ['nickname'] }] }],
+        include: [
+          {
+            model: Posts,
+            attributes: ['created_at', 'like', 'title', 'recipe', 'food_img'],
+            include: [{ model: Users, attributes: ['nickname', 'user_img'] }],
+          },
+        ],
         limit,
         offset,
         order: [['created_at', 'DESC']],
@@ -48,7 +54,7 @@ class PostLikesRepository {
   }
 
   async postLikeCountIncrease(like, post_id) {
-    return Posts.update({ like }, { where: { post_id  } });
+    return Posts.update({ like }, { where: { post_id } });
   }
 }
 

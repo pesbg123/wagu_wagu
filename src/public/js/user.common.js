@@ -31,6 +31,20 @@ async function verify() {
         }
 
         handleAuthenticationResponse(true);
+
+        const authHeader = response.headers.get('Authorization');
+        if (authHeader) {
+          const parts = authHeader.split(' ');
+          const WGID = parts[1];
+
+          if (authHeader.startsWith('Bearer ')) {
+            const now = new Date();
+            const oneHourLater = new Date(now.getTime() + 20 * 60 * 1000);
+            const cookieExpirationDate = oneHourLater.toUTCString();
+            document.cookie = `WGID=${WGID}; path=/; expires=${cookieExpirationDate};`;
+            console.log(document.cookie);
+          }
+        }
       }
     } else {
       const data = await response.json();
@@ -68,7 +82,7 @@ window.onload = verify;
 // window.onbeforeunload = verify;
 
 // 10분마다 API 호출
-setInterval(verify, 10 * 60 * 1000);
+setInterval(verify, 9 * 60 * 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
   const hamMenu = document.getElementById('ham-menu');

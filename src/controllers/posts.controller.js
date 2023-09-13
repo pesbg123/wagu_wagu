@@ -67,6 +67,21 @@ class PostsController {
     }
   };
 
+  findMyPosts = async (req, res) => {
+    try {
+      const { id } = req.user;
+      const myPosts = await this.postsService.findMyPosts(id);
+      return res.status(201).json(myPosts);
+    } catch (error) {
+      if (error.errorCode) {
+        console.error('내 게시물 찾기 오류:', error);
+        return res.status(error.errorCode).json({ message: error.message });
+      }
+      console.error('내 게시물 찾기 오류:', error);
+      res.status(500).json({ message: error.message });
+    }
+  };
+
   findUserPosts = async (req, res) => {
     try {
       const { user_id } = req.query;

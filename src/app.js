@@ -57,6 +57,14 @@ app.get('/myPost', (req, res) => {
   res.sendFile(path.join(__dirname, './public/myPost.html'));
 });
 
+app.get('/myLikePost', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/myLikePost.html'));
+});
+
+app.get('/myFollow', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/myFollow.html'));
+});
+
 app.get('/posts', (req, res) => {
   res.sendFile(path.join(__dirname, './public/createPost.html'));
 });
