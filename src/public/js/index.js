@@ -1,6 +1,7 @@
 $(document).ready(() => {
   getPosts(1);
   getHashtag();
+  getInitialCrawledData();
 });
 
 const getPosts = async (page) => {
@@ -125,6 +126,51 @@ searchInput.addEventListener('input', () => {
     searchBox.style.display = 'none'; // 검색어가 '#'으로 시작하지 않으면 검색 박스를 숨김
   }
 });
+// 검색 버튼 클릭 이벤트 처리
+$('.search-button').click(() => {
+  const userInput = $('.search-input').val().trim();
+  if (userInput) {
+    // 검색어가 입력되었을 때 서버에 검색 요청 보내기
+    searchPosts(userInput);
+  }
+});
+const getInitialCrawledData = async () => {
+  try {
+    // 서버에서 초기 크롤링 데이터를 가져오는 요청을 보냅니다.
+    const response = await axios.get(`/api/getCrawledRecipes`);
+    const crawledData = response.data.data;
+
+    // 처음 6개의 크롤링 데이터를 메인 페이지에 표시합니다.
+    displayCrawledData(crawledData.slice(0, 6));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const displayCrawledData = (data) => {
+  let allHtml = '';
+
+  data.forEach((item) => {
+    let tempHtml = `
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          <img src="${item.recipe_img}" alt="${item.recipe_title}" class="card-img-top">
+          <div class="card-body">
+            <p class="card-text">${item.recipe_title}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+              </div>
+              <small class="text-body-secondary">${item.created_at}</small>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    allHtml += tempHtml;
+  });
+
+  // 크롤링 데이터를 메인 페이지의 카드 리스트에 추가합니다.
+  $('#card-list').prepend(allHtml);
+};
 
 // 검색어 입력창 밖을 클릭하면 검색 박스를 숨김
 document.addEventListener('click', (event) => {

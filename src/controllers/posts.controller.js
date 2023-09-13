@@ -34,7 +34,7 @@ class PostsController {
   findPosts = async (req, res) => {
     const postsPerPage = 12;
     const { page } = req.query;
-    const pageNum = parseInt(page) || 12;
+    const pageNum = parseInt(page) || 1;
     const offset = (pageNum - 1) * postsPerPage;
 
     try {
@@ -44,7 +44,7 @@ class PostsController {
       // 검색 종료 시간 기록
       console.timeEnd('findPosts');
 
-      return res.status(200).json({ data: findPostsData });
+      return res.status(200).json({ data: findPostsData, pageNum });
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });

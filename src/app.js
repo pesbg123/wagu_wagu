@@ -18,6 +18,7 @@ const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
 const parsing = require('./routes/crawled.routes');
+const { CrawledRecipes } = require('./models');
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
