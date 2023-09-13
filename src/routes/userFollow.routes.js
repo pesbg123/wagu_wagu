@@ -13,10 +13,6 @@ router.delete(
   userFollowController.removeUserFollow.bind(userFollowController),
 );
 
-router.get(
-  '/users/:user_id/followers',
-  acountMiddleware.authenticateAccessToken,
-  userFollowController.getUserFollowedUsers.bind(userFollowController),
-);
+router.get('/users/followers', acountMiddleware.authenticateAccessToken, userFollowController.getUserFollowedUsers.bind(userFollowController));
 
 module.exports = router;

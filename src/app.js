@@ -60,6 +60,10 @@ app.get('/myLikePost', (req, res) => {
   res.sendFile(path.join(__dirname, './public/myLikePost.html'));
 });
 
+app.get('/myFollow', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/myFollow.html'));
+});
+
 app.get('/posts', (req, res) => {
   res.sendFile(path.join(__dirname, './public/createPost.html'));
 });
@@ -104,9 +108,6 @@ app.get('/notice/:notice_id', (req, res) => {
 app.get('/food_page', (req, res) => {
   res.sendFile(path.join(__dirname, './public/food_page.html'));
 });
-
-app.get('/mypost', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/mypost.html'));
 
 // 좋아요 게시물 페이지
 app.get('/users/:user_id/liked_posts', (req, res) => {
