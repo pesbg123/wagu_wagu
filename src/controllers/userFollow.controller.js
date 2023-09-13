@@ -1,7 +1,5 @@
 const UserFollowService = require('../services/userFollow.service');
 
-const user_id = 1; // 하드 코딩
-
 class UserFollowController {
   constructor() {
     this.userFollowService = new UserFollowService();
@@ -9,8 +7,7 @@ class UserFollowController {
 
   async addUserFollow(req, res) {
     try {
-      // const { user_id } = res.locals.user;
-      // const { user_id } = req.params;
+      const { id: user_id } = req.user;
       const { target_id } = req.body;
 
       await this.userFollowService.addUserFollow(user_id, target_id);
@@ -25,7 +22,7 @@ class UserFollowController {
 
   async removeUserFollow(req, res) {
     try {
-      // const { user_id } = res.locals.user;
+      const { id: user_id } = req.user;
       const { target_id } = req.body;
 
       const message = await this.userFollowService.removeUserFollow(user_id, target_id);
@@ -34,6 +31,17 @@ class UserFollowController {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ errorMessage: error.message });
+    }
+  }
+  async getUserFollowedUsers(req, res) {
+    try {
+      const { id: user_id } = req.user;
+      const followedUsers = await this.userFollowService.getUserFollowedUsers(user_id);
+
+      return res.status(200).json(followedUsers);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ errorMessage: '팔로우한 사용자 조회에 실패했습니다.' });
     }
   }
 }

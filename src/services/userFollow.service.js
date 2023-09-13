@@ -8,6 +8,7 @@ class UserFollowService {
 
   async addUserFollow(user_id, target_id) {
     try {
+      console.log('target_id', target_id);
       const existTargetUser = await this.userFollowRepository.findUserById(target_id);
 
       if (!existTargetUser) {
@@ -45,6 +46,15 @@ class UserFollowService {
       } else {
         return '이미 팔로우하지 않은 사용자입니다.';
       }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async getUserFollowedUsers(user_id) {
+    try {
+      const followedUsers = await this.userFollowRepository.getUserFollowedUsers(user_id);
+
+      return followedUsers;
     } catch (error) {
       throw error;
     }

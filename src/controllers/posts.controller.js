@@ -1,5 +1,5 @@
 const PostsService = require('../services/posts.service');
-const upload = require('../middlewares/uploadMiddleware');
+const { upload } = require('../middlewares/uploadMiddleware');
 
 class PostsController {
   postsService = new PostsService();
@@ -32,10 +32,14 @@ class PostsController {
   };
 
   findPosts = async (req, res) => {
+    const postsPerPage = 12;
+    const { page } = req.query;
+    const pageNum = parseInt(page) || 12;
+    const offset = (pageNum - 1) * postsPerPage;
+
     try {
-      // 검색 시작 시간 기록
-      console.time('findPosts');
-      const findPostsData = await this.postsService.findPosts();
+      // limit과 offset을 서비스에 전달
+      const findPostsData = await this.postsService.findPosts(postsPerPage, offset);
 
       // 검색 종료 시간 기록
       console.timeEnd('findPosts');
@@ -44,6 +48,7 @@ class PostsController {
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+
       return res.status(500).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
     }
   };
@@ -59,6 +64,21 @@ class PostsController {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
       return res.status(500).json({ errorMessage: ' 게시글 상세조회에 실패하였습니다.' });
+    }
+  };
+
+  findMyPosts = async (req, res) => {
+    try {
+      const { id } = req.user;
+      const myPosts = await this.postsService.findMyPosts(id);
+      return res.status(201).json(myPosts);
+    } catch (error) {
+      if (error.errorCode) {
+        console.error('내 게시물 찾기 오류:', error);
+        return res.status(error.errorCode).json({ message: error.message });
+      }
+      console.error('내 게시물 찾기 오류:', error);
+      res.status(500).json({ message: error.message });
     }
   };
 

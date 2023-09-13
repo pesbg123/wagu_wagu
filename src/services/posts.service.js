@@ -28,10 +28,30 @@ class PostsService {
     return createPostData;
   };
 
-  findPosts = async () => {
-    const findPostsData = await this.postsRespository.findPosts();
+  findPosts = async (limit, offset) => {
+    // limit과 offset을 리포지토리에 전달
+    const findPostsData = await this.postsRespository.findPosts(limit, offset);
 
     return findPostsData;
+  };
+
+  findMyPosts = async (id) => {
+    const findMyPosts = await this.postsRespository.findUserPosts(id);
+
+    if (Array.isArray(findMyPosts) && findMyPosts.length === 0) {
+      throw new CustomError('작성한 게시물이 없습니다.', 404);
+    }
+
+    const myPosts = findMyPosts.map((item) => ({
+      created_at: item.created_at,
+      title: item.title,
+      food_img: item.food_img,
+      ingredient: item.ingredient,
+      recipe: item.recipe,
+      like: item.like,
+    }));
+
+    return myPosts;
   };
 
   findOnePost = async (id) => {
