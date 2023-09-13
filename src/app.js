@@ -17,6 +17,7 @@ const hashTagRouter = require('./routes/hashtag.routes');
 const adminUserBanRouter = require('./routes/admin.user.ban.routes');
 const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
+const userRouter = require('./routes/users.routes');
 const parsing = require('./routes/crawled.routes');
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,6 +36,7 @@ app.use('/api', [
   postRouter,
   reportRouter,
   commentsRouter,
+  userRouter,
 ]);
 
 app.use(express.static(path.join(__dirname, './public')));
@@ -105,7 +107,8 @@ app.get('/notice/:notice_id', (req, res) => {
 });
 
 // food_page
-app.get('/food_page', (req, res) => {
+app.get('/food_page/:post_id', (req, res) => {
+  const { post_id } = req.params;
   res.sendFile(path.join(__dirname, './public/food_page.html'));
 });
 

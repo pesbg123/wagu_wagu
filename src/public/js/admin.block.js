@@ -93,3 +93,15 @@ $(document).on('click', '#comment-unblock-btn', function () {
   const commentId = $(this).attr('comment-id');
   restoreComment(postId, commentId);
 });
+
+// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+    const [cookieName, cookieValue] = cookie.split('=');
+    if (cookieName.trim() === name) {
+      return cookieValue;
+    }
+  }
+  return null;
+}

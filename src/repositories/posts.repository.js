@@ -1,4 +1,4 @@
-const { Posts, Users, PostLikes } = require('../models');
+const { Posts, Users, Comments, PostLikes } = require('../models');
 
 class PostsRespository {
   createPost = async (user_id, title, ingredient, recipe, food_img) => {
@@ -28,7 +28,16 @@ class PostsRespository {
   };
 
   findOnePost = async (id) => {
-    const findOnePostData = await Posts.findOne({ raw: true, where: { id } }); // 데이터를 json형식으로 간결히 나오게 하기 위해  raw: true, 추가했습니다. JH
+    const findOnePostData = await Posts.findOne({
+      raw: true,
+      where: { id },
+      include: [
+        {
+          model: Users,
+          attributes: ['id', 'nickname', 'email', 'user_img'],
+        },
+      ],
+    });
 
     return findOnePostData;
   };
