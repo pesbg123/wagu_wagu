@@ -123,7 +123,7 @@ app.get('/users/:user_id/followers', (req, res) => {
 });
 
 cron.schedule('0 3 * * *', () => {
-  const totalPages = 1;
+  const totalPages = 30;
   const keyword = '레시피';
 
   for (let page = 1; page <= totalPages; page++) {
