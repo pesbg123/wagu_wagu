@@ -116,10 +116,14 @@ class PostsService {
     if (!res) throw new Error('게시글 블락 취소에 실패했습니다.');
   };
 
-  findMyPosts = async (user_id) => {
-    const findMyPostsData = await this.postsRespository.findMyPosts(user_id);
+  findByTitle = async (title) => {
+    const findByTitleData = await this.postsRespository.findByTitle(title);
 
-    return findMyPostsData;
+    if (findByTitleData.length === 0) {
+      throw new CustomError('해당하는 게시물이 존재하지 않습니다.', 404);
+    }
+
+    return findByTitleData;
   };
 }
 

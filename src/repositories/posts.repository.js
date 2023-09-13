@@ -1,4 +1,4 @@
-const { Posts, Users, Comments, PostLikes } = require('../models');
+const { Posts, Users, Comments, PostLikes, Sequelize } = require('../models');
 
 class PostsRespository {
   createPost = async (user_id, title, ingredient, recipe, food_img) => {
@@ -69,8 +69,10 @@ class PostsRespository {
     return Posts.update({ report_count }, { where: { id } });
   };
 
-  findMyPosts = async (user_id) => {
-    return Posts.findAll({ where: { user_id } });
+  findByTitle = async (title) => {
+    const findByTitleData = await Posts.findAll({ where: { title: { [Sequelize.Op.like]: `%${title}%` } } });
+
+    return findByTitleData;
   };
 }
 

@@ -22,6 +22,8 @@ router.get('/posts/nickname', posts.findNicknamePosts);
 //내 게시글 조회
 router.get('/posts/mypost', authMiddleware.authenticateAccessToken, posts.findMyPosts);
 
+router.get('/posts/title', posts.findByTitle);
+
 //게시글 상세 조회
 router.get('/posts/:id', posts.findOnePost);
 
@@ -34,7 +36,5 @@ router.patch('/posts/:id/block', posts.blockPost);
 
 //게시글 블락 해제
 router.patch('/posts/:id/unblock', posts.unblockPost);
-
-router.get('/posts/mypost', authMiddleware.authenticateAccessToken, posts.findMyPosts);
 
 module.exports = router;
