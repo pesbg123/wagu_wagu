@@ -30,6 +30,12 @@ module.exports = async (keyword, page) => {
         const recipeHtml = await getHTML(recipeUrl);
         const recipe$ = cheerio.load(recipeHtml);
 
+        const recipeImgElement = recipe$('#main_thumbs');
+
+        const recipeImgSrc = recipeImgElement.attr('src');
+
+        console.log('recipe_img:', recipeImgSrc);
+
         const recipeTitle = recipe$('.view2_summary h3').text();
         console.log('Recipe Title:', recipeTitle.trim());
 
@@ -45,7 +51,7 @@ module.exports = async (keyword, page) => {
           return;
         }
 
-        CrawledRecipes.create({ recipe_title: recipeTitle, recipe_content: recipeContent, view_step_cont });
+        CrawledRecipes.create({ recipe_title: recipeTitle, recipe_content: recipeContent, view_step_cont, recipe_img: recipeImgSrc });
       }
     });
   });

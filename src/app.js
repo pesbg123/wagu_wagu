@@ -19,6 +19,7 @@ const postRouter = require('./routes/posts.routes');
 const reportRouter = require('./routes/reports.routes');
 const userRouter = require('./routes/users.routes');
 const parsing = require('./routes/crawled.routes');
+const { CrawledRecipes } = require('./models');
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -125,13 +126,25 @@ app.get('/users/:user_id/followers', (req, res) => {
 });
 
 cron.schedule('0 3 * * *', () => {
-  const totalPages = 1;
+  const totalPages = 30;
   const keyword = '레시피';
 
   for (let page = 1; page <= totalPages; page++) {
     setTimeout(function () {
       parsing(keyword, page);
     }, 10000 * page);
+  }
+});
+
+app.get('/api/getCrawledRecipes', async (req, res) => {
+  try {
+    // 모든 크롤링 데이터를 검색합니다.
+    const recipes = await CrawledRecipes.findAll();
+
+    res.status(200).json({ data: recipes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: '데이터 검색 중에 오류가 발생했습니다.' });
   }
 });
 

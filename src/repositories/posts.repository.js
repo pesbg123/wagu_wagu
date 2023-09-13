@@ -7,15 +7,12 @@ class PostsRespository {
     return createPostData;
   };
 
-  findPosts = async (page) => {
-    const postsPerPage = 12;
-    const offset = (page - 1) * postsPerPage;
-
+  findPosts = async (limit, offset) => {
     const findPostsData = await Posts.findAll({
       raw: true,
       nest: true,
-      limit: postsPerPage,
-      offset: offset,
+      limit,
+      offset,
       include: [
         {
           model: Users,
