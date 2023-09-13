@@ -37,9 +37,9 @@ const getPost = async () => {
                           </div>
                           <!-- Btn container -->
                           <div>
-                            <button style="border: none; post-id="${response.data.data.id}"  margin-bottom: 5px;">신고</button>
-                            <button style="border: none; post-id="${response.data.data.id}"  margin-bottom: 5px;">수정</button>
-                            <button style="border: none; post-id="${response.data.data.id}" margin-bottom: 5px;">삭제</button>
+                            <button style="border: none;" class="post-report-btn" post-id="${response.data.data.id}"  margin-bottom: 5px;">신고</button>
+                            <button style="border: none;" class="post-edit-btn" post-id="${response.data.data.id}"  margin-bottom: 5px;">수정</button>
+                            <button style="border: none;" class="post-del-btn" post-id="${response.data.data.id}" margin-bottom: 5px;">삭제</button>
                           </div>
                           <!-- Post categories-->
                           <a class="badge bg-info text-decoration-none link-light" href="#!">#한식</a>
@@ -112,10 +112,10 @@ const getComment = async () => {
                               <div>
                                 ${item.content}
                               </div>
-                              <button comment-id="" style="border: none; margin-top: 5px;">답글</button>
-                              <button comment-id="" style="border: none; margin-top: 5px;">신고</button>
-                              <button comment-id="" style="border: none; margin-top: 5px;">수정</button>
-                              <button comment-id="" style="border: none; margin-top: 5px;">삭제</button>
+                              <button comment-id="${item.id}" style="border: none; margin-top: 5px;">답글</button>
+                              <button comment-id="${item.id}" style="border: none; margin-top: 5px;">신고</button>
+                              <button class="edit-btn" comment-id="${item.id}" style="border: none; margin-top: 5px;" data-original="${item.content}">수정</button>
+                              <button class="delete-btn" comment-id="${item.id}" style="border: none; margin-top: 5px;">삭제</button>
                             </div>
                             <!-- Child comment 1-->
                             <div class="d-flex mt-4 reply-comment" id="reply-comment" comment-id="${item.id}" style="margin-left: 4rem;">
@@ -172,9 +172,9 @@ const createComment = async () => {
       alert('댓글을 입력해주세요.');
       return;
     }
-    await axios.post(`http://localhost:3000/api/comments/${postId}`, { content: $('#comment-input').val() });
+    const response = await axios.post(`http://localhost:3000/api/comments/${postId}`, { content: $('#comment-input').val() }, headers);
+    console.log(response);
 
-    alert('댓글이 작성되었습니다.');
     location.reload();
   } catch (error) {
     console.log(error);
@@ -189,14 +189,56 @@ const createComment = async () => {
 $('#createCmt_btn').click(createComment);
 
 // 수정 버튼 클릭시 모달
-// $(document).on('click', '.edit-btn', function () {
-//   const noticeId = $(this).attr('notice-id');
+$(document).on('click', '.edit-btn', function () {
+  const commentId = $(this).attr('comment-id');
 
-//   const originalContent = $(this).data('original'); // 원본 내용 가져오기
+  const originalContent = $(this).data('original'); // 원본 내용 가져오기
 
-//   $('#editedNotice').val(originalContent); // 인풋창 값 변경
-//   $('#editModal').modal('show');
-//   $('#editModal .modal-footer').html(
-//     ` <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button type="submit" notice-id="${noticeId}" class="btn btn-dark save-btn">수정</button>`,
-//   );
-// });
+  $('#editedComment').val(originalContent); // 인풋창 값 변경
+  $('#editModal').modal('show');
+  $('#editModal .modal-footer').html(
+    ` <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button type="submit" comment-id="${commentId}" class="btn btn-dark save-btn">수정</button>`,
+  );
+  updateComment(commentId);
+});
+
+// 댓글 수정
+const updateComment = async (commentId) => {
+  try {
+    const content = $('#editedComment').val();
+    if (!content) {
+      alert('수정할 내용을 입력해주세요.');
+      return;
+    }
+    await axios.put(`http://localhost:3000/api/comments/${commentId}`, { content }, headers);
+  } catch (error) {
+    console.log(error.data);
+    alert(error.response.data.data);
+    location.reload();
+  }
+};
+$(document).on('click', '.save-btn', async function () {
+  await updateComment($(this).attr('comment-id'));
+  location.reload();
+});
+
+// 댓글 삭제
+const deleteComment = async (commentId) => {
+  try {
+    await axios.delete(`http://localhost:3000/api/comments/${commentId}`, headers);
+    location.reload();
+  } catch (error) {
+    console.log(error);
+    alert(error.response.data.data);
+    location.reload();
+  }
+};
+$(document).on('click', '.delete-btn', function () {
+  const isConfirmed = confirm('댓글을 정말로 삭제하시겠습니까?');
+  isConfirmed ? deleteComment($(this).attr('comment-id')) : location.reload();
+});
+
+// 게시글 수정 버튼 이벤트
+$(document).on('click', '.post-edit-btn', function () {
+  $('#editPostModal').modal('show');
+});

@@ -85,8 +85,6 @@ class CommentsService {
       const existsComment = await this.commentsRepository.findById({
         id,
       });
-      console.log('existsComment:', existsComment);
-      console.log('input user_id:', user_id);
 
       if (!existsComment) {
         return { code: 404, data: ' 댓글이 존재하지 않습니다.' };
