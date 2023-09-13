@@ -187,3 +187,16 @@ const createComment = async () => {
 //   }
 // });
 $('#createCmt_btn').click(createComment);
+
+// 수정 버튼 클릭시 모달
+$(document).on('click', '.edit-btn', function () {
+  const noticeId = $(this).attr('notice-id');
+
+  const originalContent = $(this).data('original'); // 원본 내용 가져오기
+
+  $('#editedNotice').val(originalContent); // 인풋창 값 변경
+  $('#editModal').modal('show');
+  $('#editModal .modal-footer').html(
+    ` <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button><button type="submit" notice-id="${noticeId}" class="btn btn-dark save-btn">수정</button>`,
+  );
+});
