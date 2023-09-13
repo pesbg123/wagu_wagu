@@ -15,7 +15,7 @@ const getPosts = async (page) => {
       let tempHtml = `
         <div class="col-md-4 mb-4">
           <div class="card shadow-sm">
-            <img src="${item.food_img}" alt="${item.title}" class="card-img-top">
+            <img src="${item.food_img}" id="post-img-click" post-id="${item.id}" alt="${item.title}" class="card-img-top">
             <div class="card-body">
               <p class="card-text">${item.title}</p>
               <div class="d-flex justify-content-between align-items-center">
@@ -38,6 +38,10 @@ const getPosts = async (page) => {
     console.log(error);
   }
 };
+
+$(document).on('click', '#post-img-click', function () {
+  location.href = `/food_page/${$(this).attr('post-id')}`;
+});
 
 // 한국 시간으로 변환하는 함수
 const convertToKST = (dateUTCString) => {
