@@ -187,6 +187,38 @@
     </div>
   </div>
 
+  <!-- 게시글 신고 모달 -->
+  <div class="modal fade" id="reportPostModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content modal-extended">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">게시글 신고</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="editedComment" class="form-label">신고 유형</label>
+              <select name="report-type" id="report-type">
+                <option value="">선택하세요</option>
+                <option value="음란물">음란물</option>
+                <option value="광고">광고</option>
+                <option value="욕설">욕설</option>
+                <option value="기타">기타</option>
+              </select>
+              <textarea class="form-control input-height input-report" id="reported_reason"
+                placeholder="신고 사유를 입력하세요"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="submit" class="btn btn-dark report-pos-btn">제출</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 댓글 신고 모달 -->
   <div class="modal fade" id="reportCommentModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -201,12 +233,13 @@
               <label for="editedComment" class="form-label">신고 유형</label>
               <select name="report-type" id="report-type">
                 <option value="">선택하세요</option>
-                <option value="advertising">광고</option>
-                <option value="abuse">욕설</option>
-                <option value="lewd">음란물</option>
-                <option value="other">기타</option>
+                <option value="음란물">음란물</option>
+                <option value="광고">광고</option>
+                <option value="욕설">욕설</option>
+                <option value="기타">기타</option>
               </select>
-              <textarea class="form-control input-height" id="editedComment" placeholder="신고 사유를 입력하세요"></textarea>
+              <textarea class="form-control input-height input-report" id="reported_reason"
+                placeholder="신고 사유를 입력하세요"></textarea>
             </div>
           </form>
         </div>

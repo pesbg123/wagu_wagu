@@ -85,8 +85,10 @@ class PostsService {
   };
 
   deletePost = async (id, user_id) => {
-    const deletePostData = await this.postsRespository.deletePost(id, user_id);
+    const existPost = await this.postsRespository.findOnePost(id);
+    if (user_id !== existPost['User.id']) throw new CustomError('본인이 작성한 게시글만 삭제할 수 있습니다.', 402);
 
+    const deletePostData = await this.postsRespository.deletePost(id, user_id);
     return deletePostData;
   };
 
