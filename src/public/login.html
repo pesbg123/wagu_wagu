@@ -5,14 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Account</title>
-    <!-- <link rel="stylesheet" type="text/css" href="../css/auth.css" /> -->
+    <link rel="stylesheet" href="./css/login.css" />
   </head>
   <body>
-    <main>
-      <!-- <div class="img">
-        <img src="img/image.png" class="text-logo" alt="" />
-      </div> -->
-      <div class="wrapper">
+    <div class="container">
+      <div class="box signin">
+        <h2>이미 계정이 있다면</h2>
+        <button class="signinBtn">Sign in</button>
+      </div>
+      <div class="box signup">
+        <h2>계정이 없다면</h2>
+        <button class="signupBtn">Sign up</button>
+      </div>
+      <div class="formBx">
+        <div class="form signinform">
+          <form>
+            <h3>Sign In</h3>
+            <input type="text" placeholder="Email" />
+            <input type="password" placeholder="Password" />
+            <input type="submit" value="Login" />
+          </form>
+        </div>
+
+        <div class="form signupform">
+          <form>
+            <h3>Sign Up</h3>
+            <input type="text" placeholder="Email" />
+            <input type="password" placeholder="Password" />
+            <input type="submit" value="Register" />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="wrapper">
         <div class="form-box-login">
           <h2>Login</h2>
           <form action="#" class="login-form">
@@ -48,8 +74,7 @@
             </div>
           </form>
         </div>
-      </div>
-    </main>
+      </div> -->
 
     <script src="js/login.js"></script>
   </body>
