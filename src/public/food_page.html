@@ -68,6 +68,9 @@
             <h2 class="fw-bolder mb-4 mt-5">레시피</h2>
             <p class="fs-5 mb-4">레시피가 들어갑니다.</p>
           </section>
+          <div class="like-btn-contaier">
+            <button>좋아요</button>
+          </div>
         </article>
 
         <!-- Comments section-->
@@ -126,6 +129,7 @@
           <div class="text-muted fst-italic mb-2" style="margin-left: auto; margin-right: auto;">
             이메일이 들어갑니다.
           </div>
+          <button>팔로워</button>
         </div>
       </div>
     </div>
@@ -178,6 +182,37 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
           <button type="submit" class="btn btn-dark save-btn">수정</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 댓글 신고 모달 -->
+  <div class="modal fade" id="reportCommentModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content modal-extended">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">댓글 신고</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="editedComment" class="form-label">신고 유형</label>
+              <select name="report-type" id="report-type">
+                <option value="">선택하세요</option>
+                <option value="advertising">광고</option>
+                <option value="abuse">욕설</option>
+                <option value="lewd">음란물</option>
+                <option value="other">기타</option>
+              </select>
+              <textarea class="form-control input-height" id="editedComment" placeholder="신고 사유를 입력하세요"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="submit" class="btn btn-dark report-comment-btn">제출</button>
         </div>
       </div>
     </div>
