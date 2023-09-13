@@ -16,6 +16,30 @@
 </head>
 
 <body>
+  <!-- 수정 모달 -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content modal-extended">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">댓글 수정</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="editedNotice" class="form-label">수정할 내용</label>
+              <textarea class="form-control input-height" id="editedNotice" placeholder="수정할 내용을 입력하세요"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          <button type="submit" class="btn btn-dark save-btn">수정</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
