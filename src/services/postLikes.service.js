@@ -1,5 +1,5 @@
 const PostLikesRepository = require('../repositories/postLikes.repository');
-// const PostsRepository = require('../repositories/sdklfjsdkl');
+const CustomError = require('../errors/customError');
 
 class PostLikesService {
   constructor() {
@@ -19,6 +19,7 @@ class PostLikesService {
     if (!existPostLike) {
       const message = await this.postLikesRepository.addPostLike(post_id, user_id);
       if (message) {
+        await this.postLikesRepository.postLikeCountIncrease(existPost.like + 1, post_id);
         return '좋아요 등록에 성공했습니다.';
       }
     } else {
@@ -40,6 +41,13 @@ class PostLikesService {
       throw new Error('좋아요 취소 중 오류가 발생했습니다.');
     }
   }
-}
 
+  async getUserLikedPosts(user_id, page) {
+    try {
+      return await this.postLikesRepository.getUserLikedPosts(user_id, page);
+    } catch (error) {
+      throw error;
+    }
+  }
+}
 module.exports = PostLikesService;

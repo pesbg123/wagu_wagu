@@ -1,4 +1,4 @@
-const { Posts, Users, Comments } = require('../models');
+const { Posts, Users, Comments, PostLikes } = require('../models');
 
 class PostsRespository {
   createPost = async (user_id, title, ingredient, recipe, food_img) => {
@@ -7,16 +7,23 @@ class PostsRespository {
     return createPostData;
   };
 
-  findPosts = async () => {
+  findPosts = async (page) => {
+    const postsPerPage = 12;
+    const offset = (page - 1) * postsPerPage;
+
     const findPostsData = await Posts.findAll({
       raw: true,
+      nest: true,
+      limit: postsPerPage,
+      offset: offset,
       include: [
         {
           model: Users,
-          attributes: ['nickname'],
+          attributes: ['nickname', 'id'],
         },
       ],
     });
+
     return findPostsData;
   };
 
@@ -63,6 +70,10 @@ class PostsRespository {
 
   postReportCountIncrease = async (id, report_count) => {
     return Posts.update({ report_count }, { where: { id } });
+  };
+
+  findMyPosts = async (user_id) => {
+    return Posts.findAll({ where: { user_id } });
   };
 }
 

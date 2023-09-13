@@ -13,11 +13,11 @@ const headers = {
 $('.cancel_btn').click(() => (location.href = '/admin'));
 
 // input 요소에 포커스가 들어왔을 때 '#' 자동 추가
-$('.hashtags_input').focus(function () {
-  if (!$(this).val().startsWith('#')) {
-    $(this).val('#' + $(this).val());
-  }
-});
+// $('.hashtags_input').focus(function () {
+//   if (!$(this).val().startsWith('#')) {
+//     $(this).val('#' + $(this).val());
+//   }
+// });
 
 // 해시테그 목록 조회
 const getHashtags = async () => {
@@ -61,7 +61,7 @@ $('#editedHashtag').focus(function () {
 const createHashtag = async () => {
   try {
     const hashtag = $('#hashtag_input').val();
-    if (hashtag === '#' || !hashtag || !hashtag.includes('#')) {
+    if (!hashtag) {
       alert('#으로 시작하는 해시테그를 입력해주세요.');
       return;
     }
@@ -103,8 +103,8 @@ const editHashtag = async (id) => {
   try {
     const editedHashtag = $('#editedHashtag').val();
 
-    if (editedHashtag === '#' || !editedHashtag || !editedHashtag.includes('#')) {
-      alert('#으로 시작하는 해시테그를 입력해주세요.');
+    if (!editedHashtag) {
+      alert('해시테그를 입력해주세요.');
       return;
     }
     const response = await axios.put(`http://localhost:3000/api/hashtags/${id}`, { hashtag: editedHashtag }, headers);

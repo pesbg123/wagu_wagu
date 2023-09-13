@@ -51,7 +51,6 @@ class AuthenticationMiddleware {
       const accessToken = req.headers.authorization;
 
       res.locals.accessToken = accessToken;
-
       const verifiedToken = jwt.verify(accessToken, env.ACCESS_KEY);
 
       // 유효한 액세스 토큰이라면 다음 미들웨어나 API 실행
