@@ -43,6 +43,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
+// 게시글 작성 페이지
 app.get('/posts', (req, res) => {
   res.sendFile(path.join(__dirname, './public/createPost.html'));
 });
@@ -86,6 +87,10 @@ app.get('/notice/:notice_id', (req, res) => {
 // food_page
 app.get('/food_page', (req, res) => {
   res.sendFile(path.join(__dirname, './public/food_page.html'));
+});
+
+app.get('/mypost', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/mypost.html'));
 });
 
 app.listen(PORT, () => {
