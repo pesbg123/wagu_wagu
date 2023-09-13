@@ -92,6 +92,20 @@ class CommentsController {
     res.status(code).json(json);
   };
 
+  // 대댓글 조회
+  // getReplyComment = async (req, res) => {
+  //   try {
+  //     const { post_id, id } = req.params;
+
+  //     const replyComment = await this.CommentsService.getReplyComment(post_id, id);
+  //     return res.status(200).json(replyComment);
+  //   } catch (error) {
+  //     console.log(error);
+  //     if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+  //     return res.status(500).json({ errorMessage: error.message });
+  //   }
+  // };
+
   /*대댓글 수정
   updateReply = async (req, res) => {
     const { content } = req.body;

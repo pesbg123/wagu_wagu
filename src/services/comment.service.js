@@ -161,6 +161,12 @@ class CommentsService {
     }
   };
 
+  // 대댓글 조회
+  // getReplyComment = async (post_id, id) => {
+  //   const res = await this.CommentsRepository.getReplyComment(id);
+  //   return res;
+  // };
+
   /* 대댓글 수정
   updateReply = async ({ user_id, reply_id, content }) => {
     if (!content) {

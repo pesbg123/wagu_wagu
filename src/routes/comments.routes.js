@@ -10,6 +10,9 @@ const commentsController = new CommentsController();
 // 대댓글 작성
 commentsRouter.post('/comments/:post_id/:parent_id', commentsController.createReply);
 
+// 대댓글 조회
+// commentsRouter.get('/post/:post_id/comments/:id', commentsController.getReplyComment);
+
 // 소프트 삭제된 댓글 조회
 commentsRouter.get('/comments/soft-deleted', commentsController.findSoftDeletedComments);
 

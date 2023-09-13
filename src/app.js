@@ -110,6 +110,7 @@ app.get('/food_page/:post_id', (req, res) => {
 
 app.get('/mypost', (req, res) => {
   res.sendFile(path.join(__dirname, './public/mypost.html'));
+});
 
 // 좋아요 게시물 페이지
 app.get('/users/:user_id/liked_posts', (req, res) => {
