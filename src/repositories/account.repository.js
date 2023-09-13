@@ -23,6 +23,12 @@ class AccountRepository {
     return user;
   };
 
+  findUserByNickname = async (nickname) => {
+    const user = await Users.findOne({ where: { nickname } });
+
+    return user;
+  };
+
   isAdmin = async (userId) => {
     const user = await Users.findOne({
       where: { id: userId },

@@ -1,8 +1,10 @@
 const CustomError = require('../errors/customError');
 const PostsRespository = require('../repositories/posts.repository');
+const AccountRepository = require('../repositories/account.repository');
 
 class PostsService {
   postsRespository = new PostsRespository();
+  accountRepository = new AccountRepository();
 
   createPost = async (user_id, title, ingredient, recipe, food_img) => {
     if (!title) {
@@ -69,9 +71,9 @@ class PostsService {
   };
 
   findNicknamePosts = async (nickname) => {
-    const findNicknamePostsData = await this.usersRepository.findNicknamePosts(nickname);
+    const findNicknamePostsData = await this.accountRepository.findUserByNickname(nickname);
 
-    const findUserPostsData = await this.postsRespository.findUserPosts(findNicknamePostsData.user_id);
+    const findUserPostsData = await this.postsRespository.findUserPosts(findNicknamePostsData.id);
 
     return findUserPostsData;
   };
@@ -105,6 +107,12 @@ class PostsService {
     if (existPost.is_blocked === false) throw new CustomError('블락되지 않은 게시물입니다.', 400);
     const res = await this.postsRespository.unblockPost(id);
     if (!res) throw new Error('게시글 블락 취소에 실패했습니다.');
+  };
+
+  findMyPosts = async (user_id) => {
+    const findMyPostsData = await this.postsRespository.findMyPosts(user_id);
+
+    return findMyPostsData;
   };
 }
 
