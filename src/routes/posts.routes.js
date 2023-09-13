@@ -19,6 +19,9 @@ router.get('/posts/user', posts.findUserPosts);
 //닉네임으로 조회
 router.get('/posts/nickname', posts.findNicknamePosts);
 
+//내 게시글 조회
+router.get('/posts/mypost', authMiddleware.authenticateAccessToken, posts.findMyPosts);
+
 //게시글 상세 조회
 router.get('/posts/:id', posts.findOnePost);
 

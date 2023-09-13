@@ -34,10 +34,9 @@ class PostLikesController {
   async getUserLikedPosts(req, res) {
     try {
       const { id: user_id } = req.user;
-      const { user_id: paramUserId } = req.params;
       const { page } = req.query;
 
-      const { likedPosts, likedPostsCount } = await this.postLikesService.getUserLikedPosts(user_id, paramUserId, page);
+      const { likedPosts, likedPostsCount } = await this.postLikesService.getUserLikedPosts(user_id, page);
 
       // 페이지 관련 로직 수정
       const limit = 20;
