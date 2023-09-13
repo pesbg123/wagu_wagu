@@ -1,0 +1,145 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #03a9f4;
+  transition: 1s;
+}
+
+.slide {
+  background: #f43648;
+}
+
+.container {
+  position: relative;
+  width: 800px;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.125);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .box {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.container .box h2 {
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.container .box button {
+  cursor: pointer;
+  padding: 10px 20px;
+  background: #fff;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+}
+
+.formBx {
+  position: absolute;
+  left: 50px;
+  width: 350px;
+  height: 480px;
+  background: #fff;
+  z-index: 1000;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  transition: 0.5s;
+  transition-delay: 0.5s;
+  overflow: hidden;
+}
+
+.slide .formBx {
+  left: 400px;
+}
+
+.formBx .form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.5s;
+  background: #fff;
+}
+
+.formBx .form.signupform {
+  top: 100%;
+  transition-delay: 0s;
+}
+
+.slide .formBx .form.signupform {
+  top: 0;
+  transition-delay: 1s;
+}
+
+.formBx .form.signinform {
+  top: 0;
+  transition-delay: 1s;
+}
+
+.slide .formBx .form.signinform {
+  top: -100%;
+  transition-delay: 0s;
+}
+
+.formBx .form form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 50px;
+  width: 100%;
+}
+
+.formBx .form form h3 {
+  font-size: 1.4em;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.formBx .form form input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  outline: none;
+  font-size: 0.8em;
+  border: 1px solid #333;
+  letter-spacing: 0.1em;
+}
+
+.formBx .form form input[type='submit'] {
+  background: #03a9f4;
+  border: none;
+  color: #fff;
+  max-width: 100px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.formBx .signupform form input[type='submit'] {
+  background: #f43648;
+}
