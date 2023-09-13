@@ -15,7 +15,7 @@ class PostLikesRepository {
     return await PostLikes.create({ post_id, user_id });
   }
   async increasePostLikeCount(post_id) {
-    const post = await PostLikes.findOne({ where: { id: post_id } });
+    const post = await Posts.findOne({ where: { id: post_id } });
     if (post) {
       post.like += 1;
       await post.save();
