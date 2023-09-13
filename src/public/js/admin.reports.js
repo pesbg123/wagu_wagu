@@ -3,12 +3,19 @@ $(document).ready(() => {
   getReportList();
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 $('#go-back-index').click(() => (location.href = '/admin'));
 
 // 신고 목록 조회
 const getReportList = async () => {
   try {
-    const response = await axios.get(`/api/reports`);
+    const response = await axios.get(`http://localhost:3000/api/reports`, headers);
 
     let postHtml = ``;
     let commentHtml = ``;
