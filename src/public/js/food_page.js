@@ -152,24 +152,8 @@ const getComment = async () => {
     const comment = response.data.data;
 
     let allComment = '';
-    let replyComment = '';
     comment.forEach((item) => {
-      if (item.reply_id !== null) {
-        replyComment = `<div class="d-flex mt-4" id="reply-comment" style="margin-left: 4rem;">
-                        <div class="one-reply">
-                          <div class="flex-shrink-0"><img class="rounded-circle"
-                              src="${item.User.user_img}" alt="..." /></div>
-                          <div class="ms-3">
-                            <div class="fw-bold">답글 작성자 이름 ${item.User.nickname}</div>
-                            <div>답글 ${item.content}</div>
-                            <button style="border: none; margin-top: 5px;">답글</button>
-                            <button style="border: none; margin-top: 5px;">신고</button>
-                            <button style="border: none; margin-top: 5px;">수정</button>
-                            <button style="border: none; margin-top: 5px;">삭제</button>
-                          </div>
-                        </div>
-                      </div>`;
-      } else {
+      if (item.reply_id === null) {
         let temphtml = `<div class="d-flex mb-4 comments-container">
                           <!-- Parent comment-->
                           <div class=" one-comment" id="comment-container">
@@ -183,10 +167,6 @@ const getComment = async () => {
                               <button comment-id="${item.id}" id="comment-report-btn" style="border: none; margin-top: 5px;">신고</button>
                               <button class="edit-btn" comment-id="${item.id}" style="border: none; margin-top: 5px;" data-original="${item.content}">수정</button>
                               <button class="delete-btn" comment-id="${item.id}" style="border: none; margin-top: 5px;">삭제</button>
-                            </div>
-                            <!-- Child comment 1-->
-                            <div class="d-flex mt-4 reply-comment" id="reply-comment" comment-id="${item.id}" style="margin-left: 4rem;">
-                              ${replyComment}
                             </div>
                           </div>
                         </div>`;
@@ -216,12 +196,6 @@ const createComment = async () => {
     console.log(error);
   }
 };
-// $('#comment_input').keydown((event) => {
-//   if (event.key === 'Enter') {
-//     event.preventDefault();
-//     createComment();
-//   }
-// });
 $('#createCmt_btn').click(createComment);
 
 // 수정 버튼 클릭시 모달
@@ -413,15 +387,14 @@ $(document).on('click', '.report-post-btn', async function () {
 const deletePost = async () => {
   try {
     await axios.delete(`http://localhost:3000/api/posts/${postId}`, headers);
-    // location.reload();
+    location.reload();
   } catch (error) {
     console.log(error.response);
     alert(error.response.data.errorMessage);
-    // location.reload();
+    location.reload();
   }
 };
 $(document).on('click', '.post-del-btn', function () {
   const isConfirmed = confirm('게시물을 정말로 삭제하시겠습니까?');
-  deletePost($(this).attr('post-id'));
-  // isConfirmed ? deletePost($(this).attr('post-id')) : location.reload();
+  isConfirmed ? deletePost($(this).attr('post-id')) : location.reload();
 });
