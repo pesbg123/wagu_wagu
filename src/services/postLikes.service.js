@@ -16,7 +16,10 @@ class PostLikesService {
     }
   
     const existPostLike = await this.postLikesRepository.getPostLike(post_id, user_id);
-    if (!existPostLike) {
+
+    console.log('🚀 ~ file: postLikes.service.js:20 ~ PostLikesService ~ addPostLike ~ existPostLike:', existPostLike);
+
+    if (existPostLike) {
       const message = await this.postLikesRepository.addPostLike(post_id, user_id);
       if (message) {
         // 게시글의 좋아요 수를 증가시킴

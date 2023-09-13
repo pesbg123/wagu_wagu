@@ -30,10 +30,14 @@ class UserFollowRepository {
         where: { id: targets.map((target) => target.dataValues.target_Id) },
       });
 
-      // 팔로우한 사용자가 작성한 게시물의 개수
-      for (const user of followedUsers) {
+      for (let i = 0; i < followedUsers.length; i++) {
+        const user = followedUsers[i];
+        const targetId = targets[i].dataValues.target_Id;
+
         const postCount = await Posts.count({ where: { user_id: user.id } });
+
         user.setDataValue('postCount', postCount);
+        user.setDataValue('targetId', targetId);
       }
 
       return followedUsers;

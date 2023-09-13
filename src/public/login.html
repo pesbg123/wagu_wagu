@@ -5,51 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Account</title>
-    <!-- <link rel="stylesheet" type="text/css" href="../css/auth.css" /> -->
+    <link rel="stylesheet" href="./css/login.css" />
   </head>
   <body>
-    <main>
-      <!-- <div class="img">
-        <img src="img/image.png" class="text-logo" alt="" />
-      </div> -->
-      <div class="wrapper">
-        <div class="form-box-login">
-          <h2>Login</h2>
-          <form action="#" class="login-form">
-            <div class="input-box" id="login-id">
-              <input type="text" required />
-              <label>Id</label>
-            </div>
-            <div class="input-box" id="login-password">
-              <input type="password" required />
-              <label>Password</label>
-            </div>
-            <button type="submit" class="btn-login">Login</button>
-            <div class="login-register">
-              <p>계정이 없다면 <a href="#" class="register-link">회원가입</a></p>
-            </div>
+    <div class="container">
+      <div class="box signin">
+        <h2>계정이 있으신가요?</h2>
+        <button class="signinBtn">Sign in</button>
+      </div>
+      <div class="box signup">
+        <h2>계정이 없으신가요?</h2>
+        <button class="signupBtn">Sign up</button>
+      </div>
+      <div class="formBx">
+        <div class="form signinform">
+          <form>
+            <h3>Sign In</h3>
+            <input type="text" placeholder="Email" />
+            <input type="password" placeholder="Password" />
+            <input type="submit" value="Login" />
           </form>
         </div>
 
-        <div class="form-box-register">
-          <h2>Register</h2>
-          <form action="#" class="register-form">
-            <div class="input-box" id="register-id">
-              <input type="text" required />
-              <label>Id</label>
-            </div>
-            <div class="input-box" id="register-password">
-              <input type="password" required />
-              <label>Password</label>
-            </div>
-            <button type="submit" class="btn-register">Register</button>
-            <div class="login-register">
-              <p>계정이 있다면 <a href="#" class="login-link">로그인</a></p>
-            </div>
+        <div class="form signupform">
+          <form>
+            <h3>Sign Up</h3>
+            <input type="text" placeholder="Email" />
+            <input type="password" placeholder="Password" />
+            <input type="submit" value="Register" />
           </form>
         </div>
       </div>
-    </main>
+    </div>
 
     <script src="js/login.js"></script>
   </body>

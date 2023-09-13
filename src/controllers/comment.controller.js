@@ -1,5 +1,4 @@
 const CommentsService = require('../services/comment.service');
-const user_id = 1;
 
 class CommentsController {
   commentsService = new CommentsService();
@@ -21,7 +20,6 @@ class CommentsController {
 
   //소프트 삭제된 댓글 조회
   findSoftDeletedComments = async (req, res) => {
-    console.log('findSoftDeletedComments');
     const { code, data } = await this.commentsService.findSoftDeletedComments();
     res.status(code).json({ data });
   };
@@ -36,7 +34,7 @@ class CommentsController {
 
   // 댓글 생성
   createComment = async (req, res) => {
-    //const { user_id } = res.locals.user;
+    const { id: user_id } = req.user;
     const { post_id } = req.params;
     const { content } = req.body;
 
@@ -51,7 +49,7 @@ class CommentsController {
 
   // 댓글 수정
   updateComment = async (req, res) => {
-    //const { user_id } = res.locals.user;
+    const { id: user_id } = req.user;
     const { id } = req.params;
     const { content } = req.body;
 
@@ -66,7 +64,7 @@ class CommentsController {
   // 댓글 삭제
   deleteComment = async (req, res) => {
     const { id } = req.params;
-    //const { user_id } = res.locals.user;
+    const { id: user_id } = req.user;
 
     const { code, data } = await this.commentsService.deleteComment({
       id,
@@ -77,7 +75,6 @@ class CommentsController {
 
   // 대댓글 생성
   createReply = async (req, res) => {
-    console.log(req.params);
     const { post_id, parent_id } = req.params;
     const { content } = req.body;
     //const { user_id } = res.locals.user;
@@ -91,6 +88,20 @@ class CommentsController {
 
     res.status(code).json(json);
   };
+
+  // 대댓글 조회
+  // getReplyComment = async (req, res) => {
+  //   try {
+  //     const { post_id, id } = req.params;
+
+  //     const replyComment = await this.CommentsService.getReplyComment(post_id, id);
+  //     return res.status(200).json(replyComment);
+  //   } catch (error) {
+  //     console.log(error);
+  //     if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+  //     return res.status(500).json({ errorMessage: error.message });
+  //   }
+  // };
 
   /*대댓글 수정
   updateReply = async (req, res) => {
