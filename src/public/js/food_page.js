@@ -267,11 +267,6 @@ $(document).on('click', '.post-edit-btn', function () {
         const recipe = $('#recipe').val();
         const food_img = $('#food_img')[0].files[0];
 
-        console.log(title);
-        console.log(ingredient);
-        console.log(recipe);
-        console.log(food_img);
-
         const formData = new FormData();
         formData.append('title', title);
         formData.append('ingredient', ingredient);
