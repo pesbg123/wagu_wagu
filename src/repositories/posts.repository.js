@@ -70,7 +70,15 @@ class PostsRespository {
   };
 
   findByTitle = async (title) => {
-    const findByTitleData = await Posts.findAll({ where: { title: { [Sequelize.Op.like]: `%${title}%` } } });
+    const findByTitleData = await Posts.findAll({
+      where: { title: { [Sequelize.Op.like]: `%${title}%` } },
+      include: [
+        {
+          model: Users,
+          attributes: ['nickname', 'id'],
+        },
+      ],
+    });
 
     return findByTitleData;
   };
