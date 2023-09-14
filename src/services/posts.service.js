@@ -53,6 +53,7 @@ class PostsService {
     }
 
     const myPosts = findMyPosts.map((item) => ({
+      id: item.id,
       created_at: item.created_at,
       title: item.title,
       food_img: item.food_img,
