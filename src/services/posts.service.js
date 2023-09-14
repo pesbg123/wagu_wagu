@@ -53,6 +53,7 @@ class PostsService {
     }
 
     const myPosts = findMyPosts.map((item) => ({
+      id: item.id,
       created_at: item.created_at,
       title: item.title,
       food_img: item.food_img,
@@ -133,6 +134,16 @@ class PostsService {
     }
 
     return findByTitleData;
+  };
+
+  findByHashtag = async (hashtag) => {
+    const findIdByHashtagData = await this.adminHashtagsRepository.findIdByHashtag(hashtag);
+    // console.log(findIdByHashtagData);
+
+    const findByHashtagIdData = await this.postHashtagsRepository.findByHashtagId(findIdByHashtagData.id);
+    // console.log(findByHashtagIdData);
+
+    return findByHashtagIdData;
   };
 }
 
