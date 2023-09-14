@@ -55,7 +55,7 @@ $(document).ready(function () {
 
         console.log('게시글 작성이 완료되었습니다.', response.data);
 
-        window.location.href = '/';
+        window.location.href = '/myPost';
       } catch (error) {
         console.error('게시글 작성 중 오류가 발생했습니다.', error);
       }
