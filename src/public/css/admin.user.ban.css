@@ -21,34 +21,13 @@ pre {
 
 /* 유저 테이블 */
 .userTable-container {
-  overflow: auto;
-  max-height: 750px; /* 원하는 높이로 조정 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 3rem;
-  min-width: 200px;
-  max-width: 1300px;
+  min-width: 100px;
+  max-width: 1250px;
   border-radius: 10px;
-  overflow-x: hidden;
-}
-
-/* 수직 스크롤바 */
-::-webkit-scrollbar {
-  width: 10px; /* 스크롤바의 너비 */
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1; /* 스크롤바 트랙 배경색 */
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888; /* 스크롤바 색상 */
-  border-radius: 5px; /* 스크롤바 둥글기 */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* 스크롤바에 마우스 호버 시 색상 */
 }
 
 .userTable-container table {
@@ -119,9 +98,9 @@ input {
 .userTable-container thead {
   font-weight: bold;
   color: #fff;
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  /* position: sticky; */
+  /* top: 0;
+  z-index: 1; */
   background: #000000;
 }
 
