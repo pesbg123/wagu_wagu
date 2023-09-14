@@ -117,6 +117,12 @@ searchInput.addEventListener('input', () => {
         li.innerHTML = `<span class="user-input">${userInput}</span>${restPart}`;
       }
 
+      li.addEventListener('click', () => {
+        // 해시태그를 클릭하면 해당 해시태그를 검색창에 표시
+        searchInput.value = `#${keyword}`;
+        searchBox.style.display = 'none'; // 추천 검색어 박스 숨기기
+      });
+
       searchBox.appendChild(li);
     });
 
