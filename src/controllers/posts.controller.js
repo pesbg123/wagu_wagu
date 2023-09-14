@@ -184,10 +184,22 @@ class PostsController {
   findByTitle = async (req, res) => {
     try {
       const { title } = req.query;
-      console.log(title);
 
       const findByTitleData = await this.postsService.findByTitle(title);
       return res.status(200).json({ message: '게시글 조회에 성공하였습니다.', data: findByTitleData });
+    } catch (error) {
+      console.error(error);
+      if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });
+      return res.status(500).json({ errorMessage: '게시글 조회에 실패하였습니다.' });
+    }
+  };
+
+  findByHashtag = async (req, res) => {
+    try {
+      const { hashtag } = req.query;
+
+      const findByHashtagData = await this.postsService.findByHashtag(hashtag);
+      return res.status(200).json({ message: '게시글 조회에 성공하였습니다.', data: findByHashtagData });
     } catch (error) {
       console.error(error);
       if (error.errorCode) return res.status(error.errorCode).json({ errorMessage: error.message });

@@ -134,6 +134,16 @@ class PostsService {
 
     return findByTitleData;
   };
+
+  findByHashtag = async (hashtag) => {
+    const findIdByHashtagData = await this.adminHashtagsRepository.findIdByHashtag(hashtag);
+    // console.log(findIdByHashtagData);
+
+    const findByHashtagIdData = await this.postHashtagsRepository.findByHashtagId(findIdByHashtagData.id);
+    // console.log(findByHashtagIdData);
+
+    return findByHashtagIdData;
+  };
 }
 
 module.exports = PostsService;

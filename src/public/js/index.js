@@ -194,22 +194,44 @@ $(document).ready(function () {
     if (e.which == 13) {
       e.preventDefault();
 
+      const userInput = $('#search-bar').val();
       const title = $('#search-bar').val();
 
-      axios
-        .get(`/api/posts/title?title=${title}`)
-        .then(function (response) {
-          // API 응답을 처리합니다.
-          const searchData = response.data;
-          // searchData를 사용하여 검색 결과를 화면에 표시하거나 다른 작업을 수행합니다.
-          console.log(searchData);
+      if (userInput.startsWith('#')) {
+        // 검색어가 '#'으로 시작하는 경우
+        // 다른 API를 호출하거나 원하는 작업을 수행합니다.
+        const hashtag = userInput.substring(1); // '#'을 제외한 검색어 추출
 
-          // 검색 결과를 화면에 표시하는 코드를 작성합니다.
-          displaySearchResults(searchData.data);
-        })
-        .catch(function (error) {
-          console.error('API 요청 중 오류 발생:', error);
-        });
+        axios
+          .get(`/api/posts/hashtag?hashtag=${hashtag}`)
+          .then(function (response) {
+            // API 응답을 처리합니다.
+            const searchData = response.data;
+            // searchData를 사용하여 검색 결과를 화면에 표시하거나 다른 작업을 수행합니다.
+            console.log(searchData);
+
+            // 검색 결과를 화면에 표시하는 코드를 작성합니다.
+            SearchResults(searchData.data);
+          })
+          .catch(function (error) {
+            console.error('API 요청 중 오류 발생:', error);
+          });
+      } else {
+        axios
+          .get(`/api/posts/title?title=${title}`)
+          .then(function (response) {
+            // API 응답을 처리합니다.
+            const searchData = response.data;
+            // searchData를 사용하여 검색 결과를 화면에 표시하거나 다른 작업을 수행합니다.
+            console.log(searchData);
+
+            // 검색 결과를 화면에 표시하는 코드를 작성합니다.
+            displaySearchResults(searchData.data);
+          })
+          .catch(function (error) {
+            console.error('API 요청 중 오류 발생:', error);
+          });
+      }
     }
   });
 });
@@ -237,6 +259,38 @@ function displaySearchResults(searchResults) {
                 </div>
                 <small class="text-body-secondary">${cretedAt}</small>
                 <span class="like-count">❤️ ${item.like} </span> 
+              </div>
+            </div>
+          </div>
+        </div>`;
+      $('#card-list').append(tempHtml);
+    });
+  }
+}
+
+function SearchResults(searchResults) {
+  $('#card-list').empty(); // 기존 게시글 리스트를 비웁니다.
+
+  if (searchResults.length === 0) {
+    // 검색 결과가 없을 경우 메시지를 표시합니다.
+    $('#card-list').append('<p>검색 결과가 없습니다.</p>');
+  } else {
+    // 검색 결과를 카드로 표시합니다.
+    searchResults.forEach(function (item) {
+      console.log(item);
+      const cretedAt = convertToKST(item.Post.created_at);
+      let tempHtml = `
+        <div class="col-md-4 mb-4">
+          <div class="card shadow-sm">
+            <img src="${item.Post.food_img}" id="post-img-click" post-id="${item.Post.id}" alt="${item.Post.title}" class="card-img-top">
+            <div class="card-body">
+              <p class="card-text">${item.Post.title}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <p>${item.Post.User.nickname}</p>
+                </div>
+                <small class="text-body-secondary">${cretedAt}</small>
+                <span class="like-count">❤️ ${item.Post.like} </span> 
               </div>
             </div>
           </div>
