@@ -1,13 +1,16 @@
 const CustomError = require('../errors/customError');
 const PostsRespository = require('../repositories/posts.repository');
 const AccountRepository = require('../repositories/account.repository');
-const { error } = require('console');
+const PostHashtagsRepository = require('../repositories/post.hashtag.repository');
+const AdminHashtagsRepository = require('../repositories/hashtags.repository');
 
 class PostsService {
   postsRespository = new PostsRespository();
   accountRepository = new AccountRepository();
+  postHashtagsRepository = new PostHashtagsRepository();
+  adminHashtagsRepository = new AdminHashtagsRepository();
 
-  createPost = async (user_id, title, ingredient, recipe, food_img) => {
+  createPost = async (user_id, title, ingredient, recipe, food_img, hashtag) => {
     if (!title) {
       throw new CustomError('제목을 입력해주세요.', 400);
     }
@@ -20,13 +23,19 @@ class PostsService {
       throw new CustomError('조리법을 입력해주세요.', 400);
     }
 
-    // if (!food_img) {
-    //   throw new CustomError('요리 사진을 등록해주세요.', 400);
-    // }
+    if (!hashtag) {
+      throw new CustomError('해시태그를 선택해주세요.', 400);
+    }
+
+    if (!food_img) {
+      throw new CustomError('요리 사진을 등록해주세요.', 400);
+    }
 
     const createPostData = await this.postsRespository.createPost(user_id, title, ingredient, recipe, food_img);
+    const findhashtagId = await this.adminHashtagsRepository.findIdByHashtag(hashtag);
+    const createPostHashtag = await this.postHashtagsRepository.createPostHashtag(createPostData.id, findhashtagId.id);
 
-    return createPostData;
+    return createPostData, createPostHashtag;
   };
 
   findPosts = async (limit, offset) => {

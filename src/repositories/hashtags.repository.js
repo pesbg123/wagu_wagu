@@ -28,5 +28,9 @@ class AdminHashtagsRepository {
   async deleteHashtag(id) {
     return await Hashtags.destroy({ where: { id } });
   }
+
+  async findIdByHashtag(hashtag) {
+    return await Hashtags.findOne({ where: { hashtag } });
+  }
 }
 module.exports = AdminHashtagsRepository;
