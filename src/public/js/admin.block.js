@@ -22,7 +22,7 @@ const getBlockPost = async () => {
     response.data.data.forEach((item) => {
       if (item.is_blocked) {
         let temphtml = `<tr>
-                            <td>${item['User.nickname']}</td>
+                            <td>${item.User.nickname}</td>
                             <td><a href="#">${item.title}</a></td>
                             <td>3번 이상 신고를 받은 게시물 </td>
                             <td> <button type="submit" id="post-unblock-btn" class="btn btn-dark" post-id="${item.id}">블락 취소</button></td>
