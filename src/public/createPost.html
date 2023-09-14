@@ -23,16 +23,18 @@
         <h2 class="mb-4">레시피 작성하기</h2>
         <form>
           <div class="mb-3">
+            <label for="hashtag" class="form-label">해시태그</label>
+            <select multiple class="form-control" id="hashtag">
+              <!-- 여기에 서버에서 가져온 해시태그 목록을 추가할 옵션 요소들을 동적으로 생성합니다. -->
+            </select>
+          </div>
+          <div class="mb-3">
             <label for="title" class="form-label">레시피 제목</label>
             <input type="text" class="form-control" id="title" placeholder="레시피 제목" />
           </div>
           <div class="mb-3">
             <label for="ingredient" class="form-label">재료</label>
             <textarea class="form-control" id="ingredient" rows="2" placeholder="재료를 입력하세요"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="hashtag" class="form-label">해시태그</label>
-            <textarea class="form-control" id="hashtag" rows="1" placeholder="해시태그를 선택하세요."></textarea>
           </div>
           <div class="mb-3">
             <label for="recipe" class="form-label">조리법</label>

@@ -14,13 +14,13 @@ class PostsController {
           return res.status(500).json({ errorMessage: '이미지 업로드에 실패하였습니다.' });
         }
 
-        const { title, ingredient, recipe } = req.body;
+        const { title, ingredient, recipe, hashtag } = req.body;
 
         // 이미지 파일의 경로나 URL을 추출하여 문자열로 저장
         const food_img_path = req.file ? req.file.location : null;
 
         // 이미지 파일 정보를 PostsService.createPost 메서드로 전달
-        const createPostData = await this.postsService.createPost(id, title, ingredient, recipe, food_img_path);
+        const createPostData = await this.postsService.createPost(id, title, ingredient, recipe, food_img_path, hashtag);
 
         return res.status(201).json({ message: '게시글을 생성하였습니다.', data: createPostData });
       });
