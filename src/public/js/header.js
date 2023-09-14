@@ -1,3 +1,14 @@
+$(document).ready(function () {
+  // 헤더 파일을 동적으로 가져와서 삽입
+  axios
+    .get('./header.html')
+    .then((response) => {
+      const headerElement = $('#myHeader');
+      headerElement.html(response.data);
+    })
+    .catch((error) => console.error(error));
+});
+
 // $(document).ready(() => {
 //   // getPosts();
 //   // 쿠키에서 'Authorization' 값을 가져오는 함수
