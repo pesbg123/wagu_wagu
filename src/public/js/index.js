@@ -308,3 +308,8 @@ function SearchResults(searchResults) {
     });
   }
 }
+
+// 로고 클릭 이벤트 리스너 추가
+document.getElementById('logo').addEventListener('click', function () {
+  location.reload(); // 페이지 새로고침
+});
