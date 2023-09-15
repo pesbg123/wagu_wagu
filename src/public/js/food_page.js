@@ -393,3 +393,8 @@ $(document).on('click', '.post-del-btn', function () {
   const isConfirmed = confirm('게시물을 정말로 삭제하시겠습니까?');
   isConfirmed ? deletePost($(this).attr('post-id')) : location.reload();
 });
+
+document.getElementById('logo').addEventListener('click', function () {
+  // 로고를 클릭하면 페이지를 '/'로 이동합니다.
+  window.location.href = '/';
+});

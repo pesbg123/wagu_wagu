@@ -21,7 +21,7 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <div>
-        <img src="/img/image.png" alt="" width="200px" height="70px" />
+        <img src="/img/image.png" id="logo" alt="" width="200px" height="70px" />
       </div>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
@@ -78,38 +78,7 @@
                   placeholder="댓글을 입력하세요!"></textarea><button type="button" id="createCmt_btn">작성</button></form>
               <!-- Comment with nested comments-->
               <div class="comment-card">
-                <div class="d-flex mb-4 comments-container">
-                  <!-- Parent comment-->
-                  <div class=" one-comment" id="comment-container">
-                    <div class="flex-shrink-0"><img class="rounded-circle"
-                        src="https://cdn.landesa.org/wp-content/uploads/default-user-image.png" alt="..." /></div>
-                    <div class="ms-3">
-                      <div class="fw-bold" id="comment-author">닉넴</div>
-                      <div>
-                        댓글
-                      </div>
-                      <button comment-id="" style="border: none; margin-top: 5px;">답글</button>
-                      <button comment-id="" style="border: none; margin-top: 5px;">신고</button>
-                      <button comment-id="" style="border: none; margin-top: 5px;">수정</button>
-                      <button comment-id="" style="border: none; margin-top: 5px;">삭제</button>
-                    </div>
-                    <!-- Child comment 1-->
-                    <div class="d-flex mt-4" id="reply-comment" style="margin-left: 4rem;">
-                      <div class="one-reply">
-                        <div class="flex-shrink-0"><img class="rounded-circle"
-                            src="https://cdn.landesa.org/wp-content/uploads/default-user-image.png" alt="..." /></div>
-                        <div class="ms-3">
-                          <div class="fw-bold">답글 작성자 이름</div>
-                          <div>reply</div>
-                          <button style="border: none; margin-top: 5px;">답글</button>
-                          <button style="border: none; margin-top: 5px;">신고</button>
-                          <button style="border: none; margin-top: 5px;">수정</button>
-                          <button style="border: none; margin-top: 5px;">삭제</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>

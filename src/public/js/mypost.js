@@ -17,16 +17,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         gridItem.classList.add('grid-item', 'course', 'bg-white', 'rad-6', 'p-relative');
 
         gridItem.innerHTML = `
-          <img class="cover" src="${item.food_img}" alt="" />
-          <div class="p-10">
-            <h4 class="m-0">${item.title}</h4>
-            <p class="description c-grey mt-15 fs-14">${item.ingredient}</p>
-          </div>
-          <div class="info p-10 p-relative between-flex">
-            <span class="c-grey">${item.created_at.substring(0, 10)}</span>
-            <span class="c-grey">${item.like}</span>
-          </div>
-        `;
+            <img class="cover" id="post-img" post-id="${item.id}" src="${item.food_img}" alt="" />
+            <div class="p-10">
+              <h4 class="m-0">${item.title}</h4>
+              <p class="description c-grey mt-15 fs-14">${item.ingredient}</p>
+            </div>
+            <div class="info p-10 p-relative between-flex">
+              <span class="c-grey">${item.created_at.substring(0, 10)}</span>
+              <span class="c-grey">${item.like}</span>
+            </div>
+          `;
 
         coursesPage.appendChild(gridItem);
       });
