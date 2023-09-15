@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><div id="header"></div> </head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    부트스트랩
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+
+    <!-- 제이쿼리 -->
+ <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- axios -->
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+
+ <style>
+        #body {
+            display:flex;
+            justify-content: center;
+            /* align-items: center; */
+            height: 100vh;
+            margin: 0;
+        }
+      
+        .message {
+            border-top: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #e6e6e6;
+        }
+        #chat-container {
+            width: 400px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ccc;
+            
+        }
+        *, ::after, ::before {
+            box-sizing: border-box;
+            text-align: -webkit-center;
+        }   
+        #chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        #user-input {
+            display: flex;
+            padding: 10px;
+ 
+        }
+        #user-input input {
+            flex: 1;
+            padding: 10px;
+            outline: none;
+        }
+        #input button {
+            border: none;
+            background-color: #1e88e5;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        object {
+        width: 100vw;
+        height: 203px;
+      }
+    </style>
+   
+
+<body>
+    <div id="chat-container">
+        <div id="chat-messages"></div>
+        <h4 class="ui horizontal divider header">메세지</h4>
+        <div class="ui segment" id="result">
+          <ol class="discussion"></ol>
+        </div>
+        
+        <div id="user-input">
+          <textarea rows="5" cols="40" id="msg"></textarea>
+          <input type="button" id="sendBtn" value="전송" />
+        </div>
+    </div> -->
+
+<!-- 클라이언트 측 스크립트 -->
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    const sendBtn = document.getElementById('sendBtn');
+    const msgInput = document.getElementById('msg');
+    const discussionList = document.querySelector('.discussion');
+
+    sendBtn.addEventListener('click', async function () {
+      const msg = msgInput.value;
+      addToDiscussion('self', msg);
+
+      // 클라이언트에서 서버로 API 요청을 보냅니다.
+      try {
+        const response = await callChatGPT(msg);
+        addToDiscussion('other', response);
+
+        msgInput.value = '';
+        msgInput.focus();
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+
+    async function callChatGPT(prompt) {
+      try {
+        // Axios를 사용하여 서버로 API 요청을 보냅니다.
+        const response = await axios.post(
+          '/chatGPT',
+          { prompt },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        );
+
+        const data = response.data;
+        return data.response;
+      } catch (error) {
+        console.error('Error calling ChatGPT API:', error);
+        throw error;
+      }
+    }
+
+    function addToDiscussion(writer, msg) {
+      // 대화 목록에 메시지 추가
+      const li = document.createElement('li');
+      li.className = writer;
+
+      const div = document.createElement('div');
+      div.className = 'message';
+
+      const p = document.createElement('p');
+      p.textContent = msg;
+
+      div.appendChild(p);
+      li.appendChild(div);
+
+      discussionList.appendChild(li);
+    }
+  </script>
+  
+</html>

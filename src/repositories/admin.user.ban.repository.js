@@ -8,8 +8,10 @@ class AdminUserBanRepository {
   }
 
   // GET all-users
-  async getAllUsers() {
+  async getAllUsers(limit, offset) {
     return await Users.findAll({
+      limit: limit,
+      offset: offset,
       raw: true,
       paranoid: false,
       attributes: ['id', 'nickname', 'email', 'deleted_at', 'created_at'],

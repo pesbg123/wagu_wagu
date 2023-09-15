@@ -11,45 +11,60 @@ async function verify() {
     });
 
     if (response.ok) {
-      console.log('response Ok');
+      // console.log('response Ok');
       if (window.location.pathname === '/') {
         function handleAuthenticationResponse(success) {
           const loginBtn = document.getElementById('loginBtn');
-          const logoutBtn = document.getElementById('logoutBtn');
-          const postBtn = document.getElementById('postBtn');
+          const hamMenu = document.getElementById('ham-menu');
 
-          if (loginBtn && logoutBtn && postBtn) {
+          if (loginBtn) {
             if (success) {
               // 인증 성공
-              loginBtn.style.display = 'none'; // 로그인 버튼 숨김
-              logoutBtn.style.display = 'block'; // 로그아웃 버튼 표시
-              postBtn.style.display = 'block';
+              loginBtn.style.display = 'none';
+              hamMenu.style.display = 'block';
             } else {
               // 인증 실패
-              loginBtn.style.display = 'block'; // 로그인 버튼 표시
-              logoutBtn.style.display = 'none'; // 로그아웃 버튼 숨김
-              postBtn.style.display = 'none';
+              loginBtn.style.display = 'block';
+              hamMenu.style.display = 'none';
             }
           }
         }
 
         handleAuthenticationResponse(true);
+
+        const authHeader = response.headers.get('Authorization');
+        if (authHeader) {
+          const parts = authHeader.split(' ');
+          const WGID = parts[1];
+
+          if (authHeader.startsWith('Bearer ')) {
+            const now = new Date();
+            const oneHourLater = new Date(now.getTime() + 20 * 60 * 1000);
+            const cookieExpirationDate = oneHourLater.toUTCString();
+            document.cookie = `WGID=${WGID}; path=/; expires=${cookieExpirationDate};`;
+            console.log(document.cookie);
+          }
+        }
       }
     } else {
       const data = await response.json();
       if (data.message === '액세스 토큰 오류') {
         // 페이지가 '/' 인 경우 리디렉션
         if (window.location.pathname === '/') {
+          deleteCookie('WGID');
           return;
         } else {
           // 다른 페이지인 경우 리디렉션
+          deleteCookie('WGID');
           window.location.href = '/';
         }
       } else {
         if (window.location.pathname === '/') {
+          deleteCookie('WGID');
           return;
         } else {
           // 다른 페이지인 경우 리디렉션
+          deleteCookie('WGID');
           window.location.href = '/';
         }
       }
@@ -60,31 +75,20 @@ async function verify() {
   }
 }
 
-// 쿠키에서 특정 이름의 쿠키 값을 가져오는 함수
-function getCookie(name) {
-  const cookies = document.cookie.split(';');
-  for (const cookie of cookies) {
-    const [cookieName, cookieValue] = cookie.split('=');
-    if (cookieName.trim() === name) {
-      return cookieValue;
-    }
-  }
-  return null;
-}
-
 // 페이지가 처음 열릴 때 API 호출
 window.onload = verify;
 
 // // 새로고침할 때 API 호출
 // window.onbeforeunload = verify;
 
-// 15분(900,000 밀리초)마다 API 호출
-setInterval(verify, 900000);
+// 10분마다 API 호출
+setInterval(verify, 9 * 60 * 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
-  const logoutBtn = document.getElementById('logoutBtn');
+  const hamMenu = document.getElementById('ham-menu');
 
-  if (logoutBtn) {
+  if (hamMenu) {
+    const logoutBtn = document.getElementById('logout');
     logoutBtn.addEventListener('click', async () => {
       event.preventDefault();
 

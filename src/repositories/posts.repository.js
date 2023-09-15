@@ -1,4 +1,4 @@
-const { Posts, Users } = require('../models');
+const { Posts, Users, Comments, PostLikes, Sequelize } = require('../models');
 
 class PostsRespository {
   createPost = async (user_id, title, ingredient, recipe, food_img) => {
@@ -7,21 +7,34 @@ class PostsRespository {
     return createPostData;
   };
 
-  findPosts = async () => {
+  findPosts = async (limit, offset) => {
     const findPostsData = await Posts.findAll({
       raw: true,
+      nest: true,
+      limit,
+      offset,
       include: [
         {
           model: Users,
-          attributes: ['nickname'],
+          attributes: ['nickname', 'id'],
         },
       ],
     });
+
     return findPostsData;
   };
 
   findOnePost = async (id) => {
-    const findOnePostData = await Posts.findOne({ raw: true, where: { id } }); // 데이터를 json형식으로 간결히 나오게 하기 위해  raw: true, 추가했습니다. JH
+    const findOnePostData = await Posts.findOne({
+      raw: true,
+      where: { id },
+      include: [
+        {
+          model: Users,
+          attributes: ['id', 'nickname', 'email', 'user_img'],
+        },
+      ],
+    });
 
     return findOnePostData;
   };
@@ -54,6 +67,20 @@ class PostsRespository {
 
   postReportCountIncrease = async (id, report_count) => {
     return Posts.update({ report_count }, { where: { id } });
+  };
+
+  findByTitle = async (title) => {
+    const findByTitleData = await Posts.findAll({
+      where: { title: { [Sequelize.Op.like]: `%${title}%` } },
+      include: [
+        {
+          model: Users,
+          attributes: ['nickname', 'id'],
+        },
+      ],
+    });
+
+    return findByTitleData;
   };
 }
 

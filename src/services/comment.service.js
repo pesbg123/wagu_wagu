@@ -85,8 +85,6 @@ class CommentsService {
       const existsComment = await this.commentsRepository.findById({
         id,
       });
-      console.log('existsComment:', existsComment);
-      console.log('input user_id:', user_id);
 
       if (!existsComment) {
         return { code: 404, data: ' 댓글이 존재하지 않습니다.' };
@@ -160,6 +158,12 @@ class CommentsService {
       return { code: 500, json: error.message };
     }
   };
+
+  // 대댓글 조회
+  // getReplyComment = async (post_id, id) => {
+  //   const res = await this.CommentsRepository.getReplyComment(id);
+  //   return res;
+  // };
 
   /* 대댓글 수정
   updateReply = async ({ user_id, reply_id, content }) => {

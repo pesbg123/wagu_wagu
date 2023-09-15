@@ -18,8 +18,10 @@ class AdminUserBanService {
   }
 
   // GET all-users
-  async getAllUsers() {
-    const allUsers = await this.adminUserBanRepository.getAllUsers();
+  async getAllUsers(page) {
+    const limit = 20;
+    const offset = limit * (page - 1);
+    const allUsers = await this.adminUserBanRepository.getAllUsers(limit, offset);
     return allUsers.length ? allUsers : [];
   }
 

@@ -1,4 +1,4 @@
-// 채팅 메시지를 표시할 DOM
+// // 채팅 메시지를 표시할 DOM
 const chatMessages = document.querySelector('#chat-messages');
 // 사용자 입력 필드
 const userInput = document.querySelector('#user-input input');
@@ -76,73 +76,73 @@ userInput.addEventListener('keydown', (event) => {
   }
 });
 
-// // axios와 dotenv 패키지 가져오기
-// const axios = require('axios');
+// axios와 dotenv 패키지 가져오기
+const axios = require('axios');
 
-// // DOMContentLoaded 이벤트 리스너 추가
-// document.addEventListener('DOMContentLoaded', async function () {
-//   const sendBtn = document.getElementById('sendBtn');
-//   const msgInput = document.getElementById('msg');
-//   const discussionList = document.querySelector('.discussion');
+// DOMContentLoaded 이벤트 리스너 추가
+document.addEventListener('DOMContentLoaded', async function () {
+  const sendBtn = document.getElementById('sendBtn');
+  const msgInput = document.getElementById('msg');
+  const discussionList = document.querySelector('.discussion');
 
-//   sendBtn.addEventListener('click', async function () {
-//     const msg = msgInput.value;
-//     addToDiscussion('self', msg);
+  sendBtn.addEventListener('click', async function () {
+    const msg = msgInput.value;
+    addToDiscussion('self', msg);
 
-//     // async function main() {
-//     //   const completion = await openai.chat.completions.create({
-//     //     messages: [{ role: "system", content: "string" }],
-//     //     model: "gpt-3.5-turbo",
-//     //   });
+    // async function main() {
+    //   const completion = await openai.chat.completions.create({
+    //     messages: [{ role: "system", content: "string" }],
+    //     model: "gpt-3.5-turbo",
+    //   });
 
-//     //   console.log(completion.choices[0]);
+    //   console.log(completion.choices[0]);
 
-//     // 서버 측에서 API 호출 및 응답 처리
-//     try {
-//       const response = await callChatGPT(msg);
-//       addToDiscussion('other', response);
-//     } catch (error) {
-//       console.error('Error calling ChatGPT API:', error);
-//       alert('ChatGPT API 호출 중 오류가 발생했습니다.');
-//     }
+    // 서버 측에서 API 호출 및 응답 처리
+    try {
+      const response = await callChatGPT(msg);
+      addToDiscussion('other', response);
+    } catch (error) {
+      console.error('Error calling ChatGPT API:', error);
+      alert('ChatGPT API 호출 중 오류가 발생했습니다.');
+    }
 
-//     msgInput.value = '';
-//     msgInput.focus();
-//   });
+    msgInput.value = '';
+    msgInput.focus();
+  });
 
-//   async function callChatGPT(prompt) {
-//     try {
-//       // 서버 측에서 API 호출 및 응답 처리
-//       const response = await axios.post(
-//         '/chatGPT', // 서버에서 API 호출
-//         { prompt },
-//         {
-//           headers: {
-//             'Content-Type': 'application/json',
-//           },
-//         },
-//       );
+  async function callChatGPT(prompt) {
+    try {
+      // 서버 측에서 API 호출 및 응답 처리
+      const response = await axios.post(
+        '/chatGPT', // 서버에서 API 호출
+        { prompt },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
 
-//       return response.data.response;
-//     } catch (error) {
-//       console.error('Error calling ChatGPT API:', error);
-//       throw error;
-//     }
-//   }
+      return response.data.response;
+    } catch (error) {
+      console.error('Error calling ChatGPT API:', error);
+      throw error;
+    }
+  }
 
-//   function addToDiscussion(writer, msg) {
-//     const li = document.createElement('li');
-//     li.className = writer;
+  function addToDiscussion(writer, msg) {
+    const li = document.createElement('li');
+    li.className = writer;
 
-//     const div = document.createElement('div');
-//     div.className = 'message';
+    const div = document.createElement('div');
+    div.className = 'message';
 
-//     const p = document.createElement('p');
-//     p.textContent = msg;
+    const p = document.createElement('p');
+    p.textContent = msg;
 
-//     div.appendChild(p);
-//     li.appendChild(div);
+    div.appendChild(p);
+    li.appendChild(div);
 
-//     discussionList.appendChild(li);
-//   }
-// });
+    discussionList.appendChild(li);
+  }
+});

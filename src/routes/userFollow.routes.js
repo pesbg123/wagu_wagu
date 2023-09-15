@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
-//const authMiddleware = require('../middlewares/auth');
+const AcountMiddleware = require('../middlewares/account.middleware');
+const acountMiddleware = new AcountMiddleware();
 const UserFollowController = require('../controllers/userFollow.controller');
 const userFollowController = new UserFollowController();
 
-router.post('/users/:user_id/followers', userFollowController.addUserFollow.bind(userFollowController));
+router.post('/users/:user_id/followers', acountMiddleware.authenticateAccessToken, userFollowController.addUserFollow.bind(userFollowController));
 
-router.delete('/users/:user_id/unfollowers', userFollowController.removeUserFollow.bind(userFollowController));
+router.delete(
+  '/users/:userId/unfollowers/:targetId',
+  acountMiddleware.authenticateAccessToken,
+  userFollowController.removeUserFollow.bind(userFollowController),
+);
+
+router.get('/users/followers', acountMiddleware.authenticateAccessToken, userFollowController.getUserFollowedUsers.bind(userFollowController));
 
 module.exports = router;
