@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+// /* eslint-disable no-undef */
 let postId;
 let userId;
 
@@ -64,14 +64,18 @@ const likedStatus = async () => {
   return response.data;
 };
 
+let likeBtn = '';
 const getPost = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/api/posts/${postId}`, headers);
     const createdAt = convertToKST(response.data.data.created_at);
-    let likeBtn = `<button id="likeBtn">🤍 ${response.data.data.like}</button>`;
 
-    const isLiked = likedStatus();
-    if (!isLiked) likeBtn = `<button id="dellikeBtn">❤️ ${response.data.data.like}</button>`;
+    const isLiked = await likedStatus();
+    if (isLiked) {
+      likeBtn = `<button id="delLikeBtn">❤️ ${response.data.data.like}</button>`;
+    } else {
+      likeBtn = `<button id="likeBtn">🤍 ${response.data.data.like}</button>`;
+    }
 
     const tempHtml = `<!-- Post header-->
                         <header class="mb-4">
@@ -122,7 +126,43 @@ const getPost = async () => {
 
 $(document).on('click', '#likeBtn', async () => {
   try {
-    await axios.post(`http://localhost:3000/api/posts/${postId}/likes`, headers);
+    const response = await fetch(`http://localhost:3000/api/posts/${postId}/likes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${getCookie('WGID')}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      window.location.reload();
+    } else {
+      const data = await response.json();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+$(document).on('click', '#delLikeBtn', async () => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/posts/${postId}/cancelLikes`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${getCookie('WGID')}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      window.location.reload();
+    } else {
+      const data = await response.json();
+    }
   } catch (error) {
     console.log(error);
   }

@@ -22,7 +22,6 @@ class PostLikesController {
     try {
       const { id: user_id } = req.user;
       const { post_id } = req.params;
-      console.log(uiser_id, post_id);
 
       const message = await this.postLikesService.addPostLike(post_id, user_id);
       return res.status(200).json({ message });

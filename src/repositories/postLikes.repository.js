@@ -28,6 +28,13 @@ class PostLikesRepository {
   async removePostLike(post_id, user_id) {
     return await PostLikes.destroy({ where: { post_id, user_id } });
   }
+  async decreasePostLikeCount(post_id) {
+    const post = await Posts.findOne({ where: { id: post_id } });
+    if (post) {
+      post.like -= 1;
+      await post.save();
+    }
+  }
 
   async getUserLikedPosts(user_id, page) {
     try {
