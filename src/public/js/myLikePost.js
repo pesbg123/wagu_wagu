@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const coursesPage = document.querySelector('.courses-page');
 
         list.forEach((item) => {
+          console.log(item);
+
           const gridItem = document.createElement('div');
           gridItem.classList.add('grid-item', 'course', 'bg-white', 'rad-6', 'p-relative');
 
@@ -26,11 +28,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           <img class="cover" id="post-img" post-id="${item.Post.id}" src="${item.Post.food_img}" alt="" />
           <div class="p-10">
             <h4 class="m-0">${item.Post.title}</h4>
-            <p class="description c-grey mt-15 fs-14">${item.Post.resipe}</p>
+            <p class="description c-grey mt-15 fs-14">${item.Post.recipe}</p>
           </div>
           <div class="info p-10 p-relative between-flex">
             <span class="c-grey">${item.Post.created_at.substring(0, 10)}</span>
-            <span class="c-grey">${item.Post.like}</span>
+            <span class="c-grey">❤️${item.Post.like}</span>
           </div>
         `;
 
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } catch (error) {
     console.error('Error:', error);
-    alert(error);
+    // alert(error);
   }
 });
 

@@ -27,6 +27,7 @@ class ReportController {
     try {
       const { post_id, comment_id } = req.params;
       const { report_type, reported_reason } = req.body;
+
       await this.reportService.reportComment(user_id, post_id, comment_id, report_type, reported_reason);
       return res.status(200).json({ message: '해당 댓글을 신고했습니다.' });
     } catch (error) {
