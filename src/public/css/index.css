@@ -175,3 +175,7 @@ header {
 .menu__item:hover {
   background-color: #cfd8dc;
 }
+
+#logo:hover {
+  cursor: pointer; /* 마우스 커서를 포인터로 변경합니다. */
+}
