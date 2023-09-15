@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+// /* eslint-disable no-undef */
 let postId;
 let userId;
 
@@ -15,27 +15,7 @@ $(document).ready(() => {
   getPost();
   getComment();
 
-  $(document).on('click', '#likeBtn', async () => {
-    try {
-      const response = await fetch(`/api/posts/${postId}/likes`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `${getCookie('WGID')}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-
-        window.location.reload();
-      } else {
-        const data = await response.json();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  $('#click-main').click(() => (location.href = '/'));
 
   $(document).on('click', '#followBtn', async () => {
     try {
@@ -52,7 +32,9 @@ $(document).ready(() => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
+
+        location.reload();
       } else {
         const data = await response.json();
       }
@@ -68,11 +50,32 @@ const convertToKST = (dateUTCString) => {
   return dateUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 };
 
+const checkUserFollow = async (userId) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/users/followers/${userId}`, headers);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const likedStatus = async () => {
+  const response = await axios.get(`http://localhost:3000/api/posts/${postId}/is_liked`, headers);
+  return response.data;
+};
+
+let likeBtn = '';
 const getPost = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/api/posts/${postId}`, headers);
-
     const createdAt = convertToKST(response.data.data.created_at);
+
+    const isLiked = await likedStatus();
+    if (isLiked) {
+      likeBtn = `<button id="delLikeBtn">❤️ ${response.data.data.like}</button>`;
+    } else {
+      likeBtn = `<button id="likeBtn">🤍 ${response.data.data.like}</button>`;
+    }
 
     const tempHtml = `<!-- Post header-->
                         <header class="mb-4">
@@ -102,7 +105,7 @@ const getPost = async () => {
                           <h2 class="fw-bolder mb-4 mt-5">레시피</h2>
                           <p class="fs-5 mb-4">${response.data.data.recipe}</p>
                           <div class="like-btn-contaier">
-                          <button id="likeBtn">❤️ ${response.data.data.like}</button>
+                          ${likeBtn}
                         </div>
                         </section>`;
 
@@ -121,14 +124,66 @@ const getPost = async () => {
   }
 };
 
+$(document).on('click', '#likeBtn', async () => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/posts/${postId}/likes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${getCookie('WGID')}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      window.location.reload();
+    } else {
+      const data = await response.json();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+$(document).on('click', '#delLikeBtn', async () => {
+  try {
+    const response = await fetch(`http://localhost:3000/api/posts/${postId}/cancelLikes`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${getCookie('WGID')}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      window.location.reload();
+    } else {
+      const data = await response.json();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+followBtn = '';
 const getUserInfo = async (userId, email, nickname, userImg) => {
+  const check = await checkUserFollow(userId);
+  if (check === null || check.target_id === null) {
+    followBtn = `<button id="followBtn">팔로우</button>`;
+  } else {
+    followBtn = `<button id="unFollowBtn" target-id="${check.target_id}">언팔로우</button>`;
+  }
+
   userInfoHtml = `<div class="card mb-4">
                     <div class="card-header">${nickname}</div>
                     <img class="card-body" user-id="${userId}" src="${userImg}" />
                     <div class="text-muted fst-italic mb-2" style="margin-left: auto; margin-right: auto;">
                       ${email}
                     </div>
-                    <button id="followBtn">팔로우</button>
+                    ${followBtn}
                   </div>`;
   $('.col-lg-4').html(userInfoHtml);
 };
@@ -289,6 +344,7 @@ $(document).on('click', '.post-edit-btn', function () {
           // 페이지 다시 로드 또는 필요한 처리를 수행할 수 있습니다.
           window.location.reload();
         } catch (error) {
+          alert(error.response.data.data.errorMessage);
           console.error('게시글 수정 중 오류가 발생했습니다.', error);
         }
       } else {
@@ -394,7 +450,15 @@ $(document).on('click', '.post-del-btn', function () {
   isConfirmed ? deletePost($(this).attr('post-id')) : location.reload();
 });
 
-document.getElementById('logo').addEventListener('click', function () {
-  // 로고를 클릭하면 페이지를 '/'로 이동합니다.
-  window.location.href = '/';
+// 언팔로우
+const unFollow = async (target_id) => {
+  try {
+    await axios.delete(`http://localhost:3000/api/users/unfollowers/${target_id}`, headers);
+    location.reload();
+  } catch (error) {
+    console.log(error);
+  }
+};
+$(document).on('click', '#unFollowBtn', async function () {
+  await unFollow($(this).attr('target-id'));
 });

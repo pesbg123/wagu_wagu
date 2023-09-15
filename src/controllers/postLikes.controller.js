@@ -5,6 +5,19 @@ class PostLikesController {
     this.postLikesService = new PostLikesService();
   }
 
+  async isLiked(req, res) {
+    try {
+      const { id: user_id } = req.user;
+      const { post_id } = req.params;
+
+      const message = await this.postLikesService.isLiked(user_id, post_id);
+      return res.status(200).json(message);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ errorMessage: '좋아요 확인 중 오류 발생' });
+    }
+  }
+
   async addPostLike(req, res) {
     try {
       const { id: user_id } = req.user;

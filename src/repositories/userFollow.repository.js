@@ -45,6 +45,13 @@ class UserFollowRepository {
       throw error;
     }
   }
+
+  async getOneUserFollow(user_id, target_id) {
+    const getFollowr = await Followers.findOne({
+      where: { user_id, target_id },
+    });
+    return getFollowr;
+  }
 }
 
 module.exports = UserFollowRepository;

@@ -42,6 +42,7 @@ class AdminUserBanRepository {
   // GET search-user
   async searchUsers(nickname) {
     const searchUser = await Users.findAll({
+      raw: true,
       paranoid: false,
       where: {
         nickname: {
@@ -49,6 +50,12 @@ class AdminUserBanRepository {
         },
       },
       attributes: ['id', 'email', 'nickname', 'created_at', 'deleted_at'],
+      include: [
+        {
+          model: BannedUsers,
+          attributes: ['banned_reason', 'id', 'created_at', 'deleted_at'],
+        },
+      ],
     });
     return searchUser;
   }
