@@ -1,3 +1,10 @@
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 $(document).ready(() => {
   const url = new URL(window.location.href);
   const noticeId = url.pathname.split('/')[2]; // '/notice/:id' 에서 id 값 추출

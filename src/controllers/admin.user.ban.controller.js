@@ -27,7 +27,8 @@ class AdminUserBanController {
   // GET all-users
   async getAllUsers(req, res) {
     try {
-      const allUsers = await this.adminUserBanService.getAllUsers();
+      const { page } = req.query;
+      const allUsers = await this.adminUserBanService.getAllUsers(page);
       return res.status(200).json(allUsers);
     } catch (error) {
       console.log(error);

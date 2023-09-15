@@ -4,61 +4,115 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Info</title>
+    <!-- <link rel="stylesheet" href="./css/min.css" /> -->
+    <link rel="stylesheet" href="./css/info.css" />
+    <link rel="stylesheet" href="./css/frame.css" />
   </head>
   <body>
-    <main>
-      <section id="profile">
-        <img src="#" id="userImage" alt="프로필 사진" />
-        <label>
-          프로필 사진 변경
-          <input id="imageInput" type="file" accept="image/*" style="display: none" />
-          <button id="uploadImageButton" type="button">업로드</button>
-        </label>
+    <section>
+      <div class="page d-flex">
+        <div class="sidebar bg-white p-20 p-relative">
+          <ul>
+            <li>
+              <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="/info">
+                <i class="fa-solid fa-diagram-project fa-fw"></i>
+                <span>내 정보</span>
+              </a>
+            </li>
+            <li>
+              <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="/myPost">
+                <i class="fa-solid fa-graduation-cap fa-fw"></i>
+                <span>내 게시물</span>
+              </a>
+            </li>
+            <li>
+              <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="/myLikePost">
+                <i class="fa-regular fa-circle-user fa-fw"></i>
+                <span>좋아요 표시한 게시물</span>
+              </a>
+            </li>
+            <li>
+              <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="/myFollow">
+                <i class="fa-regular fa-file fa-fw"></i>
+                <span>팔로잉</span>
+              </a>
+            </li>
+          </ul>
+        </div>
 
-        <label
-          >이메일
-          <span id="email"></span>
-        </label>
+        <div class="content w-full">
+          <h1 class="p-relative">내 정보</h1>
 
-        <!-- <span id="nickname"></span> -->
-        <label
-          >닉네임
-          <form action="">
-            <div class="input-box" id="ChNm">
-              <input id="nicknameInput" type="text" required />
+          <div class="profile-page m-20">
+            <div class="overview bg-white rad-10 d-flex align-center">
+              <div class="avatar-box txt-c p-20">
+                <img class="rad-half mb-10" id="userImage" src="#" alt="" />
+                <input id="imageInput" type="file" accept="image/*" style="display: none" />
+                <button id="uploadImageButton" type="button">
+                  <span class="button_top"> 변경</span>
+                </button>
+              </div>
+
+              <div class="info-box w-full txt-c-mobile">
+                <div class="box p-20 d-flex align-center h-100">
+                  <h4 class="c-grey fs-15 m-0 w-full">EMAIL</h4>
+                  <div class="fs-14">
+                    <span id="email"></span>
+                  </div>
+                </div>
+
+                <div class="box p-20 d-flex align-center h-100">
+                  <h4 class="c-grey w-full fs-15 m-0">닉네임</h4>
+                  <div class="fs-14 d-flex">
+                    <form action="">
+                      <div class="input-box" id="ChNm">
+                        <input id="nicknameInput" type="text" required />
+                      </div>
+                    </form>
+                    <button id="nmButton" type="button">
+                      <span class="button_top"> 변경</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="box p-20 d-flex align-center h-100">
+                  <h4 class="c-grey w-full fs-15 m-0">한줄 소개</h4>
+                  <div class="fs-14 d-flex">
+                    <form action="">
+                      <div class="input-box" id="ChIt">
+                        <input id="introductionInput" type="text" required />
+                      </div>
+                    </form>
+                    <button id="itButton" type="button">
+                      <span class="button_top"> 변경</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="box p-20 d-flex align-center h-100">
+                  <h4 class="c-grey w-full fs-15 m-0">비밀번호</h4>
+                  <div class="fs-14 d-flex">
+                    <button id="chPwBtn" type="button">
+                      <span class="button_top"> 변경</span>
+                    </button>
+                    <form action="" id="pwForm" style="display: none">
+                      <div class="input-box" id="currentPw">
+                        <input id="currentPwInput" type="text" placeholder="현재 비밀번호" required />
+                      </div>
+                      <div class="input-box" id="newPw">
+                        <input id="newPwInput" type="text" placeholder="새 비밀번호" required />
+                      </div>
+                    </form>
+                    <button id="pwButton" type="button" style="display: none">확인</button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </form>
-          <button id="nmButton" type="button">변경</button>
-        </label>
-
-        <!-- <span id="introduction"></span> -->
-        <label
-          >소개
-          <form action="">
-            <div class="input-box" id="ChIt">
-              <input id="introductionInput" type="text" required />
-            </div>
-          </form>
-          <button id="itButton" type="button">변경</button>
-        </label>
-      </section>
-
-      <section class="chPw">
-        <span class="pw">비밀번호</span>
-        <button type="button">변경</button>
-        <form action="">
-          <div class="input-box" id="currentPw">
-            <label>현재 비밀번호</label>
-            <input id="currentPwInput" type="text" required />
           </div>
-          <div class="input-box" id="newPw">
-            <label>새 비밀번호</label>
-            <input id="newPwInput" type="text" required />
-          </div>
-        </form>
-        <button id="pwButton" type="button">확인</button>
-      </section>
-    </main>
+        </div>
+      </div>
+    </section>
   </body>
+  <script src="./js/user.common.js"></script>
   <script src="./js/info.js"></script>
 </html>

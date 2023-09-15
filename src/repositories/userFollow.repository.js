@@ -1,5 +1,4 @@
-const { where } = require('sequelize');
-const { Followers, Users } = require('../models');
+const { Users, Followers, Posts } = require('../models');
 
 class UserFollowRepository {
   async findUserById(id) {
@@ -16,6 +15,35 @@ class UserFollowRepository {
 
   async removeFollower(user_id, target_id) {
     return await Followers.destroy({ where: { user_id, target_id } });
+  }
+
+  async getUserFollowedUsers(user_Id) {
+    try {
+      const targets = await Followers.findAll({
+        attributes: ['target_Id'],
+        where: { user_Id },
+      });
+
+      if (!targets.length) return [];
+
+      const followedUsers = await Users.findAll({
+        where: { id: targets.map((target) => target.dataValues.target_Id) },
+      });
+
+      for (let i = 0; i < followedUsers.length; i++) {
+        const user = followedUsers[i];
+        const targetId = targets[i].dataValues.target_Id;
+
+        const postCount = await Posts.count({ where: { user_id: user.id } });
+
+        user.setDataValue('postCount', postCount);
+        user.setDataValue('targetId', targetId);
+      }
+
+      return followedUsers;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

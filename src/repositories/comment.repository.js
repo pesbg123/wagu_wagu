@@ -24,11 +24,11 @@ class CommentsRepository {
   findAllComment = async ({ post_id }) => {
     return await Comments.findAll({
       where: { post_id },
-      include: [
-        {
-          model: Users,
-        },
-      ],
+      include: {
+        model: Users,
+        attributes: ['nickname', 'user_img'],
+      },
+      order: [['created_at', 'DESC']],
     });
   };
 
@@ -91,6 +91,13 @@ class CommentsRepository {
       content,
     });
   };
+
+  // 대댓글 조회
+  // getReplyComment = async (id) => {
+  //   return await Comments.findAll({
+  //     where: { id },
+  //   });
+  // };
 
   /* 대댓글 수정
   updateReply = async ({ user_id, reply_id, content }) => {

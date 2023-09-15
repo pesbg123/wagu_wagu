@@ -1,6 +1,15 @@
 /* eslint-disable no-undef */
 $(document).ready(() => {
-  getAllUsers();
+  let page = 1;
+  getAllUsers(page);
+
+  $(window).scroll(async function () {
+    if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+      // 스크롤이 거의 하단에 도달했는지 확인
+      page++;
+      await getAllUsers(page); // 다음 페이지의 사용자들 불러오기
+    }
+  });
 });
 
 const headers = {
@@ -15,16 +24,23 @@ $('#go-back-index').click(() => {
 });
 
 // 유저 조회
-const getAllUsers = async () => {
+const getAllUsers = async (page) => {
   try {
     const response = await axios.get('https://xyz.waguwagu.online/api/users', headers);
 
     let allHtml = '';
 
-    response.data.forEach((item) => {
-      allHtml += createUserRow(item);
-    });
-    $('.user-list-body').html(allHtml);
+    if (users.length > 0) {
+      response.data.forEach((item) => {
+        allHtml += createUserRow(item);
+      });
+
+      page++;
+    } else {
+      $(window).off('scroll');
+    }
+
+    $('.user-list-body').append(allHtml);
   } catch (error) {
     console.error(error);
   }
