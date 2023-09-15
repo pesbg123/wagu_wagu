@@ -15,4 +15,6 @@ router.delete(
 
 router.get('/users/followers', acountMiddleware.authenticateAccessToken, userFollowController.getUserFollowedUsers.bind(userFollowController));
 
+router.get('/users/followers/:target_id', acountMiddleware.authenticateAccessToken, userFollowController.getOneUserFollow.bind(userFollowController));
+
 module.exports = router;

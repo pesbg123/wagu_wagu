@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           gridItem.classList.add('grid-item', 'course', 'bg-white', 'rad-6', 'p-relative');
 
           gridItem.innerHTML = `
-          <img class="cover" src="${item.Post.food_img}" alt="" />
+          <img class="cover" id="post-img" post-id="${item.Post.id}" src="${item.Post.food_img}" alt="" />
           <div class="p-10">
             <h4 class="m-0">${item.Post.title}</h4>
             <p class="description c-grey mt-15 fs-14">${item.Post.resipe}</p>
@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Error:', error);
     alert(error);
   }
+});
+
+$(document).on('click', '#post-img', function () {
+  location.href = `/food_page/${$(this).attr('post-id')}`;
 });
 
 //쿠키에서 특정 이름의 쿠키 값을 가져오는 함수

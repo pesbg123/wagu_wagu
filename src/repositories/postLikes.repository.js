@@ -1,6 +1,10 @@
 const { PostLikes, Posts, Users } = require('../models');
 
 class PostLikesRepository {
+  async isLiked(user_id, post_id) {
+    return await PostLikes.findOne({ where: { user_id, post_id } });
+  }
+
   // 게시글 상세 조회 임시 테스트
   getPost = async (post_id) => {
     const post = await Posts.findOne({ where: { id: post_id } });
@@ -39,7 +43,7 @@ class PostLikesRepository {
         include: [
           {
             model: Posts,
-            attributes: ['created_at', 'like', 'title', 'recipe', 'food_img'],
+            attributes: ['id', 'created_at', 'like', 'title', 'recipe', 'food_img'],
             include: [{ model: Users, attributes: ['nickname', 'user_img'] }],
           },
         ],

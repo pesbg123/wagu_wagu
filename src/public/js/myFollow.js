@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       user = data.map((item) => item.id);
 
       if (data == 0) {
-        alert('팔로우한 게시물이 없습니다.');
+        alert('팔로우한 유저가 없습니다.');
       } else {
         const friendsPage = document.querySelector('.friends-page');
 

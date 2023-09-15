@@ -7,6 +7,10 @@ class PostLikesService {
     // this.postsRepository = new this.postsRepository();
   }
 
+  async isLiked(user_id, post_id) {
+    return await this.postLikesRepository.isLiked(user_id, post_id);
+  }
+
   async addPostLike(post_id, user_id) {
     // 해당 게시글이 있는지 조회
     const existPost = await this.postLikesRepository.getPost(post_id, user_id);

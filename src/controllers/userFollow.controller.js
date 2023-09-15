@@ -44,6 +44,20 @@ class UserFollowController {
       return res.status(500).json({ errorMessage: '팔로우한 사용자 조회에 실패했습니다.' });
     }
   }
+
+  async getOneUserFollow(req, res) {
+    try {
+      const { id: user_id } = req.user;
+      const { target_id } = req.params;
+
+      const getFollowr = await this.userFollowService.getOneUserFollow(user_id, target_id);
+
+      return res.status(200).json(getFollowr);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ errorMessage: '팔로우 조회에 실패했습니다.' });
+    }
+  }
 }
 
 module.exports = UserFollowController;
