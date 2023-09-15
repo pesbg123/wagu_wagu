@@ -5,15 +5,22 @@ $(document).ready(() => {
   getLikePosts(userId);
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 // 해당 유저의 좋아요 게시물 가져오는 함수
 const getLikePosts = async (userId) => {
   try {
     const authorization = getCookie('WGID');
-    const response = await fetch(`http://localhost:3000/api/users/${userId}/liked_posts`, {
+    const response = await fetch(`/api/users/${userId}/liked_posts`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
+        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -75,11 +82,11 @@ $(document).on('click', '.unlike-button', function () {
 const unlikePost = async (userId, postId) => {
   try {
     const authorization = getCookie('WGID');
-    const response = await fetch(`http://localhost:3000/api/posts/${postId}/cancelLikes`, {
+    const response = await fetch(`/api/posts/${postId}/cancelLikes`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
+        authorization: `${getCookie('WGID')}`,
       },
     });
 

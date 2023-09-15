@@ -5,15 +5,22 @@ $(document).ready(() => {
   getFollowedUsers(userId);
 });
 
+const headers = {
+  headers: {
+    'Content-Type': 'application/json',
+    authorization: `${getCookie('WGID')}`,
+  },
+};
+
 // 해당 유저의 팔로우한 사용자 가져오는 함수
 const getFollowedUsers = async (userId) => {
   try {
     const authorization = getCookie('WGID');
-    const response = await fetch(`http://localhost:3000/api/users/${userId}/followers`, {
+    const response = await fetch(`/api/users/${userId}/followers`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
+        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -76,11 +83,11 @@ async function unfollowUser(targetId) {
     const authorization = getCookie('WGID');
     const currentUserId = getUserId();
 
-    const response = await fetch(`http://localhost:3000/api/users/${currentUserId}/unfollowers/${targetId}`, {
+    const response = await fetch(`/api/users/${currentUserId}/unfollowers/${targetId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
+        authorization: `${getCookie('WGID')}`,
       },
     });
 
