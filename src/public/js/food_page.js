@@ -92,8 +92,7 @@ const getPost = async () => {
                             <button style="border: none;" class="post-del-btn" post-id="${response.data.data.id}" margin-bottom: 5px;">삭제</button>
                           </div>
                           <!-- Post categories-->
-                          <a class="badge bg-info text-decoration-none link-light" href="#!">#한식</a>
-                          <a class="badge bg-success text-decoration-none link-light" href="#!">#양식</a>
+                         
                         </header>
                         <!-- Preview image figure-->
                         <figure class="mb-4"><img class="img-fluid rounded" src="${response.data.data.food_img}"
@@ -367,19 +366,15 @@ $(document).on('click', '#comment-report-btn', function () {
 // 댓글 신고
 const reportComment = async (commentId) => {
   try {
-    if ($('#report-type').val() === '선택하세요') {
+    console.log($('#report-types').val());
+
+    if ($('#report-types').val() === '선택하세요') {
       alert('신고유형을 선택해주세요');
       return;
     }
-    if (!$('.input-report').val()) {
-      alert('신고사유를 입력해주세요');
-      return;
-    }
-    console.log($('#report-type').val());
-
     await axios.post(
       `http://localhost:3000/api/posts/${postId}/comments/${commentId}/reports`,
-      { report_type: $('#report-type').val(), reported_reason: $('.input-report').val() },
+      { report_type: $('#report-types').val(), reported_reason: $('.input-report').val() },
       headers,
     );
 
@@ -388,7 +383,7 @@ const reportComment = async (commentId) => {
   } catch (error) {
     console.log(error.response);
     alert(error.response.data.errorMessage);
-    location.reload();
+    // location.reload();
   }
 };
 $(document).on('click', '.report-comment-btn', async function () {
@@ -407,7 +402,7 @@ $(document).on('click', '.post-report-btn', function () {
 // 게시글 신고
 const reportPost = async () => {
   try {
-    if ($('#report-type').val() === '선택하세요') {
+    if ($('#report-typess').val() === '선택하세요') {
       alert('신고유형을 선택해주세요');
       return;
     }
@@ -418,7 +413,7 @@ const reportPost = async () => {
 
     await axios.post(
       `http://localhost:3000/api/posts/${postId}/reports`,
-      { report_type: $('#report-type').val(), reported_reason: $('.input-report').val() },
+      { report_type: $('#report-typess').val(), reported_reason: $('.input-report').val() },
       headers,
     );
 
@@ -438,7 +433,7 @@ $(document).on('click', '.report-post-btn', async function () {
 const deletePost = async () => {
   try {
     await axios.delete(`http://localhost:3000/api/posts/${postId}`, headers);
-    location.reload();
+    location.href = '/';
   } catch (error) {
     console.log(error.response);
     alert(error.response.data.errorMessage);
