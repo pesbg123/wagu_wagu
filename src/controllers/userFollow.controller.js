@@ -23,7 +23,7 @@ class UserFollowController {
   async removeUserFollow(req, res) {
     try {
       const { id: user_id } = req.user;
-      const { target_id } = req.body;
+      const { target_id } = req.params;
 
       const message = await this.userFollowService.removeUserFollow(user_id, target_id);
 

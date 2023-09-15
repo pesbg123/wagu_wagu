@@ -11,6 +11,7 @@ const headers = {
 
 $(document).ready(() => {
   const url = new URL(window.location.href);
+  console.log(url);
   postId = url.pathname.split('/')[2];
   getPost();
   getComment();
@@ -53,6 +54,10 @@ $(document).ready(() => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+
+        $('#followBtn').hide();
+
+        // location.reload();
       } else {
         const data = await response.json();
       }
@@ -71,6 +76,7 @@ const convertToKST = (dateUTCString) => {
 const getPost = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/api/posts/${postId}`, headers);
+    console.log(response);
 
     const createdAt = convertToKST(response.data.data.created_at);
 
@@ -128,7 +134,7 @@ const getUserInfo = async (userId, email, nickname, userImg) => {
                     <div class="text-muted fst-italic mb-2" style="margin-left: auto; margin-right: auto;">
                       ${email}
                     </div>
-                    <button id="followBtn">팔로우</button>
+                    ${`<button id="followBtn">팔로우</button>`}
                   </div>`;
   $('.col-lg-4').html(userInfoHtml);
 };
