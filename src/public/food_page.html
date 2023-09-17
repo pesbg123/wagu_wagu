@@ -21,13 +21,9 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <div>
-        <img src="/img/image.png" id="logo" alt="" width="200px" height="70px" />
+        <img src="/img/image.png" id="click-main" alt="" style="cursor: pointer" width="150px" height="70px" />
       </div>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-          class="navbar-toggler-icon"></span></button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      </div>
+
     </div>
   </nav>
 
@@ -51,8 +47,8 @@
               <button style="border: none; margin-bottom: 5px;">삭제</button>
             </div>
             <!-- Post categories-->
-            <a class="badge bg-info text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a>
-            <a class="badge bg-success text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a>
+            <!-- <a class="badge bg-info text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a>
+            <a class="badge bg-success text-decoration-none link-light" href="#!">해시테그가 들어갑니다.</a> -->
           </header>
           <!-- Preview image figure-->
           <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"
@@ -94,7 +90,7 @@
           <div class="text-muted fst-italic mb-2" style="margin-left: auto; margin-right: auto;">
             이메일이 들어갑니다.
           </div>
-          <button>팔로워</button>
+          <!-- <button>팔로워</button> -->
         </div>
       </div>
     </div>
@@ -111,7 +107,7 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
-              <label for="editedPostt" class="form-label">수정할 내용</label>
+              <label for="editedPost" class="form-label">수정할 내용</label>
               <textarea class="form-control input-height" id="title" placeholder="레시피 제목"></textarea>
               <textarea class="form-control input-height" id="ingredient" placeholder="재료"></textarea>
               <textarea class="form-control input-height" id="recipe" placeholder="조리법"></textarea>
@@ -163,8 +159,8 @@
         <div class="modal-body">
           <form>
             <div class="mb-3">
-              <label for="editedComment" class="form-label">신고 유형</label>
-              <select name="report-type" id="report-type">
+              <label for="editedPost" class="form-label">신고 유형</label>
+              <select name="report-typess" id="report-typess">
                 <option value="">선택하세요</option>
                 <option value="음란물">음란물</option>
                 <option value="광고">광고</option>
@@ -196,7 +192,7 @@
           <form>
             <div class="mb-3">
               <label for="editedComment" class="form-label">신고 유형</label>
-              <select name="report-type" id="report-type">
+              <select name="report-types" id="report-types">
                 <option value="">선택하세요</option>
                 <option value="음란물">음란물</option>
                 <option value="광고">광고</option>

@@ -33,7 +33,6 @@ const getBlockPost = async () => {
     $('.block-posts').html(allHtml);
   } catch (error) {
     console.error(error);
-    alert(error.response.data.data.errorMessage);
   }
 };
 
@@ -57,7 +56,6 @@ const getBlockComments = async () => {
     $('.block-comments').html(allHtml);
   } catch (error) {
     console.error(error);
-    alert(error.response.data.data.errorMessage);
   }
 };
 

@@ -7,17 +7,11 @@ const AcountMiddleware = require('../middlewares/account.middleware');
 const acountMiddleware = new AcountMiddleware();
 
 // POST reportPost
-router.post(
-  '/posts/:post_id/reports',
-  acountMiddleware.isAdmin,
-  acountMiddleware.authenticateAccessToken,
-  reportsController.reportPost.bind(reportsController),
-);
+router.post('/posts/:post_id/reports', acountMiddleware.authenticateAccessToken, reportsController.reportPost.bind(reportsController));
 
 // POST reportComment
 router.post(
   '/posts/:post_id/comments/:comment_id/reports',
-  acountMiddleware.isAdmin,
   acountMiddleware.authenticateAccessToken,
   reportsController.reportComment.bind(reportsController),
 );

@@ -19,18 +19,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const coursesPage = document.querySelector('.courses-page');
 
         list.forEach((item) => {
+          console.log(item);
+
           const gridItem = document.createElement('div');
           gridItem.classList.add('grid-item', 'course', 'bg-white', 'rad-6', 'p-relative');
 
           gridItem.innerHTML = `
-          <img class="cover" src="${item.Post.food_img}" alt="" />
+          <img class="cover" id="post-img" post-id="${item.Post.id}" src="${item.Post.food_img}" alt="" />
           <div class="p-10">
             <h4 class="m-0">${item.Post.title}</h4>
-            <p class="description c-grey mt-15 fs-14">${item.Post.resipe}</p>
+            <p class="description c-grey mt-15 fs-14">${item.Post.recipe}</p>
           </div>
           <div class="info p-10 p-relative between-flex">
             <span class="c-grey">${item.Post.created_at.substring(0, 10)}</span>
-            <span class="c-grey">${item.Post.like}</span>
+            <span class="c-grey">❤️${item.Post.like}</span>
           </div>
         `;
 
@@ -40,8 +42,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   } catch (error) {
     console.error('Error:', error);
-    alert(error);
+    // alert(error);
   }
+});
+
+$(document).on('click', '#post-img', function () {
+  location.href = `/food_page/${$(this).attr('post-id')}`;
 });
 
 //쿠키에서 특정 이름의 쿠키 값을 가져오는 함수

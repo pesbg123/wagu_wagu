@@ -49,10 +49,11 @@ class AuthenticationMiddleware {
   authenticateAccessToken = async (req, res, next) => {
     try {
       const accessToken = req.headers.authorization;
+      console.log(typeof req.headers.authorization, 'req');
 
       res.locals.accessToken = accessToken;
-      const verifiedToken = jwt.verify(accessToken, env.ACCESS_KEY);
 
+      const verifiedToken = jwt.verify(accessToken, env.ACCESS_KEY);
       // 유효한 액세스 토큰이라면 다음 미들웨어나 API 실행
       req.user = { id: verifiedToken.userId }; // 사용자 "아이디"를 req.user 객체에 저장
 

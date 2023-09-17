@@ -59,6 +59,14 @@ class UserFollowService {
       throw error;
     }
   }
+
+  async getOneUserFollow(user_id, target_id) {
+    try {
+      return await this.userFollowRepository.getOneUserFollow(user_id, target_id);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = UserFollowService;
