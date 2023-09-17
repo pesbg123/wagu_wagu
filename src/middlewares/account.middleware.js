@@ -26,7 +26,7 @@ class AuthenticationMiddleware {
 
   isAdmin = async (req, res, next) => {
     try {
-      const accessToken = req.headers.authorization;
+      const accessToken = req.signedCookies.WGID;
 
       if (!accessToken) {
         return res.status(503).json({ message: '토큰이 존재하지 않습니다.' });
@@ -48,8 +48,7 @@ class AuthenticationMiddleware {
 
   authenticateAccessToken = async (req, res, next) => {
     try {
-      const accessToken = req.headers.authorization;
-      console.log(typeof req.headers.authorization, 'req');
+      const accessToken = req.signedCookies.WGID;
 
       res.locals.accessToken = accessToken;
 
@@ -64,7 +63,6 @@ class AuthenticationMiddleware {
       if (!refreshToken) {
         return res.status(401).json({ message: '토큰이 만료되었습니다.' });
       }
-
       next();
     } catch (error) {
       // 액세스 토큰이 만료되었을 경우, 리프레시 토큰 검증 미들웨어로 이동
@@ -90,7 +88,7 @@ class AuthenticationMiddleware {
 
       // 유효한 리프레시 토큰인 경우, 새로운 액세스 토큰 발급
       const newAccessToken = this.generateAccessToken({ userId: verifiedToken.userId });
-      res.setHeader('Authorization', `Bearer ${newAccessToken}`);
+      res.cookie('WGID', newAccessToken, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true, signed: true });
       req.user = { id: verifiedToken.userId }; // 사용자 "아이디"를 req.user 객체에 저장
       next();
     } catch (error) {

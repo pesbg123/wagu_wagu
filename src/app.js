@@ -3,8 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const bodyParser = require('body-parser');
 const cron = require('node-cron');
+const cookieParser = require('cookie-parser');
 
 const redisClient = require('./middlewares/redis.middleware');
 
@@ -20,9 +20,9 @@ const reportRouter = require('./routes/reports.routes');
 const userRouter = require('./routes/users.routes');
 const parsing = require('./routes/crawled.routes');
 const { CrawledRecipes } = require('./models');
+
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(cookieParser('wagu'));
 
 redisClient.connect();
 

@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       const coursesPage = document.querySelector('.courses-page');
 
       data.forEach((item) => {
-        console.log(item);
-        console.log(item.id);
         const gridItem = document.createElement('div');
         gridItem.classList.add('grid-item', 'course', 'bg-white', 'rad-6', 'p-relative');
 
@@ -39,11 +37,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Error:', error);
     alert(error);
   }
-});
-
-$(document).on('click', '#post-img', function () {
-  const postId = $(this).attr('post-id');
-  location.href = `/food_page/${postId}`;
 });
 
 //쿠키에서 특정 이름의 쿠키 값을 가져오는 함수

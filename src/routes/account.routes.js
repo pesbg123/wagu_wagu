@@ -16,5 +16,6 @@ router.patch('/profile/nickname', accountmiddleware.authenticateAccessToken, acc
 router.patch('/profile/introduction', accountmiddleware.authenticateAccessToken, accountController.updateIntroduction);
 router.patch('/profile/userimg', accountmiddleware.authenticateAccessToken, accountController.updateUserImg);
 router.patch('/profile/password', accountmiddleware.authenticateAccessToken, accountController.updatePassword);
+router.get('/dashboard', accountmiddleware.isAdmin, accountmiddleware.authenticateAccessToken, accountController.getDashBoard);
 
 module.exports = router;

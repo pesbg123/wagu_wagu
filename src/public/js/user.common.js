@@ -6,7 +6,6 @@ async function verify() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -32,42 +31,33 @@ async function verify() {
 
         handleAuthenticationResponse(true);
 
-        const authHeader = response.headers.get('Authorization');
-        if (authHeader) {
-          const parts = authHeader.split(' ');
-          const WGID = parts[1];
+        // const authHeader = response.headers.get('Authorization');
+        // if (authHeader) {
+        //   const parts = authHeader.split(' ');
+        //   const WGID = parts[1];
 
-          if (authHeader.startsWith('Bearer ')) {
-            const now = new Date();
-            const oneHourLater = new Date(now.getTime() + 20 * 60 * 1000);
-            const cookieExpirationDate = oneHourLater.toUTCString();
-            document.cookie = `WGID=${WGID}; path=/; expires=${cookieExpirationDate};`;
-            console.log(document.cookie);
-          }
-        }
+        //   if (authHeader.startsWith('Bearer ')) {
+        //     const now = new Date();
+        //     const oneHourLater = new Date(now.getTime() + 20 * 60 * 1000);
+        //     const cookieExpirationDate = oneHourLater.toUTCString();
+        //     document.cookie = `WGID=${WGID}; path=/; expires=${cookieExpirationDate};`;
+        //     console.log(document.cookie);
+        //   }
+        // }
       }
     } else {
       const data = await response.json();
-      if (data.message === '액세스 토큰 오류') {
-        // 페이지가 '/' 인 경우 리디렉션
-        if (window.location.pathname === '/') {
-          deleteCookie('WGID');
-          return;
-        } else {
-          // 다른 페이지인 경우 리디렉션
-          deleteCookie('WGID');
-          window.location.href = '/';
-        }
+
+      // 페이지가 '/' 인 경우 리디렉션
+      if (window.location.pathname === '/') {
+        deleteCookie('WGID');
+        return;
       } else {
-        if (window.location.pathname === '/') {
-          deleteCookie('WGID');
-          return;
-        } else {
-          // 다른 페이지인 경우 리디렉션
-          deleteCookie('WGID');
-          window.location.href = '/';
-        }
+        // 다른 페이지인 경우 리디렉션
+        deleteCookie('WGID');
+        window.location.href = '/';
       }
+
       // window.location.href = '/';
     }
   } catch (error) {
@@ -97,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            authorization: `${getCookie('WGID')}`,
           },
         });
 
