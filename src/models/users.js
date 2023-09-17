@@ -48,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id',
         foreignKey: 'user_id',
       });
+      this.hasMany(models.VisitorLogs, {
+        sourceKey: 'id',
+        foreignKey: 'userId',
+      });
     }
   }
   Users.init(
