@@ -74,6 +74,12 @@ class AccountService {
 
       const isAdmin = await this.accountRepository.isAdmin(user.id);
 
+      console.log('🚀 ~ file: account.service.js:77 ~ AccountService ~ logIn= ~ isAdmin:', isAdmin);
+
+      if (isAdmin === false) {
+        await this.accountRepository.saveLoginLog(user.id);
+      }
+
       const accessToken = this.generateAccessToken(user);
       const refreshToken = this.generateRefreshToken(user);
 
@@ -87,8 +93,6 @@ class AccountService {
       const redisValue = await redisClient.v4.get(`userId:${user.id.toString()}`);
 
       console.log(`추가된 유저키와 리프레시 값 : ${user.id}, ${redisValue}`);
-
-      await this.accountRepository.saveLoginLog(user.id);
 
       return { accessToken, refreshToken, isAdmin };
     } catch (error) {

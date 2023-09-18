@@ -1,7 +1,6 @@
 const headers = {
   headers: {
     'Content-Type': 'application/json',
-    authorization: `${getCookie('WGID')}`,
   },
 };
 

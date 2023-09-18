@@ -1,4 +1,4 @@
-const { Users, VisitorLogs, Posts, Hashtags, PostHashtags } = require('../models');
+const { Users, VisitorLogs, Posts, Hashtags, PostHashtags, Reports } = require('../models');
 const { Op } = require('sequelize');
 
 class AccountRepository {
@@ -87,28 +87,34 @@ class AccountRepository {
       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
       const oneWeekAgo = new Date(today);
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+      const fourteenDaysAgo = new Date(today);
+      fourteenDaysAgo.setDate(today.getDate() - 14);
+      const sevenDaysAgo = new Date(today);
+      sevenDaysAgo.setDate(today.getDate() - 7);
+      const oneDayAgo = new Date(today); // 오늘 날짜를 복사합니다.
+      oneDayAgo.setDate(oneDayAgo.getDate() - 1); // 오늘 날짜에서 1일을 뺍니다.
+      const startOfOneDayAgo = new Date(oneDayAgo.getFullYear(), oneDayAgo.getMonth(), oneDayAgo.getDate(), 0, 0, 0); // 하루 전의 시작 시간
+      const endOfOneDayAgo = new Date(oneDayAgo.getFullYear(), oneDayAgo.getMonth(), oneDayAgo.getDate(), 23, 59, 59); // 하루 전의 끝 시간
       const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
       const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59);
-      const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-      const startOfYesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 0, 0, 0);
-      const endOfYesterday = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1, 23, 59, 59);
 
-      const usersCreatedLastMonth = await Users.count({
+      const usersCreatedLastWeek = await Users.count({
         where: {
           created_at: {
-            [Op.gte]: oneMonthAgo,
-            [Op.lte]: today,
+            [Op.gte]: fourteenDaysAgo,
+            [Op.lte]: sevenDaysAgo,
           },
+          deleted_at: null,
         },
       });
 
-      const usersCreatedLastWeek = await Users.count({
+      const usersCreatedThisWeek = await Users.count({
         where: {
           created_at: {
             [Op.gte]: oneWeekAgo,
             [Op.lte]: today,
           },
+          deleted_at: null,
         },
       });
 
@@ -118,10 +124,21 @@ class AccountRepository {
             [Op.gte]: startOfDay,
             [Op.lte]: endOfDay,
           },
+          deleted_at: null,
         },
       });
 
       const visitorsLastWeek = await VisitorLogs.count({
+        where: {
+          createdAt: {
+            [Op.gte]: fourteenDaysAgo,
+            [Op.lte]: sevenDaysAgo,
+          },
+          contents: '로그인',
+        },
+      });
+
+      const visitorsThisWeek = await VisitorLogs.count({
         where: {
           createdAt: {
             [Op.gte]: oneWeekAgo,
@@ -131,21 +148,11 @@ class AccountRepository {
         },
       });
 
-      const visitorsThisMonth = await VisitorLogs.count({
-        where: {
-          createdAt: {
-            [Op.gte]: startOfMonth,
-            [Op.lte]: endOfMonth,
-          },
-          contents: '로그인',
-        },
-      });
-
       const visitorsYesterday = await VisitorLogs.count({
         where: {
           createdAt: {
-            [Op.gte]: startOfYesterday,
-            [Op.lte]: endOfYesterday,
+            [Op.gte]: startOfOneDayAgo,
+            [Op.lte]: endOfOneDayAgo,
           },
           contents: '로그인',
         },
@@ -157,15 +164,17 @@ class AccountRepository {
             [Op.gte]: startOfDay,
             [Op.lte]: endOfDay,
           },
+          contents: '로그인',
         },
       });
 
-      const postsCreatedThisMonth = await Posts.count({
+      const postsCreatedLastWeek = await Posts.count({
         where: {
           created_at: {
-            [Op.gte]: startOfMonth,
-            [Op.lte]: endOfMonth,
+            [Op.gte]: fourteenDaysAgo,
+            [Op.lte]: sevenDaysAgo,
           },
+          deleted_at: null,
         },
       });
 
@@ -175,15 +184,17 @@ class AccountRepository {
             [Op.gte]: oneWeekAgo,
             [Op.lte]: today,
           },
+          deleted_at: null,
         },
       });
 
       const postsCreatedYesterday = await Posts.count({
         where: {
           created_at: {
-            [Op.gte]: startOfYesterday,
-            [Op.lte]: endOfYesterday,
+            [Op.gte]: startOfOneDayAgo,
+            [Op.lte]: endOfOneDayAgo,
           },
+          deleted_at: null,
         },
       });
 
@@ -193,6 +204,7 @@ class AccountRepository {
             [Op.gte]: startOfDay,
             [Op.lte]: endOfDay,
           },
+          deleted_at: null,
         },
       });
 
@@ -212,14 +224,14 @@ class AccountRepository {
       }
 
       const data = {
-        usersCreatedLastMonth,
         usersCreatedLastWeek,
+        usersCreatedThisWeek,
         usersCreatedToday,
-        visitorsThisMonth,
         visitorsLastWeek,
+        visitorsThisWeek,
         visitorsYesterday,
         visitorsToday,
-        postsCreatedThisMonth,
+        postsCreatedLastWeek,
         postsCreatedThisWeek,
         postsCreatedYesterday,
         postsCreatedToday,

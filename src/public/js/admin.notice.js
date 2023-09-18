@@ -7,7 +7,6 @@ $('.cancel_btn').click(() => (location.href = '/admin'));
 const headers = {
   headers: {
     'Content-Type': 'application/json',
-    authorization: `${getCookie('WGID')}`,
   },
 };
 

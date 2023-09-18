@@ -13,7 +13,6 @@ const getLikePosts = async (userId) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
       },
     });
 
@@ -79,7 +78,6 @@ const unlikePost = async (userId, postId) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
       },
     });
 

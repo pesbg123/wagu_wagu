@@ -13,7 +13,6 @@ const getFollowedUsers = async (userId) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
       },
     });
 
@@ -80,7 +79,6 @@ async function unfollowUser(targetId) {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authorization,
       },
     });
 
