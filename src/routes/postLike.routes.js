@@ -5,6 +5,8 @@ const acountMiddleware = new AcountMiddleware();
 const PostLikesController = require('../controllers/postLikes.controller');
 const postLikesController = new PostLikesController();
 
+router.get('/posts/:post_id/is_liked', acountMiddleware.authenticateAccessToken, postLikesController.isLiked.bind(postLikesController));
+
 //좋아요 api
 router.post('/posts/:post_id/likes', acountMiddleware.authenticateAccessToken, postLikesController.addPostLike.bind(postLikesController));
 

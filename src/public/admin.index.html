@@ -10,23 +10,38 @@
       integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
       crossorigin="anonymous"
     />
-    <!-- 제이쿼리 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <!-- css -->
     <link rel="stylesheet" href="/css/admin.index.css" type="text/css" />
     <title>admin_page</title>
-    <!-- js -->
     <script src="/js/admin.index.js" type="text/javascript" defer></script>
     <script src="/js/admin.common.js"></script>
   </head>
 
   <body>
-    <div class="admin-btn-container">
+    <div class="sidebar">
       <button type="submit" id="notice-btn" class="btn btn-dark">공지 관리</button>
       <button type="submit" id="hashtag-btn" class="btn btn-dark">해시테그 관리</button>
       <button type="submit" id="report-btn" class="btn btn-dark">신고 관리</button>
       <button type="submit" id="block-list-btn" class="btn btn-dark">블락 관리</button>
       <button type="submit" id="user-ban-btn" class="btn btn-dark">유저 밴 관리</button>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart">
+        <canvas class="canvas" id="usersChart" width="600" height="600"></canvas>
+      </div>
+      <div class="chart">
+        <canvas class="canvas" id="visitorsChart" width="600" height="600"></canvas>
+      </div>
+      <div class="chart">
+        <canvas class="canvas" id="postsChart" width="600" height="600"></canvas>
+      </div>
+      <div class="chart">
+        <canvas class="canvas" id="donutChart" width="600" height="600"></canvas>
+      </div>
     </div>
   </body>
 </html>

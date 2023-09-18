@@ -72,7 +72,13 @@ class AccountService {
         throw { errorCode: 401, message: '비밀번호가 일치하지 않습니다.' };
       }
 
-      const isAdmin = this.accountRepository.isAdmin(user.id);
+      const isAdmin = await this.accountRepository.isAdmin(user.id);
+
+      console.log('🚀 ~ file: account.service.js:77 ~ AccountService ~ logIn= ~ isAdmin:', isAdmin);
+
+      if (isAdmin === false) {
+        await this.accountRepository.saveLoginLog(user.id);
+      }
 
       const accessToken = this.generateAccessToken(user);
       const refreshToken = this.generateRefreshToken(user);
@@ -117,6 +123,7 @@ class AccountService {
 
       if (redisDEL) {
         console.log('토큰 삭제 성공');
+        await this.accountRepository.saveLogoutLog(user.id);
       } else {
         throw { errorCode: 401, message: '토큰 삭제 오류' };
       }
@@ -199,6 +206,15 @@ class AccountService {
         throw { errorCode: 401, message: '토큰 삭제 오류' };
       }
       return;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  getDashBoard = async (req, res) => {
+    try {
+      const usersData = await this.accountRepository.getDashBoard();
+      return usersData;
     } catch (error) {
       throw error;
     }

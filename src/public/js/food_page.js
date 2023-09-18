@@ -1,11 +1,10 @@
-/* eslint-disable no-undef */
+// /* eslint-disable no-undef */
 let postId;
 let userId;
 
 const headers = {
   headers: {
     'Content-Type': 'application/json',
-    authorization: `${getCookie('WGID')}`,
   },
 };
 
@@ -15,27 +14,7 @@ $(document).ready(() => {
   getPost();
   getComment();
 
-  $(document).on('click', '#likeBtn', async () => {
-    try {
-      const response = await fetch(`/api/posts/${postId}/likes`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `${getCookie('WGID')}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-
-        window.location.reload();
-      } else {
-        const data = await response.json();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  $('#click-main').click(() => (location.href = '/'));
 
   $(document).on('click', '#followBtn', async () => {
     try {
@@ -43,7 +22,6 @@ $(document).ready(() => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `${getCookie('WGID')}`,
         },
         body: JSON.stringify({
           target_id: userId,
@@ -52,7 +30,9 @@ $(document).ready(() => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
+
+        location.reload();
       } else {
         const data = await response.json();
       }
@@ -68,11 +48,33 @@ const convertToKST = (dateUTCString) => {
   return dateUTC.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
 };
 
+const checkUserFollow = async (userId) => {
+  try {
+    const response = await axios.get(`https://xyz.waguwagu.online/api/users/followers/${userId}`, headers);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const likedStatus = async () => {
+  const response = await axios.get(`https://xyz.waguwagu.online/api/posts/${postId}/is_liked`, headers);
+  return response.data;
+};
+
+let likeBtn = '';
 const getPost = async () => {
   try {
     const response = await axios.get(`https://xyz.waguwagu.online/api/posts/${postId}`, headers);
 
     const createdAt = convertToKST(response.data.data.created_at);
+
+    const isLiked = await likedStatus();
+    if (isLiked) {
+      likeBtn = `<button id="delLikeBtn">❤️ ${response.data.data.like}</button>`;
+    } else {
+      likeBtn = `<button id="likeBtn">🤍 ${response.data.data.like}</button>`;
+    }
 
     const tempHtml = `<!-- Post header-->
                         <header class="mb-4">
@@ -89,8 +91,7 @@ const getPost = async () => {
                             <button style="border: none;" class="post-del-btn" post-id="${response.data.data.id}" margin-bottom: 5px;">삭제</button>
                           </div>
                           <!-- Post categories-->
-                          <a class="badge bg-info text-decoration-none link-light" href="#!">#한식</a>
-                          <a class="badge bg-success text-decoration-none link-light" href="#!">#양식</a>
+                         
                         </header>
                         <!-- Preview image figure-->
                         <figure class="mb-4"><img class="img-fluid rounded" src="${response.data.data.food_img}"
@@ -102,7 +103,7 @@ const getPost = async () => {
                           <h2 class="fw-bolder mb-4 mt-5">레시피</h2>
                           <p class="fs-5 mb-4">${response.data.data.recipe}</p>
                           <div class="like-btn-contaier">
-                          <button id="likeBtn">❤️ ${response.data.data.like}</button>
+                          ${likeBtn}
                         </div>
                         </section>`;
 
@@ -121,14 +122,66 @@ const getPost = async () => {
   }
 };
 
+$(document).on('click', '#likeBtn', async () => {
+  try {
+    const response = await fetch(`https://xyz.waguwagu.online/api/posts/${postId}/likes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${getCookie('WGID')}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      window.location.reload();
+    } else {
+      const data = await response.json();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+$(document).on('click', '#delLikeBtn', async () => {
+  try {
+    const response = await fetch(`https://xyz.waguwagu.online/api/posts/${postId}/cancelLikes`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `${getCookie('WGID')}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      window.location.reload();
+    } else {
+      const data = await response.json();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+followBtn = '';
 const getUserInfo = async (userId, email, nickname, userImg) => {
+  const check = await checkUserFollow(userId);
+  if (check === null || check.target_id === null) {
+    followBtn = `<button id="followBtn">팔로우</button>`;
+  } else {
+    followBtn = `<button id="unFollowBtn" target-id="${check.target_id}">언팔로우</button>`;
+  }
+
   userInfoHtml = `<div class="card mb-4">
                     <div class="card-header">${nickname}</div>
                     <img class="card-body" user-id="${userId}" src="${userImg}" />
                     <div class="text-muted fst-italic mb-2" style="margin-left: auto; margin-right: auto;">
                       ${email}
                     </div>
-                    <button id="followBtn">팔로우</button>
+                    ${followBtn}
                   </div>`;
   $('.col-lg-4').html(userInfoHtml);
 };
@@ -289,6 +342,7 @@ $(document).on('click', '.post-edit-btn', function () {
           // 페이지 다시 로드 또는 필요한 처리를 수행할 수 있습니다.
           window.location.reload();
         } catch (error) {
+          alert(error.response.data.data.errorMessage);
           console.error('게시글 수정 중 오류가 발생했습니다.', error);
         }
       } else {
@@ -311,16 +365,12 @@ $(document).on('click', '#comment-report-btn', function () {
 // 댓글 신고
 const reportComment = async (commentId) => {
   try {
-    if ($('#report-type').val() === '선택하세요') {
+    console.log($('#report-types').val());
+
+    if ($('#report-types').val() === '선택하세요') {
       alert('신고유형을 선택해주세요');
       return;
     }
-    if (!$('.input-report').val()) {
-      alert('신고사유를 입력해주세요');
-      return;
-    }
-    console.log($('#report-type').val());
-
     await axios.post(
       `https://xyz.waguwagu.online/api/posts/${postId}/comments/${commentId}/reports`,
       { report_type: $('#report-type').val(), reported_reason: $('.input-report').val() },
@@ -332,7 +382,7 @@ const reportComment = async (commentId) => {
   } catch (error) {
     console.log(error.response);
     alert(error.response.data.errorMessage);
-    location.reload();
+    // location.reload();
   }
 };
 $(document).on('click', '.report-comment-btn', async function () {
@@ -351,7 +401,7 @@ $(document).on('click', '.post-report-btn', function () {
 // 게시글 신고
 const reportPost = async () => {
   try {
-    if ($('#report-type').val() === '선택하세요') {
+    if ($('#report-typess').val() === '선택하세요') {
       alert('신고유형을 선택해주세요');
       return;
     }
@@ -392,4 +442,17 @@ const deletePost = async () => {
 $(document).on('click', '.post-del-btn', function () {
   const isConfirmed = confirm('게시물을 정말로 삭제하시겠습니까?');
   isConfirmed ? deletePost($(this).attr('post-id')) : location.reload();
+});
+
+// 언팔로우
+const unFollow = async (target_id) => {
+  try {
+    await axios.delete(`https://xyz.waguwagu.online/api/users/unfollowers/${target_id}`, headers);
+    location.reload();
+  } catch (error) {
+    console.log(error);
+  }
+};
+$(document).on('click', '#unFollowBtn', async function () {
+  await unFollow($(this).attr('target-id'));
 });

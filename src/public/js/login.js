@@ -33,17 +33,17 @@ loginForm.addEventListener('submit', async (event) => {
 
     if (response.ok) {
       // 로그인 성공시 페이지 이동
-      const authHeader = response.headers.get('Authorization');
-      const parts = authHeader.split(' ');
-      const WGID = parts[1];
+      // const authHeader = response.headers.get('Authorization');
+      // const parts = authHeader.split(' ');
+      // const WGID = parts[1];
 
-      if (authHeader && authHeader.startsWith('Bearer ')) {
-        const now = new Date();
-        const oneHourLater = new Date(now.getTime() + 20 * 60 * 1000);
-        const cookieExpirationDate = oneHourLater.toUTCString();
-        document.cookie = `WGID=${WGID}; path=/; expires=${cookieExpirationDate};`;
-        // console.log(document.cookie);
-      }
+      // if (authHeader && authHeader.startsWith('Bearer ')) {
+      //   const now = new Date();
+      //   const oneHourLater = new Date(now.getTime() + 20 * 60 * 1000);
+      //   const cookieExpirationDate = oneHourLater.toUTCString();
+      //   document.cookie = `WGID=${WGID}; path=/; expires=${cookieExpirationDate}; httponly=true;`;
+      //   // console.log(document.cookie);
+      // }
       const data = await response.json();
 
       if (data.admin === 'true') {

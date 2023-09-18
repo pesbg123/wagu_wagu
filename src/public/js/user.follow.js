@@ -20,7 +20,6 @@ const getFollowedUsers = async (userId) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -87,7 +86,6 @@ async function unfollowUser(targetId) {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 

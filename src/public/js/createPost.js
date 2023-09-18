@@ -67,7 +67,7 @@ $(document).ready(function () {
 
 function loadHashtags() {
   axios
-    .get('/api/hashtags')
+    .get('https://xyz.waguwagu.online/api/hashtags')
     .then(function (response) {
       const hashtagsData = response.data;
       const hashtags = hashtagsData.map((tagData) => tagData.hashtag); // hashtag 속성을 추출하여 배열로 변환
