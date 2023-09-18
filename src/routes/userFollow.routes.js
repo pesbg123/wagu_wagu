@@ -8,11 +8,13 @@ const userFollowController = new UserFollowController();
 router.post('/users/:user_id/followers', acountMiddleware.authenticateAccessToken, userFollowController.addUserFollow.bind(userFollowController));
 
 router.delete(
-  '/users/:userId/unfollowers/:targetId',
+  '/users/unfollowers/:target_id',
   acountMiddleware.authenticateAccessToken,
   userFollowController.removeUserFollow.bind(userFollowController),
 );
 
 router.get('/users/followers', acountMiddleware.authenticateAccessToken, userFollowController.getUserFollowedUsers.bind(userFollowController));
+
+router.get('/users/followers/:target_id', acountMiddleware.authenticateAccessToken, userFollowController.getOneUserFollow.bind(userFollowController));
 
 module.exports = router;

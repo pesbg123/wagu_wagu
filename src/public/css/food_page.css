@@ -22,6 +22,10 @@ button {
   align-items: center;
 }
 
+#logo:hover {
+  cursor: pointer;
+}
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;

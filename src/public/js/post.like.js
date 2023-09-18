@@ -20,7 +20,6 @@ const getLikePosts = async (userId) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -86,7 +85,6 @@ const unlikePost = async (userId, postId) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 

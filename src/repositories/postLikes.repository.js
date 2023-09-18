@@ -1,6 +1,10 @@
 const { PostLikes, Posts, Users } = require('../models');
 
 class PostLikesRepository {
+  async isLiked(user_id, post_id) {
+    return await PostLikes.findOne({ where: { user_id, post_id } });
+  }
+
   // 게시글 상세 조회 임시 테스트
   getPost = async (post_id) => {
     const post = await Posts.findOne({ where: { id: post_id } });
@@ -24,6 +28,13 @@ class PostLikesRepository {
   async removePostLike(post_id, user_id) {
     return await PostLikes.destroy({ where: { post_id, user_id } });
   }
+  async decreasePostLikeCount(post_id) {
+    const post = await Posts.findOne({ where: { id: post_id } });
+    if (post) {
+      post.like -= 1;
+      await post.save();
+    }
+  }
 
   async getUserLikedPosts(user_id, page) {
     try {
@@ -39,7 +50,7 @@ class PostLikesRepository {
         include: [
           {
             model: Posts,
-            attributes: ['created_at', 'like', 'title', 'recipe', 'food_img'],
+            attributes: ['id', 'created_at', 'like', 'title', 'recipe', 'food_img'],
             include: [{ model: Users, attributes: ['nickname', 'user_img'] }],
           },
         ],

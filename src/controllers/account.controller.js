@@ -26,17 +26,18 @@ class AccountController {
   logIn = async (req, res) => {
     try {
       const { email, password } = req.body;
+      const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
+      console.log('🚀 ~ file: account.controller.js:31 ~ AccountController ~ logIn= ~ clientIP:', clientIP);
 
       const tokens = await this.accountService.logIn(email, password);
 
-      const isAdmin = await tokens.isAdmin;
-
-      // console.log('🚀 ~ file: account.controller.js:33 ~ AccountController ~ logIn= ~ isAdmin:', isAdmin);
+      const isAdmin = tokens.isAdmin;
 
       if (isAdmin === true) {
-        return res.setHeader('Authorization', `Bearer ${tokens.accessToken}`).json({ admin: 'true' });
+        return res.cookie('WGID', tokens.accessToken, { httpOnly: true, signed: true }).json({ admin: 'true' });
       } else {
-        return res.setHeader('Authorization', `Bearer ${tokens.accessToken}`).json({ admin: 'false' });
+        return res.cookie('WGID', tokens.accessToken, { httpOnly: true, signed: true }).json({ admin: 'false' });
       }
     } catch (error) {
       if (error.errorCode) {
@@ -61,13 +62,13 @@ class AccountController {
 
       // console.log('🚀 ~ file: account.controller.js:62 ~ AccountController ~ logOut= ~ headers:', req.headers);
 
-      const accessToken = req.headers.authorization;
+      const accessToken = req.signedCookies.WGID;
 
       // console.log('🚀 ~ file: account.controller.js:63 ~ AccountController ~ logOut= ~ accessToken:', accessToken);
 
       await this.accountService.logOut(accessToken);
 
-      // res.clearCookie('Authorization');
+      res.clearCookie('WGID');
       return res.status(200).json({ message: '로그아웃 성공' });
     } catch (error) {
       if (error.errorCode) {
@@ -185,6 +186,22 @@ class AccountController {
         return res.status(error.errorCode).json({ message: error.message });
       }
       console.error('비밀번호 변경 오류:', error);
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+  getDashBoard = async (req, res) => {
+    try {
+      const { id } = req.user;
+      const Data = await this.accountService.getDashBoard();
+
+      return res.status(200).json({ Data });
+    } catch (error) {
+      if (error.errorCode) {
+        console.error('유저 정보 불러오기 오류:', error);
+        return res.status(error.errorCode).json({ message: error.message });
+      }
+      console.error('유저 정보 불러오기 오류:', error);
       res.status(500).json({ message: error.message });
     }
   };

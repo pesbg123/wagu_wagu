@@ -246,6 +246,11 @@ function displaySearchResults(searchResults) {
   } else {
     // 검색 결과를 카드로 표시합니다.
     searchResults.forEach(function (item) {
+      // 게시글 정보가 삭제된 경우 처리
+      if (!item.User || !item.created_at) {
+        return; // 삭제된 게시글은 무시하고 다음 항목으로 넘어갑니다.
+      }
+
       const cretedAt = convertToKST(item.created_at);
       let tempHtml = `
         <div class="col-md-4 mb-4">
@@ -277,7 +282,11 @@ function SearchResults(searchResults) {
   } else {
     // 검색 결과를 카드로 표시합니다.
     searchResults.forEach(function (item) {
-      console.log(item);
+      // 게시글 정보가 삭제된 경우 처리
+      if (!item.Post) {
+        return; // 삭제된 게시글은 무시하고 다음 항목으로 넘어갑니다.
+      }
+
       const cretedAt = convertToKST(item.Post.created_at);
       let tempHtml = `
         <div class="col-md-4 mb-4">
@@ -299,3 +308,8 @@ function SearchResults(searchResults) {
     });
   }
 }
+
+// 로고 클릭 이벤트 리스너 추가
+document.getElementById('logo').addEventListener('click', function () {
+  location.reload(); // 페이지 새로고침
+});

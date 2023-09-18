@@ -15,7 +15,6 @@ $(document).ready(() => {
 const headers = {
   headers: {
     'Content-Type': 'application/json',
-    authorization: `${getCookie('WGID')}`,
   },
 };
 
@@ -31,7 +30,7 @@ const getAllUsers = async (page) => {
     let allHtml = '';
 
     if (users.length > 0) {
-      response.data.forEach((item) => {
+      users.forEach((item) => {
         allHtml += createUserRow(item);
       });
 

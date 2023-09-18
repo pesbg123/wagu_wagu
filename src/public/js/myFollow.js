@@ -6,18 +6,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 
     if (response.ok) {
       const data = await response.json();
-      // console.log(data);
+      console.log(data);
       target = data.map((item) => item.targetId);
       user = data.map((item) => item.id);
 
       if (data == 0) {
-        alert('팔로우한 게시물이 없습니다.');
+        alert('팔로우한 유저가 없습니다.');
       } else {
         const friendsPage = document.querySelector('.friends-page');
 
@@ -40,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               <div class="info between-flex fs-13">
                 <span class="c-grey">${item.created_at}</span>
                 <div>
-                  <a class="bg-red c-white btn-shape" href="#" id="unfollowBtn">팔로우 취소</a>
+                  <a class="bg-red c-white btn-shape" href="#" id="unfollowBtn" targetid=${item.targetId}>팔로우 취소</a>
                 </div>
               </div>
             </div>
@@ -90,3 +89,23 @@ function getCookie(name) {
   }
   return null;
 }
+
+// 팔로우 취소
+const unFollow = async (targetId) => {
+  try {
+    await axios.delete(`http://localhost:3000/api/users/unfollowers/${targetId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    location.reload();
+  } catch (error) {
+    console.log(error);
+    location.reload();
+  }
+};
+$(document).on('click', '#unfollowBtn', function () {
+  const isConfirmed = confirm('정말로 취소하시겠습니까?');
+  isConfirmed ? unFollow($(this).attr('targetid')) : location.reload();
+});

@@ -4,14 +4,6 @@ const AccountRepository = require('../repositories/account.repository');
 require('dotenv').config();
 const env = process.env;
 
-//사용방법
-//const AuthenticationMiddleware = require('../middlewares/auth.middleware');
-//const authMiddleware = new AuthenticationMiddleware();
-//router.post('/comments', authMiddleware.authenticateAccessToken, (req, res) => {}
-//어드민 API는 authMiddleware.authenticateAccessToken쓰기 전에 authMiddleware.isAdmin을 추가해서 사용
-//유저아이디는 req.user로 받으면 됨.
-//const {id} = req.user 안되면 const {userId} = req.user , 어드민기능도 동일
-
 class AuthenticationMiddleware {
   constructor() {
     this.authRepository = new AccountRepository();
@@ -26,7 +18,7 @@ class AuthenticationMiddleware {
 
   isAdmin = async (req, res, next) => {
     try {
-      const accessToken = req.headers.authorization;
+      const accessToken = req.signedCookies.WGID;
 
       if (!accessToken) {
         return res.status(503).json({ message: '토큰이 존재하지 않습니다.' });
@@ -48,11 +40,11 @@ class AuthenticationMiddleware {
 
   authenticateAccessToken = async (req, res, next) => {
     try {
-      const accessToken = req.headers.authorization;
+      const accessToken = req.signedCookies.WGID;
 
       res.locals.accessToken = accessToken;
-      const verifiedToken = jwt.verify(accessToken, env.ACCESS_KEY);
 
+      const verifiedToken = jwt.verify(accessToken, env.ACCESS_KEY);
       // 유효한 액세스 토큰이라면 다음 미들웨어나 API 실행
       req.user = { id: verifiedToken.userId }; // 사용자 "아이디"를 req.user 객체에 저장
 
@@ -63,7 +55,6 @@ class AuthenticationMiddleware {
       if (!refreshToken) {
         return res.status(401).json({ message: '토큰이 만료되었습니다.' });
       }
-
       next();
     } catch (error) {
       // 액세스 토큰이 만료되었을 경우, 리프레시 토큰 검증 미들웨어로 이동
@@ -89,7 +80,7 @@ class AuthenticationMiddleware {
 
       // 유효한 리프레시 토큰인 경우, 새로운 액세스 토큰 발급
       const newAccessToken = this.generateAccessToken({ userId: verifiedToken.userId });
-      res.setHeader('Authorization', `Bearer ${newAccessToken}`);
+      res.cookie('WGID', newAccessToken, { httpOnly: true, signed: true });
       req.user = { id: verifiedToken.userId }; // 사용자 "아이디"를 req.user 객체에 저장
       next();
     } catch (error) {
@@ -98,7 +89,8 @@ class AuthenticationMiddleware {
       //   return res.status(401).json({ message: '리프레시 토큰 만료' });
       // }
       // console.error('authenticateRefreshToken 오류:', error);
-
+      await this.accountRepository.saveLogoutLog(req.user.id);
+      res.clearCookie('WGID');
       return res.status(500).json({ message: '오류 발생: ' + error.message });
     }
   };
