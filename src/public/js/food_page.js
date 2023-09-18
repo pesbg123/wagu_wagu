@@ -22,7 +22,6 @@ $(document).ready(() => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `${getCookie('WGID')}`,
         },
         body: JSON.stringify({
           target_id: userId,
@@ -51,7 +50,7 @@ const convertToKST = (dateUTCString) => {
 
 const checkUserFollow = async (userId) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/users/followers/${userId}`, headers);
+    const response = await axios.get(`https://xyz.waguwagu.online/api/users/followers/${userId}`, headers);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -59,7 +58,7 @@ const checkUserFollow = async (userId) => {
 };
 
 const likedStatus = async () => {
-  const response = await axios.get(`http://localhost:3000/api/posts/${postId}/is_liked`, headers);
+  const response = await axios.get(`https://xyz.waguwagu.online/api/posts/${postId}/is_liked`, headers);
   return response.data;
 };
 
@@ -125,7 +124,7 @@ const getPost = async () => {
 
 $(document).on('click', '#likeBtn', async () => {
   try {
-    const response = await fetch(`http://localhost:3000/api/posts/${postId}/likes`, {
+    const response = await fetch(`https://xyz.waguwagu.online/api/posts/${postId}/likes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,7 +146,7 @@ $(document).on('click', '#likeBtn', async () => {
 
 $(document).on('click', '#delLikeBtn', async () => {
   try {
-    const response = await fetch(`http://localhost:3000/api/posts/${postId}/cancelLikes`, {
+    const response = await fetch(`https://xyz.waguwagu.online/api/posts/${postId}/cancelLikes`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -448,7 +447,7 @@ $(document).on('click', '.post-del-btn', function () {
 // 언팔로우
 const unFollow = async (target_id) => {
   try {
-    await axios.delete(`http://localhost:3000/api/users/unfollowers/${target_id}`, headers);
+    await axios.delete(`https://xyz.waguwagu.online/api/users/unfollowers/${target_id}`, headers);
     location.reload();
   } catch (error) {
     console.log(error);

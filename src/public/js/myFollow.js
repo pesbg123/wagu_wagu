@@ -93,7 +93,7 @@ function getCookie(name) {
 // 팔로우 취소
 const unFollow = async (targetId) => {
   try {
-    await axios.delete(`http://localhost:3000/api/users/unfollowers/${targetId}`, {
+    await axios.delete(`https://xyz.waguwagu.online/api/users/unfollowers/${targetId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
