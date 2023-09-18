@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -97,7 +96,6 @@ const unFollow = async (targetId) => {
     await axios.delete(`http://localhost:3000/api/users/unfollowers/${targetId}`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 

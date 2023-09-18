@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `${getCookie('WGID')}`,
       },
     });
 
@@ -65,7 +64,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
-              authorization: `${getCookie('WGID')}`,
             },
             body: JSON.stringify({ introduction: newIntroduction }),
           });
@@ -95,9 +93,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           try {
             const response = await fetch('api/profile/userimg', {
               method: 'PATCH',
-              headers: {
-                authorization: `${getCookie('WGID')}`,
-              },
               body: formData,
             });
 
@@ -125,7 +120,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
-              authorization: `${getCookie('WGID')}`,
             },
             body: JSON.stringify({ currentPw, newPw }),
           });

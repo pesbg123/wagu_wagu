@@ -4,14 +4,6 @@ const AccountRepository = require('../repositories/account.repository');
 require('dotenv').config();
 const env = process.env;
 
-//사용방법
-//const AuthenticationMiddleware = require('../middlewares/auth.middleware');
-//const authMiddleware = new AuthenticationMiddleware();
-//router.post('/comments', authMiddleware.authenticateAccessToken, (req, res) => {}
-//어드민 API는 authMiddleware.authenticateAccessToken쓰기 전에 authMiddleware.isAdmin을 추가해서 사용
-//유저아이디는 req.user로 받으면 됨.
-//const {id} = req.user 안되면 const {userId} = req.user , 어드민기능도 동일
-
 class AuthenticationMiddleware {
   constructor() {
     this.authRepository = new AccountRepository();
@@ -88,7 +80,7 @@ class AuthenticationMiddleware {
 
       // 유효한 리프레시 토큰인 경우, 새로운 액세스 토큰 발급
       const newAccessToken = this.generateAccessToken({ userId: verifiedToken.userId });
-      res.cookie('WGID', newAccessToken, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true, signed: true });
+      res.cookie('WGID', newAccessToken, { httpOnly: true, signed: true });
       req.user = { id: verifiedToken.userId }; // 사용자 "아이디"를 req.user 객체에 저장
       next();
     } catch (error) {
@@ -97,7 +89,8 @@ class AuthenticationMiddleware {
       //   return res.status(401).json({ message: '리프레시 토큰 만료' });
       // }
       // console.error('authenticateRefreshToken 오류:', error);
-
+      await this.accountRepository.saveLogoutLog(req.user.id);
+      res.clearCookie('WGID');
       return res.status(500).json({ message: '오류 발생: ' + error.message });
     }
   };

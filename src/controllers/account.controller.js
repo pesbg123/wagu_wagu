@@ -26,23 +26,18 @@ class AccountController {
   logIn = async (req, res) => {
     try {
       const { email, password } = req.body;
-      console.log('1', req);
       const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
       console.log('🚀 ~ file: account.controller.js:31 ~ AccountController ~ logIn= ~ clientIP:', clientIP);
 
       const tokens = await this.accountService.logIn(email, password);
 
-      const isAdmin = await tokens.isAdmin;
+      const isAdmin = tokens.isAdmin;
 
       if (isAdmin === true) {
-        return res
-          .cookie('WGID', tokens.accessToken, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true, signed: true })
-          .json({ admin: 'true' });
+        return res.cookie('WGID', tokens.accessToken, { httpOnly: true, signed: true }).json({ admin: 'true' });
       } else {
-        return res
-          .cookie('WGID', tokens.accessToken, { expires: new Date(Date.now() + 10 * 60 * 1000), httpOnly: true, signed: true })
-          .json({ admin: 'false' });
+        return res.cookie('WGID', tokens.accessToken, { httpOnly: true, signed: true }).json({ admin: 'false' });
       }
     } catch (error) {
       if (error.errorCode) {
@@ -198,9 +193,9 @@ class AccountController {
   getDashBoard = async (req, res) => {
     try {
       const { id } = req.user;
-      const usersData = await this.accountService.getDashBoard();
+      const Data = await this.accountService.getDashBoard();
 
-      return res.status(200).json({ usersData });
+      return res.status(200).json({ Data });
     } catch (error) {
       if (error.errorCode) {
         console.error('유저 정보 불러오기 오류:', error);
